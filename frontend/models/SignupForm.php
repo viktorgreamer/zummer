@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\models;
 
 use Yii;
@@ -13,6 +14,8 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $as_developer;
+    public $_user;
 
 
     /**
@@ -21,6 +24,7 @@ class SignupForm extends Model
     public function rules()
     {
         return [
+            ['as_developer', 'integer'],
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
@@ -47,14 +51,25 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
+        return $user->save() && $this->sendEmail($user) && $this->assignRole($user);
+
+    }
+
+    public function assignRole(User $user)
+    {
+        if ($this->as_developer) {
+            $auth = Yii::$app->authManager;
+            $auth->assign($auth->getRole('developer'), $user->id);
+            return true;
+        }
+        return true;
 
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use backend\assets\AppAsset;
@@ -29,15 +30,34 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'ZUMMER ADMIN',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Categories', 'url' => ['/categories/index']],
+        ['label' => 'Programs', 'url' => ['/programs/index']],
+        ['label' => 'Functions', 'url' => ['/functions/index']],
+        ['label' => 'Platforms', 'url' => ['/platforms/index']],
+        ['label' => 'Reviews', 'url' => ['/reviews/index']],
+
+        [
+            'label' => 'Контент',
+            'items' => [
+                ['label' => 'Категории', 'url' => ['/content-categories/index']],
+                ['label' => 'Статьи', 'url' => ['/articles/index']],
+                ['label' => 'News', 'url' => ['/news/index']],
+                ['label' => 'Подписчики', 'url' => ['/subscriptions/index']],
+
+            ],
+        ],
+
     ];
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {

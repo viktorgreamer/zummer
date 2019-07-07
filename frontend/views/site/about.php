@@ -14,3 +14,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <code><?= __FILE__ ?></code>
 </div>
+
+<div id="review-form">
+    <form>
+        {{ message }}
+        <input style="display: none" v-model="currentRating">
+        <div class="inline">
+            <i v-for="rating in ratings" :class="getClass(rating)" @click="setRating(rating)" aria-hidden="true"></i>
+        </div>
+    </form>
+</div>

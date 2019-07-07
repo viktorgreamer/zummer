@@ -36,12 +36,21 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
+        ['label' => 'Programs', 'url' => ['/programs/index']],
+        ['label' => 'Categories', 'url' => ['/categories/index']],
+        ['label' => 'Developers', 'url' => ['/developers/index']],
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
+
+    if (Yii::$app->user->can('developer')) {
+        $menuItems[] = ['label' => 'Для разработчиков', 'url' => ['/dev']];
+    }if (Yii::$app->user->can('admin')) {
+        $menuItems[] = ['label' => 'Для администратора', 'url' => ['/admin']];
+    }
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'SignUp', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = '<li>'

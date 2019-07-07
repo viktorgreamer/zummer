@@ -3,51 +3,91 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
-?>
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm; ?>
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
+        <h1>Zummer!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <p class="lead">Категорий <?= \common\models\Categories::find()->count(); ?></p>
+        <p class="lead">Программ <?= \common\models\Programs::find()->count(); ?></p>
+        <p class="lead">Отзывов <?= \common\models\Reviews::find()->where(['status' => 1])->count(); ?></p>
     </div>
 
     <div class="body-content">
-
+        <?php
+        if ($news = \common\models\ContentNews::findLast()) { ?>
+        <h3>Новости</h3>
         <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <?php foreach ($news as $new) {
+            /* @var $new \common\models\ContentNews */
+                ?>
+                <div class="col-lg-4">
+                    <h2><?= $new->name; ?></h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                    <?= mb_strimwidth($new->body, 0, 400, '...'); ?>
+                    <?= \yii\helpers\Html::a('More...',['news/view','id' => $new->id]);  ?>
+                    <p></div>
+            <?  } ?>
+            
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+        </div>
+        <?php   } ?>
+    </div>
+<div class="body-content">
+        <?php
+        if ($articles = \common\models\ContentArticles::findLast()) { ?>
+        <h3>Статьи</h3>
+        <div class="row">
+            <?php foreach ($articles as $article) {
+            /* @var $article \common\models\ContentArticles */
+                ?>
+                <div class="col-lg-4">
+                    <h2><?= $article->name; ?></h2>
+
+                    <?= mb_strimwidth($article->body, 0, 400, '...'); ?>
+                    <?= \yii\helpers\Html::a('More...',['articles/view','id' => $article->id]);  ?>
+                    <p></div>
+            <?  } ?>
+            
+
+        </div>
+        <?php   } ?>
+    </div>
+
+
+    <div class="subscriptions-form">
+        <h3>Подписаться на рассылку</h3>
+        <div class="row">
+
+            <?php $form = ActiveForm::begin(['action' => 'subscriptions/create']);
+            $model = new \common\models\Subscriptions();
+            ?>
+            <div class="col-lg-6">
+                <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+            <div class="col-lg-2">
+                <?= $form->field($model, 'is_news')->checkbox() ?>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <div class="col-lg-2">
+                <?= $form->field($model, 'is_articles')->checkbox() ?>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <?= Html::submitButton('Подписаться', ['class' => 'btn btn-success']) ?>
+                </div>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
             </div>
         </div>
+
+
+        <?php ActiveForm::end(); ?>
 
     </div>
 </div>
