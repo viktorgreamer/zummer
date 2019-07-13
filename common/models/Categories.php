@@ -30,6 +30,10 @@ class Categories extends \yii\db\ActiveRecord
         return 'categories';
     }
 
+    public static function getPopular($limit = 8) {
+        return self::find()->limit($limit)->all();
+    }
+
     public function behaviors()
     {
         return [

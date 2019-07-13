@@ -47,13 +47,24 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'developers' => 'site/developers',
             ],
         ],
 
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => FALSE,
+                'yii\bootstrap\BootstrapPluginAsset' => FALSE,
+                'yii\web\JqueryAsset' => FALSE,
+            ],
+            'appendTimestamp' => TRUE,
+        ],
+
+
     ],
     'modules' => [
-        'dev' => [
-            'class' => 'app\modules\dev\Module',
+        'developer' => [
+            'class' => 'app\modules\developer\Module',
 
         ],
     ],

@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use yii\base\Model;
+use yii\base\View;
 use yii\data\ActiveDataProvider;
 use common\models\Programs;
 
@@ -18,8 +19,8 @@ class ProgramsSearch extends Programs
     }
 
     public $query;
-    public $platforms;
-    public $functions;
+    public $platforms = [];
+    public $functions = [];
 
     /**
      * {@inheritdoc}
@@ -27,8 +28,8 @@ class ProgramsSearch extends Programs
     public function rules()
     {
         return [
-            [['query', 'platforms', 'functions'], 'safe'],
-            [['id', 'status', 'developer_id', 'has_month_plan','category_id', 'has_year_plan', 'has_free', 'has_trial'], 'integer'],
+            [['query', 'platforms', 'functions','has_month_plan','has_year_plan', 'has_free', 'has_trial'], 'safe'],
+            [['id', 'status', 'developer_id', 'category_id', ], 'integer'],
             [['name', 'link', 'video_link', 'destination', 'description', 'support', 'learning', 'prices', 'trial_link'], 'safe'],
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
         ];
@@ -64,9 +65,12 @@ class ProgramsSearch extends Programs
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $this->load($params,'');
 
         if (!$this->validate()) {
+            \Yii::error($this->toArray());
+
+            \Yii::error($this->errors);
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
@@ -75,6 +79,10 @@ class ProgramsSearch extends Programs
         if ($this->status) $query->andWhere(['p.status' => $this->status]);
         if ($this->developer_id) $query->andWhere(['p.developer_id' => $this->developer_id]);
         if ($this->category_id) $query->andWhere(['p.category_id' => $this->category_id]);
+
+       if ($this->has_free) $query->andWhere(['has_free' => 1]);
+       if ($this->has_month_plan) $query->andWhere(['has_month_plan' => 1]);
+       if ($this->has_year_plan) $query->andWhere(['has_year_plan' => 1]);
 
         if ($this->query) $query->andWhere(['OR',
             ['like', 'p.name', $this->query],

@@ -20,6 +20,7 @@ use Yii;
  * @property int $rating_support
  * @property int $created_at
  * @property int $status
+ * @property User user
  */
 class Reviews extends \yii\db\ActiveRecord
 {
@@ -27,7 +28,7 @@ class Reviews extends \yii\db\ActiveRecord
     public static function mapStatuses()
     {
         return [
-            0 => 'Не проможерирован',
+            0 => 'Не промодерирован',
             1 => 'Одобрен',
             2 => "Отклонен"
         ];
@@ -48,11 +49,26 @@ class Reviews extends \yii\db\ActiveRecord
 
     }
 
+    public static function main($limit = 5)
+    {
+        return Reviews::find()->limit($limit)->all();
+    }
+
+    public static function mainOne($program_id)
+    {
+        return Reviews::find()->where(['program_id' => $program_id])->one();
+    }
+
     public function deny()
     {
         $this->status = 2;
         $this->update(false);
 
+    }
+
+    public function common()
+    {
+        return round((($this->rating_functions + $this->rating_support + $this->rating_convenience) / 3), 1);
     }
 
     public function beforeValidate()

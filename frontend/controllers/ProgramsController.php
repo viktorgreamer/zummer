@@ -59,6 +59,17 @@ class ProgramsController extends Controller
     }
 
     /**
+     * Displays a Programs models to Compare.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionCompare()
+    {
+        return $this->render('compare');
+    }
+
+    /**
      * Creates a new Programs model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed

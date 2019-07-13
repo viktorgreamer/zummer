@@ -1,93 +1,137 @@
 <?php
 
-/* @var $this yii\web\View */
-
-$this->title = 'My Yii Application';
-
+use common\models\Programs;
+use common\models\Reviews;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm; ?>
-<div class="site-index">
+use yii\helpers\Url;
 
-    <div class="jumbotron">
-        <h1>Zummer!</h1>
+?>
+<?= yii\authclient\widgets\AuthChoice::widget([
+     'baseAuthUrl' => ['site/auth'],
+     'popupMode' => false,
+]) ?>
+<?php
 
-        <p class="lead">Категорий <?= \common\models\Categories::find()->count(); ?></p>
-        <p class="lead">Программ <?= \common\models\Programs::find()->count(); ?></p>
-        <p class="lead">Отзывов <?= \common\models\Reviews::find()->where(['status' => 1])->count(); ?></p>
-    </div>
+/** @var \yii\web\View $this */
 
-    <div class="body-content">
-        <?php
-        if ($news = \common\models\ContentNews::findLast()) { ?>
-        <h3>Новости</h3>
-        <div class="row">
-            <?php foreach ($news as $new) {
-            /* @var $new \common\models\ContentNews */
-                ?>
-                <div class="col-lg-4">
-                    <h2><?= $new->name; ?></h2>
+?>
 
-                    <?= mb_strimwidth($new->body, 0, 400, '...'); ?>
-                    <?= \yii\helpers\Html::a('More...',['news/view','id' => $new->id]);  ?>
-                    <p></div>
-            <?  } ?>
-            
-
-        </div>
-        <?php   } ?>
-    </div>
-<div class="body-content">
-        <?php
-        if ($articles = \common\models\ContentArticles::findLast()) { ?>
-        <h3>Статьи</h3>
-        <div class="row">
-            <?php foreach ($articles as $article) {
-            /* @var $article \common\models\ContentArticles */
-                ?>
-                <div class="col-lg-4">
-                    <h2><?= $article->name; ?></h2>
-
-                    <?= mb_strimwidth($article->body, 0, 400, '...'); ?>
-                    <?= \yii\helpers\Html::a('More...',['articles/view','id' => $article->id]);  ?>
-                    <p></div>
-            <?  } ?>
-            
-
-        </div>
-        <?php   } ?>
-    </div>
+<?= $this->render('_search_programs'); ?>
+<?= $this->render('_navigator_home'); ?>
+<?= $this->render('_main_programs'); ?>
+<?= $this->render('_popular_programs'); ?>
+<?= $this->render('_subscriptions'); ?>
+<?= $this->render('_company'); ?>
+<?= $this->render('_reviews'); ?>
+<?= $this->render('_news'); ?>
 
 
-    <div class="subscriptions-form">
-        <h3>Подписаться на рассылку</h3>
-        <div class="row">
-
-            <?php $form = ActiveForm::begin(['action' => 'subscriptions/create']);
-            $model = new \common\models\Subscriptions();
-            ?>
-            <div class="col-lg-6">
-                <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
-            </div>
-
-            <div class="col-lg-2">
-                <?= $form->field($model, 'is_news')->checkbox() ?>
-
-            </div>
-            <div class="col-lg-2">
-                <?= $form->field($model, 'is_articles')->checkbox() ?>
-
-            </div>
-            <div class="col-lg-2">
-                <div class="form-group">
-                    <?= Html::submitButton('Подписаться', ['class' => 'btn btn-success']) ?>
-                </div>
-
-            </div>
-        </div>
 
 
-        <?php ActiveForm::end(); ?>
+<?php
+$js =<<<JS
+$(function () {
+        // Карусель в шапке, стр. главная
+        $('.navigator').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            navText: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                480: {
+                    items: 2
+                },
+                767: {
+                    items: 4
+                },
+                992: {
+                    items: 5
+                },
+                1200: {
+                    items: 6,
+                    loop: false,
+                    mouseDrag: false,
+                    touchDrag: false,
+                    pullDrag: false,
+                    freeDrag: false
+                }
+            }
+        });
+        /****************************************************/
 
-    </div>
-</div>
+
+        // Карусель "Компаний", стр. главная
+        $('.company_sl').owlCarousel({
+            center: true,
+            loop: true,
+            margin: 40,
+            nav: true,
+            navText: false,
+            dots: false,
+            items: 5,
+            autoWidth: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                767: {
+                    items: 3
+                },
+                992: {
+                    items: 4,
+                    center: false,
+                },
+                1200: {
+                    items: 4,
+                    center: false,
+                    margin: 55,
+                }
+            }
+        });
+        /****************************************************/
+
+
+        // Карусель "Отзывы"
+        $('.reviews_sl').owlCarousel({
+            loop: true,
+            center: true,
+
+            margin: 30,
+            nav: true,
+            navText: false,
+            dots: true,
+            items: 2,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 1,
+
+                },
+                767: {
+                    autoWidth: true,
+                    items: 2
+                },
+                992: {
+                    items: 2,
+                    autoWidth: true,
+                },
+                1300: {
+                    items: 3,
+                    autoWidth: true,
+                }
+            }
+        });
+        /****************************************************/
+    });
+JS;
+$this->registerJs($js, \yii\web\View::POS_READY); ?>
+?>

@@ -23,6 +23,12 @@ class CategoryFunctionsAssignment extends \yii\db\ActiveRecord
         return 'category_functions_assignment';
     }
 
+    public static function getFunctionsByCategory($category_id) {
+        return Functions::find()
+            ->where(['in','id',self::find()->where(['category_id' => $category_id])->select('function_id')->column()])
+            ->all();
+    }
+
     /**
      * {@inheritdoc}
      */

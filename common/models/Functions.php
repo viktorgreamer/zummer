@@ -15,6 +15,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property FunctionsAssignment $id0
  */
+
 class Functions extends \yii\db\ActiveRecord
 {
     /**

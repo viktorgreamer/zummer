@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
@@ -16,6 +15,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property int $id
  * @property int $category_id
  * @property string $name
+ * @property string $logo
  * @property string $link
  * @property string $video_link
  * @property string $destination
@@ -40,11 +40,13 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property int $has_free
  * @property int $has_trial
  * @property string $trial_link
+ * @property Developers $developer
  *
- * @property Functions $functions
- * @property Platforms $platforms
- * @property Reviews $reviews
- * @property ProgramsImages $images
+ *
+ * @property Functions[] $functions
+ * @property Platforms[] $platforms
+ * @property Reviews[] $reviews
+ * @property ProgramsImages[] $images
  */
 class Programs extends ActiveRecord
 {
@@ -65,11 +67,92 @@ class Programs extends ActiveRecord
         ];
     }
 
+    public static function main($limit = 5)
+    {
+        return self::find()->limit($limit)->all();
+    }
+
+    public static function getPopular($limit = 5)
+    {
+        return self::find()->limit($limit)->all();
+    }
+
+
+    public static function toCompare()
+    {
+        return self::find()->limit(3)->all();
+    }
+
+
+    public static function colClasses()
+    {
+        return [
+            "col-sm-6 col-lg-4 col-xl-3",
+            "d-none d-sm-block col-sm-6 d-md-block col-lg-4 col-xl-3",
+            "d-none d-lg-block col-lg-4 col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+            "d-none d-xl-block col-xl-3",
+        ];
+    }
+
+    public static function popularColClasses()
+    {
+        return [
+            "tab",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+            "tab d-none d-md-block",
+        ];
+    }
+
+    public static function getSimilarByCategory(array $categories = [])
+    {
+        return Programs::find()->where(['in', 'category_id', $categories])->all();
+
+    }
+
     public function transactions()
     {
         return [
             self::SCENARIO_DEFAULT => self::OP_ALL,
         ];
+    }
+
+    public function getMedia()
+    {
+        $mediaList = [];
+        if ($this->video_link) $mediaList[]['video'] = $this->video_link;
+        if ($this->images) {
+            foreach ($this->images as $image) {
+                $mediaList[]['image'] = $image;
+            }
+        }
+        return $mediaList;
+    }
+
+    public function getShotFromVideo()
+    {
+        if (preg_match('/=(.+)/', $this->video_link, $output_array)) {
+            return "https://img.youtube.com/vi/" . $output_array[1] . "/default.jpg";
+        };
+
     }
 
     public function updateRatings()
@@ -104,6 +187,16 @@ class Programs extends ActiveRecord
 
     }
 
+    public function getLogo()
+    {
+        return $this->logo ?: '/img/no_logo.png';
+    }
+
+    public function getDemo($expand = '')
+    {
+        return $this->has_trial ? $expand . $this->has_trial . " дней" : "нет";
+    }
+
     public function getWebPath()
     {
         return "/images/developers/" . $this->developer_id . "/programs/images/";
@@ -113,6 +206,7 @@ class Programs extends ActiveRecord
     {
         return Yii::getAlias('@frontend') . "/web" . $this->getWebPath();
     }
+
 
     public function upload()
     {
@@ -176,8 +270,8 @@ class Programs extends ActiveRecord
     {
 
         if (!$this->developer_id) {
-            if ( !$developer = Developers::findOne(['user_id' => Yii::$app->user->id])) {
-                $this->addError("developer_id",'Заполните кабинет разработчика.');
+            if (!$developer = Developers::findOne(['user_id' => Yii::$app->user->id])) {
+                $this->addError("developer_id", 'Заполните кабинет разработчика.');
                 return false;
             } else  $this->developer_id = $developer->id;
         }
@@ -191,8 +285,10 @@ class Programs extends ActiveRecord
     public function afterFind()
     {
         $this->learning_map = $this->learning ? Json::decode($this->learning, true) : [];
+        if (is_integer($this->learning_map)) $this->learning_map = [$this->learning_map];
         $this->support_map = $this->support ? Json::decode($this->support, true) : [];
-        parent::afterFind(); // TODO: Change the autogenerated stub
+        if (is_integer($this->support_map)) $this->support_map = [$this->support_map];
+        parent::afterFind();
     }
 
     /**
@@ -202,7 +298,7 @@ class Programs extends ActiveRecord
     {
         return [
             [['name', 'link', 'destination', 'description', 'developer_id', 'category_id'], 'required'],
-            [['destination', 'description', 'support', 'learning', 'prices', 'trial_link'], 'string'],
+            [['destination', 'description', 'support', 'learning', 'prices', 'trial_link', 'logo'], 'string'],
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
             [['status', 'created_at', 'updated_at', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial', 'category_id'], 'integer'],
             [['name', 'link', 'video_link'], 'string', 'max' => 256],

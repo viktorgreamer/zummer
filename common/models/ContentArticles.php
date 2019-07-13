@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $category_id
  * @property string $name
+ * @property string $image
  * @property string $body
  * @property int $created_at
  * @property int $updated_at
@@ -26,6 +27,10 @@ class ContentArticles extends ContentNews
     public static function tableName()
     {
         return 'content_articles';
+    }
+
+    public static function main($limit = 3) {
+        return self::find()->limit($limit)->all();
     }
 
 

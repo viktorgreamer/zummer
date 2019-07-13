@@ -2,9 +2,9 @@
 
 namespace frontend\controllers;
 
+use frontend\models\ContentNewsSearch;
 use Yii;
 use common\models\ContentNews;
-use frontend\models\ContentNews as ContentNewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -39,6 +39,21 @@ class NewsController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all ContentNews models.
+     * @return mixed
+     */
+    public function actionIndexAjax()
+    {
+        $searchModel = new ContentNewsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->renderAjax('index_ajax', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

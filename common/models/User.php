@@ -37,6 +37,18 @@ class User extends ActiveRecord implements IdentityInterface
         return '{{%user}}';
     }
 
+    public function getImage() {
+        return "/img/default_user.png";
+    }
+
+    public function fullName() {
+        return $this->username;
+    }
+
+    public function getPosition() {
+        return " Генеральный директор";
+    }
+
     /**
      * {@inheritdoc}
      */

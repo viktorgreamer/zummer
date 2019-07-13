@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property int $category_id
+ * @property string $image
  * @property string $name
  * @property string $body
  * @property int $created_at
@@ -43,6 +44,18 @@ class ContentNews extends \yii\db\ActiveRecord
         $query = static::find()->orderBy(['created_at' => SORT_DESC]);
         if ($count) $query->limit($count);
         return $query->all();
+    }
+
+    public static function tabClasses() {
+        return [
+            "col-md-6 col-lg-4",
+            "d-none d-md-block col-md-6 col-lg-4 biggest",
+            "d-none d-lg-block col-lg-4"
+        ];
+    }
+
+    public function getBody() {
+        return mb_strimwidth($this->body, 0, 400, '...');
     }
 
     /**
