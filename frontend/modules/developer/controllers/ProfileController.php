@@ -3,6 +3,8 @@
 namespace app\modules\developer\controllers;
 
 use common\models\DevelopersAwardsImages;
+use common\models\User;
+use frontend\models\UpdateUserForm;
 use frontend\models\UploadAwardsForm;
 use Yii;
 use common\models\Developers;
@@ -44,24 +46,7 @@ class ProfileController extends Controller
     {
         return $this->render('view', [
             'model' => Developers::find()->where(['user_id' => Yii::$app->user->id])->one(),
-        ]);
-    }
-
-    /**
-     * Creates a new Developers model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Developers();
-        $model->user_id = Yii::$app->user->id;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
+            'user' => User::findOne(Yii::$app->user->id)
         ]);
     }
 
@@ -77,17 +62,18 @@ class ProfileController extends Controller
         $model = $this->findModel($id);
         $model->user_id = Yii::$app->user->id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->id]);
-        }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        }
+        $updateUserForm = new UpdateUserForm();
+        $updateUserForm->load(Yii::$app->request->post());
+        $updateUserForm->updateUser($model->user_id);
+
+
+        return $this->redirect('index');
     }
 
     public function actionUpdateAwards()
     {
-
 
         if ($developer = Yii::$app->user->identity->developer) {
             $model = new DevelopersAwardsImages();
@@ -99,17 +85,36 @@ class ProfileController extends Controller
                     if ($model->save(false)) {
                         return $this->redirect(['index']);
                     }
-                    return;
+
                 }
             }
 
-
-            Yii::error($model->errors);
 
             return $this->render('update_awards', [
                 'model' => $model,
             ]);
         } else throw new HttpException('Создайте профайл.');
+
+    }
+
+    public function actionUploadLogo()
+    {
+        /** @var Developers $developer */
+        if (Yii::$app->user->identity && $developer = Yii::$app->user->identity->developer) {
+            $model = $this->findModel($developer->id);
+
+            $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
+
+            if ($model->upload()) {
+                if ($model->save(false)) {
+                    return $this->redirect(['index']);
+                }
+                return $this->redirect(['index']);
+            }
+
+
+        } else throw new HttpException('Что-то пошло нетак.');
+        return $this->redirect(['index']);
 
     }
 

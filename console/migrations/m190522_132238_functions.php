@@ -45,23 +45,9 @@ class m190522_132238_functions extends Migration
      */
     public function safeDown()
     {
-        echo "m190522_132238_functions cannot be reverted.\n";
-
-        return false;
-    }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
+        $this->dropTable('{{%functions}}');
 
     }
 
-    public function down()
-    {
-        echo "m190522_132238_functions cannot be reverted.\n";
 
-        return false;
-    }
-    */
 }

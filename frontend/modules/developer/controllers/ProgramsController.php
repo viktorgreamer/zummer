@@ -8,6 +8,7 @@ use common\models\Programs;
 use frontend\modules\developer\models\ProgramsSearch;
 use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -31,6 +32,26 @@ class ProgramsController extends Controller
             ],
         ];
     }
+
+    public function actionUploadLogo($id)
+    {
+        /** @var Programs $model */
+        if (Yii::$app->user->identity) {
+            $model = $this->findModel($id);
+            $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
+            if ($model->uploadLogo()) {
+                if ($model->save(false)) {
+                    return $this->redirect(['index']);
+                }
+                return $this->redirect(['index']);
+            }
+
+
+        } else throw new HttpException('Что-то пошло не так.');
+        return $this->redirect(['index']);
+
+    }
+
 
     /**
      * Lists all Programs models.

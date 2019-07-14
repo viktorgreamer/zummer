@@ -12,7 +12,7 @@ class AppAsset extends AssetBundle
     public static $bodyClasses = [
         'site/index' => 'home',
         'programs/index' => 'katalog',
-        'programs/view' => '',
+        'programs/view' => 'product free_product',
         'programs/compare' => 'compare',
         'categories/index' => 'categories',
         'news/index' => 'news',

@@ -23,11 +23,40 @@ class CategoryFunctionsAssignment extends \yii\db\ActiveRecord
         return 'category_functions_assignment';
     }
 
-    public static function getFunctionsByCategory($category_id) {
+    public static function getFunctionsIdByCategory($category_id = null)
+    {
+        return self::find()->andFilterWhere(['category_id' => $category_id])->select('function_id')->column();
+    }
+
+    /**
+     * @param null|int $category_id
+     * @return Functions[]|null
+     */
+
+    public static function getFunctionsByCategory($category_id = null)
+    {
         return Functions::find()
-            ->where(['in','id',self::find()->where(['category_id' => $category_id])->select('function_id')->column()])
+            ->where(['in', 'id',self::getFunctionsIdByCategory($category_id)])
             ->all();
     }
+
+    /**
+     * @param null|int $category_id
+     * @return array
+     */
+    public static function getGroupedFunctions($category_id = null)
+    {
+        $groupedFunctions = [];
+        if ($functions = self::getFunctionsByCategory($category_id)) {
+            foreach ($functions as $function) {
+                $groupedFunctions[Functions::mapTypes()[$function->type_id]][] = $function;
+            }
+        }
+
+        return $groupedFunctions;
+
+    }
+
 
     /**
      * {@inheritdoc}

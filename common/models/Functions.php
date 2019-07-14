@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "functions".
  *
  * @property int $id
+ * @property int $type_id
  * @property string $name
  * @property int $priority
  * @property string $description
@@ -26,14 +27,24 @@ class Functions extends \yii\db\ActiveRecord
         return 'functions';
     }
 
+    public static function mapTypes() {
+        return [
+            1 => "Crm-Аналитика",
+            2 => "Интеграция",
+            3 => "Телефония",
+            4 => "Продажи",
+            5 => "Управление рекламными каналами",
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'priority', 'description'], 'required'],
-            [['priority'], 'integer'],
+            [['name', 'priority', 'description','type_id'], 'required'],
+            [['priority','type_id'], 'integer'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 256],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => FunctionsAssignment::className(), 'targetAttribute' => ['id' => 'function_id']],
@@ -51,9 +62,10 @@ class Functions extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'priority' => 'Priority',
-            'description' => 'Description',
+            'name' => 'Наименование',
+            'priority' => 'Приоритет',
+            'description' => 'Описание',
+            'type_id' => 'Тип',
         ];
     }
 

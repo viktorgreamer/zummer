@@ -15,7 +15,6 @@ use yii\helpers\FileHelper;
  */
 class DevelopersAwardsImages extends \yii\db\ActiveRecord
 {
-
     public function createDirectoryIfNotExists($path)
     {
         if (!file_exists($path)) {

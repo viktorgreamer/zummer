@@ -1,0 +1,1128 @@
+header {
+    background: #8a2779;
+    padding: 9px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    position: relative;
+    z-index: 10;
+    margin-bottom: 20px;
+}
+header .logo{
+    text-align: left;
+}
+header .info{
+    text-align: right;
+}
+header .info .dropdown-toggle::after{
+    display: none !important;
+}
+header .info a.dropdown-toggle{
+    color: #fff;
+    padding: 0;
+}
+header .info a.dropdown-toggle img{
+    display: inline-block;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+}
+header .info a.dropdown-toggle span{
+    border-bottom: 1px dashed #fff;
+}
+header .info .dropdown{
+    margin-top: 1px;
+}
+header .info .dropdown-item{
+    font-size: 14px;
+}
+header .info .dropdown-item:hover, header .info .dropdown-item:focus, header .info .dropdown-item:active{
+    background: #dcfcbd  !important;
+}
+
+
+
+
+
+.main{
+    margin-top: 25px;
+}
+button, a{
+    outline: none !important;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+button:focus, input:focus{
+    box-shadow: none;
+}
+.btn-green{
+    background: #91bc47;
+    border-radius: 35px !important;
+    position: relative;
+    z-index: 2 !important;
+}
+.bnt-more, .bnt-price {
+    text-transform: uppercase;
+    color: #fff !important;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 11px 35px 9px 35px;
+    width: 178px;
+}
+.btn-green:hover{
+    background: #82a940;
+}
+
+.admin .row1{
+    margin-bottom: 40px;
+}
+.admin .row2{
+    margin-bottom: 30px;
+}
+.btns > div > div:nth-child(odd){
+    padding-right: 10px;
+}
+.btns > div > div:nth-child(even){
+    padding-left: 10px;
+}
+.btns .tab{
+    position: relative;
+    width: 100%;
+    display: block;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    text-align: center;
+    padding: 17px 10px 12px;
+    border-radius: 5px;
+    border-bottom: 3px solid #fff;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+    margin-bottom: 20px;
+}
+.btns .tab .ico{
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #7bbe39;
+    position: relative;
+    margin: 0 auto 10px;
+}
+.btns .tab .ico img{
+    height: 21px;
+    width: auto;
+    margin: auto;
+    position: absolute;
+    left: 0; right: 0; top: -2px; bottom: 0;
+    background-size: cover;
+}
+.btns > div > div:nth-child(2n) .ico img, .btns > div > div:nth-child(4n) .ico img{
+    height: 23px;
+}
+
+.btns .tab .ico img.active{
+    z-index: 2;
+    opacity: 0;
+}
+.btns .tab span{
+    color: #1a1a1a;
+    font-size: 16px;
+    line-height: 1.4;
+}
+.btns .tab span > i{
+    font-style: normal;
+    width: 7px;
+    height: 13px;
+    background: url(../img/arr-btn.png);
+    display: inline-block;
+    margin-left: 3px;
+    vertical-align: middle;
+}
+.btns .tab:hover{
+    border-color: #7bbe39;
+}
+.btns .tab.active{
+    background: #7bbe39;
+    border-color: #7bbe39;
+}
+.btns .tab.active .ico{
+    background: #fff;
+}
+.btns .tab.active .ico img{
+    opacity: 0;
+}
+.btns .tab.active .ico img.active{
+    opacity: 1;
+}
+.btns .tab.active span{
+    color: #fff;
+}
+.btns .tab.active span > i{
+    background: url(../img/arr-btn_hov.png);
+}
+.admin_slider{
+    overflow: hidden;
+    position: relative;
+    margin-top: 10px;
+}
+.admin_slider .tab{
+    background: #8a2779;
+    padding: 30px 30px 60px;
+    text-align: center;
+    border-radius: 4px;
+}
+.admin_slider p.titl{
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.admin_slider p{
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.5;
+}
+.admin_slider .price{
+    background: #7bbe39;
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 4px;
+    line-height: 0;
+    margin-top: 7px;
+}
+.admin_slider .price span{
+    font-size: 14px;
+    display: inline-block;
+}
+.admin_slider .owl-dots{
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    margin: auto;
+    text-align: center;
+}
+.admin_slider .owl-dots .owl-dot{
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    margin: 4px;
+    border: 3px solid #8a2779;
+}
+.admin_slider .owl-dots .owl-dot.active{
+    border-color: #7bbe39;
+    background: #8a2779;
+}
+.info_profile .tab, .advice .tab{
+    background: #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+.info_profile .top, .advice .top{
+    background: #8a2779;
+    padding: 0 20px;
+    line-height: 45px;
+    margin-bottom: 25px;
+}
+.info_profile .top p, .advice .top p{
+    color: #fff;
+    font-size: 13px;
+    text-transform: uppercase;
+    position: relative;
+    bottom: -1px;
+    margin: 0;
+}
+.info_profile .top img, .advice .top img{
+    position: absolute;
+    right: 0;
+    top: -3px;
+    bottom: 0;
+    margin: auto;
+}
+.info_profile .cont{
+    padding: 0 24px 20px;
+}
+.progress_с{
+    margin-bottom: 20px;
+}
+.progress_с .inf{
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.progress{
+    border-radius: 35px;
+    background: #dcfcbd !important;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .2) inset;
+}
+.bg-success{
+    background: #7bbe39 !important;
+    border-radius: 35px;
+}
+.info_profile{
+    margin-bottom: 40px;
+}
+.info_profile .nec_inf p{
+    font-size: 13px;
+    color: #848480;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.info_profile .nec_inf ul{
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    list-style-type: none;
+}
+.info_profile .nec_inf ul li{
+    border-radius: 3px;
+    background: #f3f3f3;
+    padding: 11px 10px 9px 45px;
+    position: relative;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.info_profile .nec_inf ul li i{
+    font-style: normal;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff2600;
+    display: inline-block;
+    position: absolute;
+    toP: -1px;
+    bottom: 0;
+    left: 20px;
+    margin: auto;
+}
+.info_profile .nec_inf ul li a, .admin .table table a{
+    color: #171717;
+    text-decoration: underline;
+}
+.info_profile .nec_inf ul li a:hover, .admin .table table a:hover{
+    text-decoration: none;
+}
+.admin .title{
+    font-size: 24px;
+    line-height: 1.4;
+}
+.admin .table .tab{
+    background: #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 15px 20px;
+}
+.admin .table table {
+    width: 100%;
+}
+.admin .table table th{
+    display: none;
+}
+.admin .table table td{
+    color: #171717;
+    border-top: 0;
+    padding: 8px 0;
+    line-height: 1.4;
+}
+.admin .table table p.titl{
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #848480;
+    margin-bottom: 3px;
+}
+.admin .table table .date span{
+    position: relative;
+}
+.admin .table table .date span:after{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 4px;
+    top: -2px;
+    bottom: -1px;
+    left: -20px;
+    border-radius: 35px;
+}
+.admin .table table .date span.green:after{
+    background: #7bbe39;
+}
+.admin .table table .date span.red:after{
+    background: #ff2600;
+}
+.admin .table table tr{
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.admin .table table tr:last-child, .admin .table table tr:first-child{
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.admin .table table td .view{
+    display: inline-block;
+    margin-right: 5px;
+    position: relative;
+    toP: -1px;
+}
+.admin .table table tr.top{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.popul_programs{
+    margin-bottom: 30px;
+}
+.admin .table .rating{
+    text-align: left;
+    margin-bottom: 0;
+}
+.admin .table .review{
+    position: relative;
+    toP: -1px;
+    display: inline-block;
+    margin-right: 5px;
+}
+.admin .popul_programs table tr td{
+    vertical-align: middle;
+    padding: 14px 20px !important;
+}
+
+.admin .advice .top{
+    margin-bottom: 14px;
+}
+.admin .advice .cont{
+    padding: 0 20px 9px;
+}
+.admin .advice ul{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.admin .advice ul li{
+    border-bottom: 1px solid #ccc;
+    padding: 13px 0;
+}
+.admin .advice ul li a{
+    color: #171717;
+    text-decoration: underline;
+}
+.admin .advice ul li a:hover{
+    text-decoration: none;
+}
+.admin .advice ul li:last-child{
+    border-bottom: none;
+}
+.admin .advice ul li > i {
+    font-style: normal;
+    width: 7px;
+    height: 13px;
+    background: url(../img/arr-btn.png);
+    display: inline-block;
+    margin-left: 7px;
+    vertical-align: middle;
+}
+
+.request{
+    margin-bottom: 30px;
+}
+.request .tab{
+    background: #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+.request .top{
+    background: #8a2779;
+    padding: 0 20px;
+    line-height: 45px;
+    margin-bottom: 25px;
+}
+.request .cont {
+    padding: 0 24px 25px;
+}
+.request .top p{
+    color: #fff;
+    font-size: 13px;
+    text-transform: uppercase;
+    position: relative;
+    bottom: -1px;
+    margin: 0;
+}
+.request .top img {
+    position: absolute;
+    right: 0;
+    top: -3px;
+    bottom: 0;
+    margin: auto;
+}
+.request p.titl{
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.request .contacts p{
+    margin-bottom: 4px;
+}
+.profile .tab{
+    background: #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 35px 20px;
+    text-align: center;
+}
+.profile .tab .img{
+    padding-bottom: 20px;
+    margin-bottom: 22px;
+    border-bottom: 2px solid #ccc;
+}
+.profile .tab .img label{
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    margin-top: 18px;
+}
+.profile .tab .img label:hover{
+    cursor: pointer;
+}
+.profile .tab .img label span{
+    color: #8a2779;
+    text-decoration: underline;
+    display: inline-block;
+    margin-left: 6px;
+}
+.profile .tab .img label span:hover{
+    text-decoration: none;
+}
+.tariffs{
+
+}
+.tariffs .tariff{
+    text-align: center;
+    margin-bottom: 18px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #ccc;
+}
+.tariffs .tariff:last-child{
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border: 0;
+}
+.tariff .titl{
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+.tariff .activated{
+    display: inline-block;
+    padding: 0 25px;
+    line-height: 31px;
+    width: 160px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    background: #ebe8e8;
+    border-radius: 3px;
+}
+.tariff .activated.no{
+    color: #ff2700;
+}
+.tariff .activated.yes{
+    color: #6aad29;
+}
+.tariff .bt{
+    margin-top: 12px;
+}
+.tariff .btn-add{
+    color: #fff;
+    line-height: 29px;
+    font-size: 13px;
+    padding: 0 25px;
+    background: #7bbe39;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}
+.tariff .btn-add:hover{
+    background: #6db229;
+}
+.row_forms .tab{
+    background: #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 28px 25px 30px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+.row_forms .tab .text{
+    margin-bottom: 25px;
+}
+.row_forms .tab p{
+    font-size: 14px;
+}
+.row_forms .tab h4{
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.row_forms .tab ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.row_forms .tab ul li{
+    font-size: 15px;
+    padding-left: 20px;
+    position: relative;
+}
+.row_forms .tab ul li i{
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #91bd47;
+    position: absolute;
+    left: 0;
+    top: -1px;
+    bottom: 0;
+    margin: auto;
+}
+.row_forms label{
+    display: block;
+}
+.row_forms label > span{
+    display: none;
+}
+.row_forms label > span.checkbox__text{
+    display: block;
+    width: auto !important;
+    font-size: 14px;
+    text-align: left;
+}
+label input{
+    display: block;
+    border-radius: 35px;
+    border: 1px solid #c3c3c3;
+    padding: 8px 15px 7px 15px;
+    color: #848480;
+    outline: none !important;
+    width: 100%;
+    max-width: 290px;
+    margin: 0 0 18px;
+}
+label select {
+    display: block;
+    border-radius: 35px;
+    border: 1px solid #c3c3c3;
+    padding: 8px 15px 7px 15px;
+    color: #848480;
+    outline: none !important;
+    width: 100%;
+    max-width: 290px;
+    margin: 0 0 18px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url(../img/select.jpg) no-repeat 95% center;
+}
+select::-ms-expand {
+    display: none; /* hide the default arrow in ie10 and ie11 */
+}
+/* target Internet Explorer 9 to undo the custom arrow */
+@media screen and (min-width:0\0) {
+    select {
+        background-image:none\9;
+        padding: 5px\9;
+    }
+}
+.row_forms .tab label:last-child, .row_forms .tab label:last-child > input, .row_forms .tab label:last-child > select{
+    margin-bottom: 0;
+}
+.row_forms .bt{
+    margin-top: 15px;
+    text-align: center;
+}
+.row_forms .bt button{
+    width: 196px;
+}
+.login .content > .container, .login .main{
+    height: 100%;
+}
+.login_bl{
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    margin: auto auto 30px;
+}
+.login_bl form{
+    padding: 20px 20px 30px;
+}
+.login_bl .titl{
+    background: #7bbe39;
+    padding: 15px 15px 12px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+.login_bl .titl p{
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding-left: 26px;
+    margin-bottom: 0;
+}
+.login_bl .titl p img{
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+    position: absolute;
+    top: -4px;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+}
+.login_bl .row_forms label > span{
+    width: 75px;
+    font-size: 15px;
+}
+.login_bl label input{
+    margin: 0 auto 18px;
+}
+label .checkbox__text{
+    position: relative;
+    cursor: pointer;
+    padding-left: 27px;
+}
+label .checkbox__text:before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #c3c3c3;
+}
+label .checkbox__text:after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    bottom: 0;
+    margin: auto;
+    left: 2px;
+    width: 12px;
+    height: 10px;
+    background: url(/img/ok.png) no-repeat center center;
+    z-index: 2;
+    opacity: 0;
+}
+label .checkbox:checked + .checkbox__text:after {
+    opacity: 1;
+}
+.login_bl .check{
+    display: inline-block;
+}
+.login_bl .bt{
+    margin-bottom: 14px;
+}
+.login_warn{
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto auto;
+    border-radius: 15px;
+    background: #8a2779;
+    color: #fff;
+    padding: 20px 15px 25px;
+}
+.login_warn p{
+    font-size: 15px;
+    line-height: 1.5;
+}
+.login_warn .btn-green{
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.registration .row_forms .tab{
+    margin: 0 auto 30px;
+}
+.registration .row_forms .tab{
+    max-width: 640px;
+}
+.registration .row_forms label > span{
+    width: 132px;
+}
+.registration .row_forms p{
+    margin-bottom: 20px;
+}
+.registration .questions_bl{
+    margin-top: 40px;
+}
+.registration .questions_bl p.title{
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+.registration .questions_bl p{
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+@media (min-width: 360px){
+    .login_bl .titl p{
+        padding-left: 36px;
+    }
+}
+
+
+@media (max-width: 768px){
+    .admin .table td, .admin .table tr {
+        display: block;
+    }
+}
+
+
+@media (min-width: 768px){
+    .btns .tab{
+        text-align: left;
+        padding: 0 20px;
+        line-height: 100px;
+        margin-bottom: 30px;
+    }
+    .btns .tab span br{
+        display: none;
+    }
+    .btns .tab span{
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 18px;
+    }
+    .btns .tab span > i{
+        position: relative;
+        top: -1px;
+    }
+    .btns .tab .ico{
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        margin-bottom: 0;
+        width: 60px;
+        height: 60px;
+    }
+    .btns > div > div:nth-child(odd){
+        padding-right: 15px;
+    }
+    .btns > div > div:nth-child(even){
+        padding-left: 15px;
+    }
+    .admin_slider .tab{
+        text-align: left;
+    }
+    .admin_slider .text_bl{
+        width: 50%;
+    }
+    .admin_slider .price{
+        margin-top: 12px;
+    }
+    .admin_slider .tab{
+        padding-bottom: 30px;
+    }
+    .admin_slider .img_sl{
+        position: absolute;
+        right: 30px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+    .admin .table{
+        margin-bottom: 30px;
+    }
+    .admin .table table{
+        border: 0;
+    }
+    .admin .table .tab{
+        padding: 0;
+    }
+    .admin .table table p.titl{
+        display: none;
+    }
+    .admin .table table th{
+        display: table-cell;
+    }
+    .admin .table table tr.top{
+        background: #8a2779;
+        line-height: 45px;
+    }
+    .admin .table table tr.top th{
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        position: relative;
+        bottom: -1px;
+        margin: 0;
+        border: 0;
+        padding: 0;
+        font-weight: normal;
+        padding: 0 20px;
+    }
+    .admin .table table tr td{
+        padding: 20px 20px;
+    }
+    .info_profile{
+        margin-bottom: 0;
+    }
+    .admin .advice{
+        padding-left: 0;
+    }
+    .request{
+        margin-bottom: 0;
+        margin-top: 49px;
+    }
+    .row_forms .tab{
+        padding: 30px 35px 32px;
+    }
+    .row_forms label > span{
+        display: inline-block;
+        vertical-align: middle;
+        width: 120px;
+        font-size: 14px;
+        text-align: right;
+        margin-right: 15px;
+    }
+    .row_forms .pass label > span{
+        width: 140px;
+    }
+    .row_forms label input, .row_forms label select{
+        display: inline-block;
+    }
+    .row_forms .tab .text{
+        margin-bottom: 25px;
+    }
+    .login_warn .btn-green{
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+    header .hy_user p{
+        color: #fff;
+        margin-bottom: 0;
+        margin-top: 3px;
+    }
+    header .hy_user p img{
+        display: inline-block;
+        margin-right: 5px;
+        height: 19px;
+        width: auto;
+        vertical-align: middle;
+        position: relative;
+        top: -2px;
+    }
+}
+@media (min-width: 992px){
+    .btns .tab span br{
+        display: block;
+    }
+    .btns .tab .ico{
+        width: 45px;
+        height: 45px;
+        margin-right: 8px;
+    }
+    .btns .tab span{
+        font-size: 17px;
+    }
+    .admin_slider{
+        margin-top: 0;
+    }
+    .admin_slider .tab{
+        padding-top: 21px;
+    }
+    .info_profile{
+        margin-top: 49px;
+        margin-bottom: 0;
+    }
+    .info_profile .tab{
+        height: 100%;
+    }
+    .admin .table{
+        margin-bottom: 0;
+    }
+    .admin .row1{
+        margin-bottom: 20px;
+    }
+    .admin .advice{
+        padding-left: 15px;
+    }
+    .admin .title span{
+        display: inline-block !important;
+        font-size: 13px;
+        color: #e72605;
+        background: #fff;
+        border: 1px solid #7bbe39;
+        border-radius: 10px;
+        line-height: 37px;
+        padding: 0 30px;
+        margin-left: 20px;
+        position: relative;
+        top: -3px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    }
+    .admin .title span:after{
+        content: "";
+        background: url(../img/advice_arr.png);
+        width: 9px;
+        height: 16px;
+        position: absolute;
+        left: -8.5px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        z-index: 2;
+    }
+    .admin .title span a{
+        font-weight: bold;
+        color: #e72605;
+        text-decoration: none;
+    }
+    .admin .title span a:hover{
+        text-decoration: underline;
+    }
+
+    .admin .table .rating .stars > span{
+        display: inline-block !important;
+    }
+    .profile .tab .img{
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        position: relative;
+        padding-top: 5px;
+    }
+    .profile .tab .img:after{
+        content: "";
+        width: 1px;
+        height: 180px;
+        background: #ccc;
+        position: absolute;
+        top: 8px;
+        bottom: 0;
+        right: 5px;
+        margin: auto;
+    }
+    .profile .tab .img img{
+        margin: auto auto 0;
+    }
+    .profile .tab .img form{
+        margin: 0 auto auto;
+    }
+    .row_forms .tab{
+        max-width: 610px;
+    }
+    header .info .dropdown {
+        margin-top: 7px;
+    }
+    header .hy_user p {
+        color: #fff;
+        margin-bottom: 0;
+        margin-top: 9px;
+    }
+}
+@media (min-width: 1200px){
+    header {
+        padding: 10px 0;
+    }
+    .admin .table table tr td{
+        padding: 22px 20px;
+    }
+    .info_profile .cont{
+        padding-bottom: 19px;
+    }
+    .admin .row1{
+        margin-bottom: 10px;
+    }
+    .profile .tab .img:after{
+        right: 15px;
+    }
+    .tariffs .tariff{
+        text-align: left;
+        margin-bottom: 26px;
+        padding-bottom: 28px;
+    }
+    .tariffs .tariff > p, .tariffs .tariff > div{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .tariffs .tariff > p{
+        min-width: 150px;
+        line-height: 30px;
+        margin-bottom: 0;
+        position: relative;
+        top: 1px;
+    }
+    .tariffs .tariff .bt{
+        margin-top: 0;
+        margin-left: 11px;
+    }
+    .profile .tab{
+        padding: 35px 20px 33px;
+    }
+    .profile .tab .img:after{
+        right: 6px;
+    }
+    .profile .tab .img:after{
+        height: 140px;
+        top: 3px;
+    }
+    .tariff .activated{
+        line-height: 36px;
+    }
+    .tariff .btn-add{
+        line-height: 35px;
+    }
+    .profile .tab .img img{
+        max-width: 185px;
+    }
+    .row_forms .tab{
+        max-width: 730px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

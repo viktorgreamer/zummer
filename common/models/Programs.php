@@ -2,8 +2,11 @@
 
 namespace common\models;
 
+use Exception;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
 use yii\helpers\Json;
@@ -39,18 +42,65 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property int $has_year_plan
  * @property int $has_free
  * @property int $has_trial
+ * @property int $views
+ * @property int $popularity
  * @property string $trial_link
+ * @property string $prices_link
+ * @property int $tariff
+ * @property string $dueDate
  * @property Developers $developer
- *
- *
+ * @property Categories $category
  * @property Functions[] $functions
  * @property Platforms[] $platforms
  * @property Reviews[] $reviews
  * @property ProgramsImages[] $images
+ * @property ProgramTags[] $tags
  */
 class Programs extends ActiveRecord
 {
     public $imageFiles;
+
+    public $imageUpload;
+
+    public function createDirectoryIfNotExists($path)
+    {
+
+        if (!file_exists($path)) {
+            try {
+                FileHelper::createDirectory($path);
+
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public function isPayed()
+    {
+        return $this->tariff;
+    }
+
+
+    public function uploadLogo()
+    {
+
+        $this->logo = $this->getWebPath() . "logo" . '.' . $this->imageUpload->extension;
+
+        if ($this->validate()) {
+            $path = $this->getFilePath();
+            if ($this->createDirectoryIfNotExists($path)) {
+                $this->imageUpload->saveAs($path . "logo" . '.' . $this->imageUpload->extension);
+                return true;
+            }
+
+
+        } else {
+            return false;
+        }
+    }
+
 
     const STATUS_ACTIVE = 1;
     const STATUS_WAIT_MODERATION = 2;
@@ -72,11 +122,14 @@ class Programs extends ActiveRecord
         return self::find()->limit($limit)->all();
     }
 
-    public static function getPopular($limit = 5)
+    public static function getPopular($limit = 5, $category_id = null)
     {
-        return self::find()->limit($limit)->all();
+        return self::find()
+            ->andFilterWhere(['category_id' => $category_id])
+            ->orderBy(['popularity' => SORT_DESC])
+            ->limit($limit)
+            ->all();
     }
-
 
     public static function toCompare()
     {
@@ -176,16 +229,6 @@ class Programs extends ActiveRecord
         return 'programs';
     }
 
-    public function createDirectoryIfNotExists($path)
-    {
-        if (!file_exists($path)) {
-            Yii::error('create path');
-            FileHelper::createDirectory($path);
-        } else {
-            Yii::error(' path EXISTS');
-        }
-
-    }
 
     public function getLogo()
     {
@@ -298,9 +341,10 @@ class Programs extends ActiveRecord
     {
         return [
             [['name', 'link', 'destination', 'description', 'developer_id', 'category_id'], 'required'],
-            [['destination', 'description', 'support', 'learning', 'prices', 'trial_link', 'logo'], 'string'],
+            [['destination', 'description', 'support', 'learning', 'prices', 'trial_link', 'logo', 'prices_link'], 'string'],
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
             [['status', 'created_at', 'updated_at', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial', 'category_id'], 'integer'],
+            [['views', 'popularity'], 'integer'],
             [['name', 'link', 'video_link'], 'string', 'max' => 256],
             [['platforms', 'learning_map', 'functions', 'support_map'], 'safe'],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4]
@@ -328,7 +372,6 @@ class Programs extends ActiveRecord
             ],
         ];
     }
-
 
     /**
      * {@inheritdoc}
@@ -359,8 +402,11 @@ class Programs extends ActiveRecord
             'has_year_plan' => 'Has Year Plan',
             'has_free' => 'Has Free',
             'has_trial' => 'Has Trial',
+            'prices_link' => 'Prices Link',
             'trial_link' => 'Trial Link',
-            'category.name' => "Категория"
+            'category.name' => "Категория",
+            'view' => "Кол-во просмотров",
+            'popularity' => "Популярность"
         ];
     }
 
@@ -400,4 +446,14 @@ class Programs extends ActiveRecord
         return $this->hasOne(Developers::className(), ['id' => 'developer_id']);
 
     }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getTags()
+    {
+        return $this->hasMany(ProgramTags::className(), ['program_id' => 'id']);
+    }
+
+
 }

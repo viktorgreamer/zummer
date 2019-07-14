@@ -197,12 +197,12 @@ header{
 	-o-transition: all 0.3s ease;
 	-ms-transition: all 0.3s ease;
 	transition: all 0.3s ease;
-	background: url(img/star_grey.png);
+	background: url(/img/star_grey.png);
 	z-index:
 }
 .rating2 > span:after{
 	z-index: 2;
-	background: url(img/star_active.png);
+	background: url(/img/star_active.png);
 	opacity: 0;
 }
 .rating2 > span:hover:after,

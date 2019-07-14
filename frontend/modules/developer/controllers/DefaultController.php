@@ -2,6 +2,7 @@
 
 namespace app\modules\developer\controllers;
 
+use common\models\User;
 use yii\web\Controller;
 
 /**
@@ -15,13 +16,13 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-       \Yii::error($this->module->layoutPath);
-       \Yii::error($this->module->layout);
-        return $this->render('index');
+        /** @var User $user */
+        if (($user = \Yii::$app->user->identity) && ($model = $user->developer)) {
+            return $this->render('index', ['model' => $model]);
+        } else {
+            return $this->redirect('login');
+        }
+
     }
 
-    public function actionEditProfile()
-    {
-        return $this->render('index');
-    }
 }

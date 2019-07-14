@@ -38,23 +38,8 @@ class m190529_172158_create_table_content_category extends Migration
      */
     public function safeDown()
     {
-        echo "m190529_172158_create_table_content_category cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('{{%content_categories}}');
     }
 
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
 
-    }
-
-    public function down()
-    {
-        echo "m190529_172158_create_table_content_category cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

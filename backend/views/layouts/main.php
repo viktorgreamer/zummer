@@ -39,8 +39,7 @@ AppAsset::register($this);
 
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Categories', 'url' => ['/categories/index']],
-        ['label' => 'Programs', 'url' => ['/programs/index']],
+
         ['label' => 'Functions', 'url' => ['/functions/index']],
         ['label' => 'Platforms', 'url' => ['/platforms/index']],
         ['label' => 'Reviews', 'url' => ['/reviews/index']],
@@ -52,6 +51,14 @@ AppAsset::register($this);
                 ['label' => 'Статьи', 'url' => ['/articles/index']],
                 ['label' => 'News', 'url' => ['/news/index']],
                 ['label' => 'Подписчики', 'url' => ['/subscriptions/index']],
+            ],
+        ],
+        [
+            'label' => ' Программы',
+            'items' => [
+                ['label' => 'Programs', 'url' => ['/programs/index']],
+                ['label' => 'Категории', 'url' => ['/categories/index']],
+                ['label' => 'Индустрии', 'url' => ['/category-industries/index']],
 
             ],
         ],

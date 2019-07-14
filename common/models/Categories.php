@@ -10,10 +10,11 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "categories".
  *
  * @property int $id
+ * @property int $industry_id
  * @property string $name
  * @property string $description
- *
  * @property Programs[] $programs
+ * @property CategoryIndustries $industry
  * @property Functions[] $functions
  */
 class Categories extends \yii\db\ActiveRecord
@@ -65,7 +66,8 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name','industry_id'], 'required'],
+            [['industry_id'], 'integer'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 150],
             [['functions'], 'safe'],
@@ -93,4 +95,13 @@ class Categories extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Programs::className(), ['category_id' => 'id']);
     }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIndustry()
+    {
+        return $this->hasOne(CategoryIndustries::className(), ['id' => 'industry_id']);
+    }
+
+
 }

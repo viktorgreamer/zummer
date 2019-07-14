@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use Yii;
@@ -12,6 +13,8 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
+ * @property string $first_name
+ * @property string $last_name
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $verification_token
@@ -21,6 +24,7 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property Developers $developer
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -37,15 +41,21 @@ class User extends ActiveRecord implements IdentityInterface
         return '{{%user}}';
     }
 
-    public function getImage() {
+    public function getImage()
+    {
         return "/img/default_user.png";
     }
 
-    public function fullName() {
-        return $this->username;
+    public function fullName()
+    {
+        $names = [];
+        if ($this->first_name) $names[] = $this->first_name;
+        if ($this->last_name) $names[] = $this->last_name;
+        return $names ? implode(" ", $names) : ($this->username ?: "Пользователь");
     }
 
-    public function getPosition() {
+    public function getPosition()
+    {
         return " Генеральный директор";
     }
 
@@ -59,12 +69,14 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
+            [['last_name','first_name'], 'string','max' => 256],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
@@ -121,7 +133,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -140,7 +153,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -219,7 +232,8 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    public function getDeveloper() {
+    public function getDeveloper()
+    {
         return $this->hasOne(Developers::className(), ['user_id' => 'id']);
     }
 }
