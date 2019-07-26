@@ -13,6 +13,7 @@ use common\models\Programs;
 class ProgramsSearch extends Programs
 {
 
+
     public function formName()
     {
         return '';
@@ -28,8 +29,8 @@ class ProgramsSearch extends Programs
     public function rules()
     {
         return [
-            [['query', 'platforms', 'functions','has_month_plan','has_year_plan', 'has_free', 'has_trial'], 'safe'],
-            [['id', 'status', 'developer_id', 'category_id', ], 'integer'],
+            [['query', 'platforms', 'functions', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial'], 'safe'],
+            [['id', 'status', 'developer_id', 'category_id',], 'integer'],
             [['name', 'link', 'video_link', 'destination', 'description', 'support', 'learning', 'prices', 'trial_link'], 'safe'],
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
         ];
@@ -42,6 +43,14 @@ class ProgramsSearch extends Programs
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    public function beforeValidate()
+    {
+        $this->price_to = preg_replace("/\D/", '', $this->price_to);
+        $this->price_from = preg_replace("/\D/", '', $this->price_from);
+
+        return parent::beforeValidate();
     }
 
     /**
@@ -65,24 +74,21 @@ class ProgramsSearch extends Programs
             'query' => $query,
         ]);
 
-        $this->load($params,'');
+        $this->load($params, '');
 
         if (!$this->validate()) {
-            \Yii::error($this->toArray());
 
-            \Yii::error($this->errors);
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
+
         if ($this->status) $query->andWhere(['p.status' => $this->status]);
-        if ($this->developer_id) $query->andWhere(['p.developer_id' => $this->developer_id]);
+        // if ($this->developer_id) $query->andWhere(['p.developer_id' => $this->developer_id]);
         if ($this->category_id) $query->andWhere(['p.category_id' => $this->category_id]);
 
-       if ($this->has_free) $query->andWhere(['has_free' => 1]);
-       if ($this->has_month_plan) $query->andWhere(['has_month_plan' => 1]);
-       if ($this->has_year_plan) $query->andWhere(['has_year_plan' => 1]);
+        if ($this->has_free) $query->andWhere(['has_free' => 1]);
+        if ($this->has_month_plan) $query->andWhere(['has_month_plan' => 1]);
+        if ($this->has_year_plan) $query->andWhere(['has_year_plan' => 1]);
 
         if ($this->query) $query->andWhere(['OR',
             ['like', 'p.name', $this->query],
@@ -96,10 +102,12 @@ class ProgramsSearch extends Programs
             ['>=', 'p.price_from', $this->price_from],
             ['>=', 'p.price_to', $this->price_from]
         ]);
+        else $this->price_from = Programs::find()->andFilterWhere(['category_id' => $this->category_id])->min('price_from');
         if ($this->price_to) $query->orWhere(['OR',
             ['<=', 'p.price_to', $this->price_from],
             ['<=', 'p.price_to', $this->price_to]
         ]);
+        else $this->price_to = Programs::find()->andFilterWhere(['category_id' => $this->category_id])->max('price_to');
 
         if ($this->platforms) $query->andWhere(['in', 'platforms.id', $this->platforms]);
         if ($this->functions) $query->andWhere(['in', 'functions.id', $this->functions]);
@@ -107,6 +115,9 @@ class ProgramsSearch extends Programs
         // $query->limit(3);
         $query->groupBy('p.id');
 
+        // normalize the numbers
+        $this->price_to = number_format($this->price_to,0,'.',' ');
+        $this->price_from = number_format($this->price_from,0,'.',' ');
         return $dataProvider;
     }
 }

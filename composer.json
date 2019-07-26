@@ -23,7 +23,8 @@
         "kartik-v/yii2-widget-select2": "dev-master",
         "vova07/yii2-imperavi-widget": "*",
       "ext-mbstring": "*",
-        "yiisoft/yii2-authclient": "^2.2"
+        "yiisoft/yii2-authclient": "^2.2",
+      "ext-json": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -5,6 +5,7 @@ namespace frontend\modules\developer\assets;
 /**
  * Main frontend application asset bundle.
  */
+
 class AppAsset extends \frontend\assets\AppAsset
 {
     public static $bodyClasses = [

@@ -16,7 +16,6 @@ use yii\helpers\ArrayHelper;
  *
  * @property FunctionsAssignment $id0
  */
-
 class Functions extends \yii\db\ActiveRecord
 {
     /**
@@ -27,7 +26,8 @@ class Functions extends \yii\db\ActiveRecord
         return 'functions';
     }
 
-    public static function mapTypes() {
+    public static function mapTypes()
+    {
         return [
             1 => "Crm-Аналитика",
             2 => "Интеграция",
@@ -37,22 +37,40 @@ class Functions extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function groupedByTypeFunctions()
+    {
+        $items = [];
+        if ($functions = self::find()
+            ->joinWith('categoriesId')
+            ->orderBy('priority')
+            ->cache(60)
+            ->all()) {
+            /** @var Functions $function */
+            foreach ($functions as $function) {
+                $items[$function->type_id][] = $function;
+            }
+        }
+
+        return $items;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'priority', 'description','type_id'], 'required'],
-            [['priority','type_id'], 'integer'],
+            [['name', 'priority', 'description', 'type_id'], 'required'],
+            [['priority', 'type_id'], 'integer'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 256],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => FunctionsAssignment::className(), 'targetAttribute' => ['id' => 'function_id']],
         ];
     }
 
-    public static function map() {
-        return ArrayHelper::map(self::find()->all(), 'id','name');
+    public static function map()
+    {
+        return ArrayHelper::map(self::find()->cache(60)->all(), 'id', 'name');
     }
 
     /**
@@ -70,10 +88,10 @@ class Functions extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return
      */
-    public function getId0()
+    public function getCategoriesId()
     {
-        return $this->hasOne(FunctionsAssignment::className(), ['function_id' => 'id']);
+        return $this->hasMany(CategoryFunctionsAssignment::className(), ['function_id' => 'id'])->cache(60)->select('category_id');
     }
 }

@@ -58,6 +58,21 @@ class ProgramsController extends Controller
         ]);
     }
 
+
+    /**
+     * Ajax load new programs depends offset and destination_id
+     * @return mixed
+     */
+    public function actionPopularAjax($destination_id, $offset = null)
+    {
+        $programs = Programs::main(4, $destination_id, $offset);
+        Yii::error(count($programs));
+        return $this->renderAjax('/site/_destination_program_row_tab', [
+            'programs' => $programs
+        ]);
+    }
+
+
     /**
      * Displays a Programs models to Compare.
      * @param integer $id

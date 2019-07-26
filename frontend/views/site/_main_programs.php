@@ -1,58 +1,54 @@
 <?php
 
 use common\models\Programs;
-use yii\helpers\Html;
 use yii\helpers\Url;
-
-if ($programs = Programs::main(4)) { ?>
-    <div class="programs_for container">
-        <div class="row tabs">
-            <?php /** @var Programs $program */
-            foreach ($programs as $key => $program) {
-                ?>
-                <div class="<?= Programs::colClasses()[$key]; ?>">
-                    <div class="tab">
-                        <div class="img">
-                            <a href="#"><img alt="" src="<?= $program->getLogo(); ?>"></a>
-                        </div>
-                        <div class="rating">
-                            <div class="stars">
-                                <span data-star="5"></span>
-                                <span data-star="4"></span>
-                                <span data-star="3"></span>
-                                <span data-star="2"></span>
-                                <span data-star="1"></span>
-                            </div>
-                            <div class="num"><?= $program->rating; ?></div>
-                        </div>
-                        <?php if ($functions = $program->getFunctions()->limit(4)->all()) { ?>
-                            <ul class="specific">
-                                <?php /** @var \common\models\Functions $function */
-                                foreach ($functions as $function) { ?>
-                                    <li><i></i> <?= $function->name; ?></li>
-                                <? } ?>
-                            </ul>
-                        <? } ?>
-                        <?php if ($program->price_from) { ?>
-                            <div class="price">
-                                <p>от <b><span><?= $program->price_from; ?></span> руб.</b></p>
-                            </div>
-                        <? } ?>
-                        <div class="bt">
-                            <a href="<?= Url::to(['programs/view', 'id' => $program->id]); ?>"
-                               class="btn btn-green bnt-more">Подробнее <img alt="" src="/img/arrow-btn.png"></a>
-                        </div>
-                    </div>
-                </div>
-            <? } ?>
-
-        </div>
-
-        <div class="see_more">
-            <a href="#" class="active">Смотреть еще <img alt="" src="/img/load.png"></a>
-        </div>
-    </div>
-    <?
-}
+/** @var \yii\web\View $this */
 ?>
 
+    <div id="main_programs">
+        <?
+        foreach (Programs::mapDestinations() as $destination_id => $destination_title) {
+            if ($destination_id != 1) $style = 'display:none'; else $style = '';
+            if ($programs = Programs::main(4, $destination_id)) { ?>
+                <div id="destination_id_<?= $destination_id; ?>" class="programs_for container" style="<?= $style; ?>">
+                    <?php echo $this->render('_destination_program_row_tab',['programs' => $programs]);?>
+                   <?php if (Programs::find()->where(['destination_id' => $destination_id])->cache(60)->count() > 4) { ?>
+                    <div class="see_more" data-destination_id="<?= $destination_id; ?>" value="<?= Url::to(['programs/popular-ajax','destination_id' => $destination_id, 'offset' => 4]);?>">
+                        <a href="" class="active">Смотреть еще <img alt="" src="/img/load.png"></a>
+                    </div>
+                   <? } ?>
+                </div>
+                <?
+            }
+        }
+        ?>
+    </div>
+<?
+$js = <<<JS
+$(document).on('click', ".navigator_home .tab", function() {
+
+let destination_id = $(this).data('destination_id');
+$('.programs_for').css('display','none');
+$('.navigator_home .tab').removeClass('active');
+
+$(this).addClass('active');
+console.log('TAB WAS CLICKED ' + destination_id);
+$('#destination_id_' + destination_id).css('display','');
+});
+
+// see more section
+$(document).on('click','.see_more',function(e) {
+
+let destination_id = $(this).data('destination_id');
+
+e.preventDefault();
+console.log($(this).attr('value'));
+console.log($(document).find("#destination_id_" + destination_id +" .row").last());
+$(document).find("#destination_id_" + destination_id +" .load-after-me").last().load($(this).attr('value'));
+$(this).remove();
+});
+
+
+JS;
+
+$this->registerJs($js, 4);

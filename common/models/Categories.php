@@ -55,6 +55,9 @@ class Categories extends \yii\db\ActiveRecord
     }
 
 
+    /**
+     * @return array
+     */
     public static function map()
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');

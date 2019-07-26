@@ -188,6 +188,15 @@ function reviewSend(id){
 
 
 
+// функция аналог in array in php
+function in_array(needle, array) {
+	if (array.indexOf(needle) !== -1) {
+		return 1;
+	} else return 0;
+}
+
+
+
 
 
 

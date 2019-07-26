@@ -5,7 +5,7 @@
 use common\models\Reviews;
 use yii\helpers\Url; ?>
 
-<div class="tab card_program">
+<div class="tab card_program" data-popularity="<?= $model->popularity;?>" data-rating="<?= $model->rating;?>" data-price_from="<?= $model->price_from;?>">
     <div class="row">
         <div class="col-md-3 col-xl-4 img d-md-flex flex-column">
             <a href="#" class=""><img alt="" src="<?= $model->getLogo(); ?>"></a>

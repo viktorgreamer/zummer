@@ -27,6 +27,7 @@ class AppAsset extends AssetBundle
 
     public static $headers = [
         'categories/index' => 'header/categories',
+        'programs/index' => 'header/categories',
         'developers' => '../modules/dev/layouts/header',
     ];
 
@@ -51,7 +52,7 @@ class AppAsset extends AssetBundle
         'css/style-all.css',
         'css/style-main.css',
         'css/style-page.css',
-        'css/style-admin.css',
+     //   'css/style-admin.css',
         'css/owl.carousel.min.css',
         'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css',
         'https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css',

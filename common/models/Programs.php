@@ -6,7 +6,6 @@ use Exception;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
-use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
 use yii\helpers\Json;
@@ -47,6 +46,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property string $trial_link
  * @property string $prices_link
  * @property int $tariff
+ * @property int $destination_id
  * @property string $dueDate
  * @property Developers $developer
  * @property Categories $category
@@ -117,9 +117,20 @@ class Programs extends ActiveRecord
         ];
     }
 
-    public static function main($limit = 5)
+    public static function mapDestinations() {
+        return [
+            1 => 'для Юристов',
+            2 => 'для Транспорта',
+            3 => 'для Торговли',
+            4 => 'для Общепита',
+            5 => 'для Гостиниц',
+            6 => 'для Медицины',
+        ];
+    }
+
+    public static function main($limit = 5, $destination_id = null,$offset = null)
     {
-        return self::find()->limit($limit)->all();
+        return self::find()->andWhere(['destination_id' => $destination_id])->cache(60)->offset($offset)->limit($limit)->all();
     }
 
     public static function getPopular($limit = 5, $category_id = null)
@@ -127,6 +138,7 @@ class Programs extends ActiveRecord
         return self::find()
             ->andFilterWhere(['category_id' => $category_id])
             ->orderBy(['popularity' => SORT_DESC])
+            ->cache(60)
             ->limit($limit)
             ->all();
     }
@@ -344,7 +356,7 @@ class Programs extends ActiveRecord
             [['destination', 'description', 'support', 'learning', 'prices', 'trial_link', 'logo', 'prices_link'], 'string'],
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
             [['status', 'created_at', 'updated_at', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial', 'category_id'], 'integer'],
-            [['views', 'popularity'], 'integer'],
+            [['views', 'popularity','destination_id'], 'integer'],
             [['name', 'link', 'video_link'], 'string', 'max' => 256],
             [['platforms', 'learning_map', 'functions', 'support_map'], 'safe'],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4]
@@ -406,7 +418,8 @@ class Programs extends ActiveRecord
             'trial_link' => 'Trial Link',
             'category.name' => "Категория",
             'view' => "Кол-во просмотров",
-            'popularity' => "Популярность"
+            'popularity' => "Популярность",
+            'destination_id' => "Тип назначения"
         ];
     }
 

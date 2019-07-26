@@ -10,6 +10,7 @@
 namespace console\controllers;
 
 use common\models\Categories;
+use common\models\CategoryIndustries;
 use common\models\ContentArticles;
 use common\models\ContentCategories;
 use common\models\ContentNews;
@@ -159,6 +160,37 @@ HTML;
         }
 
         if ($this->errors) print_r($this->errors);
+
+    }
+
+
+    public function actionAddDestinationsIdToPrograms()
+    {
+        /** @var Programs $program */
+        foreach (Programs::find()->all() as $program) {
+            $program->destination_id = rand(1, 6);
+            $program->update(false);
+        }
+    }
+
+    public function actionAddPhotos()
+    {
+        /** @var Programs $program */
+        foreach (Programs::find()->all() as $program) {
+            $program->logo = "https://picsum.photos/200/80";
+            $program->update(false);
+        }
+
+        /** @var ContentNews $item */
+        foreach (ContentNews::find()->all() as $item) {
+            $item->image = "https://picsum.photos/200/80";
+            $item->update(false);
+        }
+
+        foreach (range(1,10) as $industr) {
+            $industry = new CategoryIndustries(['name' => 'Industry_'.$industr]);
+            $industry->save();
+        }
 
     }
 

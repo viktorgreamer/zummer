@@ -141,7 +141,6 @@ if (sort_by == 'date') {
         return $(b).data("date")-$(a).data("date")
     });
 }
-
 $("#review").html(divList);
 });
 

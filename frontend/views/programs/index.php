@@ -31,166 +31,27 @@ $this->params['breadcrumbs'][] = $this->title;
                     узнайте подробнее <a href="#">Как выбрать медицинскую информационную систему (МИС)</a></p>
             </div>
             <div class="row">
-                <div class="col-xl-3">
-                    <div class="filter">
-                        <div class="btn_mobile">
-                            <a data-toggle="collapse" href="#filter_c" role="button" aria-expanded="false"><span>развернуть фильтр</span>
-                                <img alt="" src="/img/arr_filter.png"></a>
-                        </div>
 
-                        <div id="filter_c" class="filter_c collapse">
-                            <div class="filter_bl">
-                                <form class="row" method="get" action="<?= Url::to(['/programs']); ?>">
-                                    <div class="col-lg-4 col-xl-12">
-                                        <div class="fl price">
-                                            <div class="titl">Цена</div>
-                                            <div class="input">
-                                                от <input type="text" name="price_from" class="form-control-range"
-                                                          id="minPrice" value="<?= $searchModel->price_from; ?>">
-                                                до <input type="text" name="price_to" class="form-control-range mr-xl-0"
-                                                          id="maxPrice" value="<?= $searchModel->price_to; ?>">
-                                                <div id="slider-range"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-xl-12">
-                                        <div class="fl pricing">
-                                            <div class="titl"><a data-toggle="collapse" href="#pricing" role="button"
-                                                                 aria-expanded="true" class="active">Ценооброзование
-                                                    <img alt="" src="/img/arr_fl.png"></a></div>
-                                            <div class="input collapse show" id="pricing">
-                                                <label>
-                                                    <input type="checkbox" <? if ($searchModel->has_free) echo "checked"; ?> name="has_free" class="checkbox d-none">
-                                                    <span class="checkbox__text">Бесплатная версия</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="has_month_plan" <? if ($searchModel->has_month_plan) echo "checked"; ?>
-                                                           class="checkbox d-none">
-                                                    <span class="checkbox__text">Месячная подписка</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="has_year_plan" <? if ($searchModel->has_year_plan) echo "checked"; ?> class="checkbox d-none">
-                                                    <span class="checkbox__text">Годовая подписка</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-xl-12">
-                                        <div class="fl functions">
-                                            <div class="titl"><a data-toggle="collapse" href="#functions" role="button"
-                                                                 aria-expanded="true" class="active">Функции <img alt=""
-                                                                                                                  src="/img/arr_fl.png"></a>
-                                            </div>
-                                            <? if ($functions = Functions::find()->all()) { ?>
-                                                <div class="input collapse show" id="functions">
-                                                    <?php /** @var Functions $function */
-                                                    foreach ($functions as $function) { ?>
-                                                        <label>
-                                                            <input type="checkbox" name="functions[]" <? if (in_array($function->id,$searchModel->functions)) echo "checked"; ?>
-                                                                   value="<?= $function->id; ?>"
-                                                                   class="checkbox d-none">
-                                                            <span class="checkbox__text"><?= $function->name; ?></span>
-                                                        </label>
-                                                    <? } ?>
-                                                </div>
-                                            <? } ?>
-                                        </div>
-                                        <div class="fl rating_">
-                                            <div class="titl"><a data-toggle="collapse" href="#rating_" role="button"
-                                                                 aria-expanded="false">Рейтинг <img alt=""
-                                                                                                    src="/img/arr_fl.png"></a>
-                                            </div>
-                                            <div class="input collapse" id="rating_">
-                                                <label>
-                                                    <input type="checkbox" name="rating[]" class="checkbox d-none">
-                                                    <span class="checkbox__text">Аудит</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="rating[]" class="checkbox d-none">
-                                                    <span class="checkbox__text">Архивация почты</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="rating[]" class="checkbox d-none">
-                                                    <span class="checkbox__text">Шифрование</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="rating[]" class="checkbox d-none">
-                                                    <span class="checkbox__text">Статистика</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="rating[]" class="checkbox d-none">
-                                                    <span class="checkbox__text">Спам фильтр</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="fl crm">
-                                            <div class="titl"><a data-toggle="collapse" href="#crm" role="button"
-                                                                 aria-expanded="false">CRM-аналитика <img alt=""
-                                                                                                          src="/img/arr_fl.png"></a>
-                                            </div>
-                                            <div class="input collapse" id="crm">
-                                                <label>
-                                                    <input type="checkbox" name="pricing" class="checkbox d-none">
-                                                    <span class="checkbox__text">Аудит</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="pricing" class="checkbox d-none">
-                                                    <span class="checkbox__text">Архивация почты</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="pricing" class="checkbox d-none">
-                                                    <span class="checkbox__text">Шифрование</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="pricing" class="checkbox d-none">
-                                                    <span class="checkbox__text">Статистика</span>
-                                                </label>
-                                                <label>
-                                                    <input type="checkbox" name="pricing" class="checkbox d-none">
-                                                    <span class="checkbox__text">Спам фильтр</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-xl-12">
-                                        <div class="bt">
-                                            <button type="submit" class="btn btn-find">Найти</button>
-                                        </div>
-                                        <div class="bt">
-                                            <button type="button" class="btn btn-clear" id="clearFilter">очистить
-                                                фильтр
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                <?= $this->render('_search',['searchModel' => $searchModel]);?>
 
-                        </div>
-
-                    </div>
-                </div>
                 <div class="tabs col-xl-9">
                     <div class="sort">
                         Сортировать по:
-                        <select>
-                            <option selected>по популярности</option>
-                            <option>по цене</option>
-                            <option>по рейтингу</option>
-                            <option>еще как-нибудь</option>
-                            <option>еще как-нибудь</option>
+                        <select id="programs-sort-by">
+                            <option selected value="popularity">по популярности</option>
+                            <option value="price_from">по цене</option>
+                            <option value="rating">по рейтингу</option>
                         </select>
                     </div>
-
-
-                    <?=
-                    ListView::widget([
-                        'dataProvider' => $dataProvider,
-                       // 'layout' => "{pager}\n{items}\n{summary}",
-                        'itemView' => '_list_item',
-                    ]);
-                    ?>
-
-
+                    <div id="programs">
+                        <?
+                        if ($dataProvider->getModels()) {
+                            foreach ($dataProvider->getModels() as $model) {
+                                echo $this->render('_list_item', ['model' => $model]);
+                            }
+                        }
+                        ?>
+                    </div>
 
 
                 </div>
@@ -294,18 +155,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 $js = <<<JS
+$(document).on('change','#programs-sort-by', function() {
+let sort_by = $(this).val();
+var divList = $(".card_program");
+
+if (sort_by == 'price_from') {
+     divList.sort(function(a, b){
+        return $(a).data(sort_by)-$(b).data(sort_by)
+    });
+} else {
+    divList.sort(function(a, b){
+        return $(b).data(sort_by)-$(a).data(sort_by)
+    });
+}
+$("#programs").html(divList);
+});
+
 function triplets(str) {
 			return str.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1\u202f');
 		}
 				
-		$(function(){			
+		$(function(){
+		
+		let start = 	$("#minPrice").val();
+		start = parseInt(start.replace(/\s/g, ''));		
+		let end = 	$("#maxPrice" ).val();
+		
+		end = parseInt(end.replace(/\s/g, ''));		
+		console.log(start);
+		console.log(end);
+				
 			// 	Фильтр товаров, стр. каталог
 			$("#slider-range").slider({
 				range: true,
 				min: 0,
 				step: 1000,
-				max: 999999,
-				values: [ 50000, 250000 ],
+				max: 200000,
+				values: [ start , end ],
 				slide: function( event, ui ) {
 					$( "#minPrice" ).val(triplets(ui.values[0]));
 					$( "#maxPrice" ).val(triplets(ui.values[1]));
