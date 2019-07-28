@@ -4,6 +4,7 @@
 
 /* @var $content string */
 
+use common\widgets\Alert;
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
 use yii\helpers\Url;
@@ -28,10 +29,64 @@ AppAsset::register($this);
 
 
 <?php  echo $this->render(AppAsset::header());?>
-
+<?= Alert::widget();?>
 <?= $content ?>
 
 <?php  echo $this->render('footer');?>
+<?php
+
+
+$js = <<<JS
+$(document).on('click', '.add-to-compare' , function(e) {
+e.preventDefault();
+var id = $(this).data('id');
+console.log('.tab_ph a.close');
+$.ajax({
+url: "/catalog/add-to-compare",
+data: {
+"id": id,
+},
+cache: false,
+type: "get",
+success: function(response) {
+
+},
+error: function(xhr) {
+
+}
+});
+
+});
+
+$(document).on('click', '.remove-from-compare' , function(e) {
+e.preventDefault();
+var element = $(this).parents('.item');
+console.log(element);
+var id = $(this).data('program_id');
+console.log('.tab_ph a.close');
+$.ajax({
+url: "/catalog/remove-from-compare",
+data: {
+"id": id,
+},
+cache: false,
+type: "get",
+success: function(response) {
+element.remove();
+try { location.reload(); } catch {}
+},
+error: function(xhr) {
+
+}
+});
+
+});
+
+
+JS;
+Yii::$app->view->registerJs($js, 4);
+
+?>
 
 <?php $this->endBody() ?>
 </body>

@@ -27,7 +27,6 @@ use yii\web\UploadedFile;
  * @property string $office_country
  * @property string $email
  * @property double $foundation_year
- * @property DevelopersAwardsImages[] $awards
  * @property Profile $profile
  * @property UploadedFile $imageUpload
  */
@@ -160,8 +159,6 @@ class Developers extends ActiveRecord
         return $this->logo ?: '/img/no_logo.png';
     }
 
-
-
     public function getPrograms()
     {
         return $this->hasMany(Programs::className(), ['developer_id' => 'id']);
@@ -177,8 +174,5 @@ class Developers extends ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function getAwards()
-    {
-        return $this->hasMany(DevelopersAwardsImages::className(), ['developer_id' => 'id']);
-    }
+
 }

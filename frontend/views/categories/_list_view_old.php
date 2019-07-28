@@ -15,7 +15,7 @@
       <? if ($model->programs) { ?>
 
           <div>
-              <a href="<?php echo \yii\helpers\Url::to(['/programs/index','category_id' => $model->id]); ?>">Программы <span class="badge"><?= count($model->programs); ?></span></a>
+              <a href="<?php echo \yii\helpers\Url::to(['/catalog/index','category_id' => $model->id]); ?>">Программы <span class="badge"><?= count($model->programs); ?></span></a>
           </div>
       <? } ?>
 

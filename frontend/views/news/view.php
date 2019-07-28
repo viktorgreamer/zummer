@@ -1,43 +1,33 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
+/** @var \common\models\ContentNews $model */
+/** @var \yii\web\View $this */
 
-/* @var $this yii\web\View */
-/* @var $model common\models\ContentNews */
-
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Content News', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
-<div class="content-news-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+<div class="content container">
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'category_id',
-            'name',
-            'body:ntext',
-            'created_at',
-            'updated_at',
-            'status',
-            'user_id',
-        ],
-    ]) ?>
+    <div class="breadcrumbs">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><?=$model->name; ?></li>
+            </ol>
+        </nav>
+    </div>
 
+
+    <div class="main">
+        <div class="title_bl">
+            <h1 class="title"><?=$model->name; ?></h1>
+        </div>
+        <div class="single_page">
+            <?php echo $model->getFullBody();?>
+        </div>
+
+
+    </div>
 </div>
+
+

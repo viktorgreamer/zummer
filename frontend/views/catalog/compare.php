@@ -21,7 +21,7 @@ $this->title = 'Сравнить программы';
         <div class="breadcrumbs">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="/">Главная</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Сравнить программы</li>
                 </ol>
             </nav>
@@ -92,7 +92,7 @@ $this->title = 'Сравнить программы';
                         <?php foreach ($programs as $program) { ?>
                             <div class="item">
                                 <div class="tab_top">
-                                    <a href="#" class="close_btn"><img alt="" src="/img/close.png"></a>
+                                    <a href="#" class="close_btn remove-from-compare" data-program_id="<?= $program->id;?>"><img alt="" src="/img/close.png"></a>
                                     <div class="img">
                                         <a href="#"><img alt="" src="<?= $program->getLogo(); ?>"></a>
                                     </div>
@@ -234,7 +234,7 @@ $this->title = 'Сравнить программы';
                                         <a href="#" class="order-xl-2"><img alt="" src="/img/bitrix.png"></a>
 
                                         <div class="add oredr-xl-1">
-                                            <a href="#"><i>+</i> <b>сравнить</b> <span></span></a>
+                                            <a href="#" class="add-to-compare" data-id="<?= $similarProgram->id;?>"><i>+</i> <b>сравнить</b> <span></span></a>
                                         </div>
 
                                     </div>

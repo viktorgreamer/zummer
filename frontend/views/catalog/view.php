@@ -14,9 +14,9 @@ use yii\helpers\Url; ?>
         <div class="breadcrumbs">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="/">Главная</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a
-                                href="<?= Url::to(['/programs']); ?>">Каталог программ</a></li>
+                                href="<?= Url::to(['/catalog']); ?>">Каталог программ</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><?= $model->name; ?></li>
                 </ol>
             </nav>
@@ -153,9 +153,9 @@ use yii\helpers\Url; ?>
 
                     <? } ?>
 
-                    <? if (($model->developer) && ($model->developer->awards)) { ?>
+                    <? if (($model->awards)) { ?>
                         <div class="awards">
-                            <?php /** @var \common\models\DevelopersAwardsImages $award */
+                            <?php /** @var \common\models\ProgramsAwardsImages $award */
                             foreach ($model->developer->awards as $award) { ?>
                                 <img alt="<?= $award->description; ?>" src="<?= $award->src; ?> "
                                      title="<?= $award->description; ?>">

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 
 /**
@@ -21,6 +22,24 @@ use Yii;
  */
 class ContentArticles extends ContentNews
 {
+
+    public function behaviors()
+    {
+        return [
+            'saveRelations' => [
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => [
+                    'themes' => ['cascadeDelete' => true],
+                ],
+            ]
+        ];
+    }
+
+    public function formName()
+    {
+        return '';
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -57,5 +76,14 @@ class ContentArticles extends ContentNews
     public function getCategory()
     {
         return $this->hasOne(ContentCategories::className(), ['id' => 'category_id']);
+    }
+
+    public function getThemes() {
+        return $this->hasMany(ContentThemes::className(),['id' => 'theme_id'])->via('contentThemesArticleAssignments');
+    }
+
+    public function getContentThemesArticleAssignments()
+    {
+        return $this->hasMany(ContentThemesArticleAssignment::className(), ['article_id' => 'id']);
     }
 }

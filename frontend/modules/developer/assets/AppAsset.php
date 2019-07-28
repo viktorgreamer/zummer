@@ -8,14 +8,11 @@ namespace frontend\modules\developer\assets;
 
 class AppAsset extends \frontend\assets\AppAsset
 {
-    public static $bodyClasses = [
-
-    ];
 
     public static function bodyClass()
     {
-        if (isset(self::$bodyClasses[\Yii::$app->controller->route])) {
-            return '';
+        if (isset(parent::$bodyClasses[\Yii::$app->controller->route])) {
+            return parent::$bodyClasses[\Yii::$app->controller->route];
         } else {
 
             return 'admin';
@@ -25,6 +22,8 @@ class AppAsset extends \frontend\assets\AppAsset
 
     public static $headers = [
         'developers' => '../modules/dev/layouts/header',
+        'developer/default/login' => '../layouts/header/login',
+        'developer/default/registration' => '../layouts/header/login',
     ];
 
     const DEFAULT_HEADER_VIEW = 'header/main';
@@ -32,7 +31,7 @@ class AppAsset extends \frontend\assets\AppAsset
     public static function header()
     {
         if (isset(self::$headers[\Yii::$app->controller->route])) {
-            \Yii::error(\Yii::$app->controller->route . " DEFINED");
+            \Yii::warning(\Yii::$app->controller->route . " DEFINED");
             return self::$headers[\Yii::$app->controller->route];
         } else {
             \Yii::error(" NOT DEFINED");

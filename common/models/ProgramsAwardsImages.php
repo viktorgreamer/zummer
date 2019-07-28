@@ -6,14 +6,14 @@ use Yii;
 use yii\helpers\FileHelper;
 
 /**
- * This is the model class for table "developers_awards_images".
+ * This is the model class for table "programs_awards_images".
  *
- * @property int $developer_id
+ * @property int $program_id
  * @property int $priority
  * @property string $src
  * @property string $description
  */
-class DevelopersAwardsImages extends \yii\db\ActiveRecord
+class ProgramsAwardsImages extends \yii\db\ActiveRecord
 {
     public function createDirectoryIfNotExists($path)
     {
@@ -28,7 +28,7 @@ class DevelopersAwardsImages extends \yii\db\ActiveRecord
 
     public function getWebPath()
     {
-        return "/images/developers/" . $this->developer_id . "/awards/";
+        return "/images/programs/" . $this->program_id . "/awards/";
     }
 
     public function getFilePath()
@@ -58,7 +58,7 @@ class DevelopersAwardsImages extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'developers_awards_images';
+        return 'programs_awards_images';
     }
 
     /**
@@ -67,8 +67,8 @@ class DevelopersAwardsImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['developer_id', 'src', 'description'], 'required'],
-            [['developer_id', 'priority'], 'integer'],
+            [['program_id', 'src'], 'required'],
+            [['program_id', 'priority'], 'integer'],
             [['description'], 'string'],
             ['priority', 'safe'],
             [['src'], 'string', 'max' => 256],
@@ -78,7 +78,7 @@ class DevelopersAwardsImages extends \yii\db\ActiveRecord
 
     public function beforeValidate()
     {
-        $this->priority = intval(self::find()->where(['developer_id' => $this->developer_id])->max('priority')) + 1;
+        $this->priority = intval(self::find()->where(['program_id' => $this->program_id])->max('priority')) + 1;
         return parent::beforeValidate();
     }
 

@@ -21,6 +21,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property integer $is_developer
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
@@ -29,6 +30,7 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_DEVELOPER = 1;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
@@ -51,7 +53,7 @@ class User extends ActiveRecord implements IdentityInterface
         $names = [];
         if ($this->first_name) $names[] = $this->first_name;
         if ($this->last_name) $names[] = $this->last_name;
-        return $names ? implode(" ", $names) : ($this->username ?: "Пользователь");
+        return $names ? implode(" ", $names) : ($this->email ?: "Пользователь");
     }
 
     public function getPosition()
@@ -107,6 +109,11 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

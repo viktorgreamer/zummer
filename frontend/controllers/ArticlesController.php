@@ -45,6 +45,22 @@ class ArticlesController extends Controller
     }
 
     /**
+     * Lists all ContentNews models.
+     * @return mixed
+     */
+    public function actionIndexAjax()
+    {
+        $searchModel = new ContentArticlesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->renderAjax('index_ajax', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+    /**
      * Displays a single ContentArticles model.
      * @param integer $id
      * @return mixed

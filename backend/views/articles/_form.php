@@ -12,38 +12,34 @@ use vova07\imperavi\Widget;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="content-articles-form">
+    <div class="content-articles-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'category_id')->dropDownList(\common\models\ContentCategories::map()) ?>
+        <?= $form->field($model, 'category_id')->dropDownList(\common\models\ContentCategories::map()) ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'body')->widget(Widget::className(), [
-        'settings' => [
-            // 'lang' => 'ru',
-            'minHeight' => 200,
-            'imageUpload' => Url::to(['/admin/articles/image-upload']),
+        <?= $form->field($model, 'themes')->checkboxList(\common\models\ContentThemes::map()) ?>
 
-            'plugins' => [
-                'clips',
-                'fullscreen',
-                'imagemanager',
-            ],
-            'clips' => [
-                ['Lorem ipsum...', 'Lorem...'],
-                ['red', '<span class="label-red">red</span>'],
-                ['green', '<span class="label-green">green</span>'],
-                ['blue', '<span class="label-blue">blue</span>'],
-            ],
-        ],
-    ]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+
+        <textarea name="body"><?php echo $model->body;?></textarea>
+
+
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
+<?php
+$js = <<<JS
 
-    <?php ActiveForm::end(); ?>
+        CKEDITOR.replace( 'body' );
+    
+JS;
 
-</div>
+Yii::$app->view->registerJsFile('https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js');
+Yii::$app->view->registerJs($js, 4);

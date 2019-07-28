@@ -20,7 +20,7 @@ use yii\helpers\Url;
         <div id="filter_c" class="filter_c collapse">
             <div class="filter_bl">
                 <form class="row" id='search_programs_form' method="get"
-                      action="<?= Url::to(['/programs']); ?>">
+                      action="<?= Url::to(['/catalog']); ?>">
 
 
 

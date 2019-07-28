@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -35,9 +36,16 @@ class ContentNews extends \yii\db\ActiveRecord
                 ],
 
             ],
+            'saveRelations' => [
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => [
+                    'themes' => ['cascadeDelete' => true],
+                ],
+            ]
 
         ];
     }
+
 
     public static function findLast($count = 3)
     {
@@ -58,6 +66,13 @@ class ContentNews extends \yii\db\ActiveRecord
         return mb_strimwidth($this->body, 0, 400, '...');
     }
 
+    /** replacing table tag to class='table table-hover'
+     * @return string|string[]|null
+     */
+    public function getFullBody() {
+        return preg_replace("/<table.+>/u"," <table class='table table-hover'>", $this->body);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -76,6 +91,7 @@ class ContentNews extends \yii\db\ActiveRecord
             [['category_id', 'created_at', 'updated_at', 'status', 'user_id'], 'integer'],
             [['body'], 'string'],
             [['status'], 'default','value' => 0],
+            [['themes'],'safe'],
             [['name'], 'string', 'max' => 256],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ContentCategories::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
@@ -112,4 +128,14 @@ class ContentNews extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ContentCategories::className(), ['id' => 'category_id']);
     }
+
+    public function getThemes() {
+        return $this->hasMany(ContentThemes::className(),['id' => 'theme_id'])->via('contentThemesNewsAssignments');
+    }
+
+    public function getContentThemesNewsAssignments()
+    {
+        return $this->hasMany(ContentThemesNewsAssignment::className(), ['new_id' => 'id']);
+    }
+
 }

@@ -6,7 +6,8 @@ if ($user = Yii::$app->user->identity) {
     $name = $user->fullName();
 }
 /* @var \yii\web\View $this */
-?>
+
+use yii\helpers\Html; ?>
 
 <header>
     <div class="container">
@@ -26,7 +27,8 @@ if ($user = Yii::$app->user->identity) {
                             <a class="dropdown-item" href="#">Информация о продукте</a>
                             <a class="dropdown-item" href="#">Базовая информация</a>
                             <a class="dropdown-item" href="#">Информация о продукте</a>
-                            <a class="dropdown-item" href="#">Базовая информация</a>
+                            <a class="dropdown-item" href="<?= \yii\helpers\Url::to(['/developer/logout']);?>">Выход</a>
+
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 <?php
 
 use common\models\ContentCategories;
+use common\models\ContentThemes;
 use yii\helpers\Url;
 
 /** @var \yii\web\View $this */
@@ -27,29 +28,31 @@ $this->title = "Новости";
         <div class="title_bl">
             <h1 class="title">Новости</h1>
         </div>
-        <? if ($categories = ContentCategories::find()->all()) { ?>
+
+        <? if ($categories = ContentCategories::find()->limit(5)->all()) { ?>
             <div class="categories">
                 <div class="owl-carousel news_category">
                     <div class="item">
-                        <a class="active" href="<?= Url::to(['/']); ?>">Все</a>
+                        <a class="<?= !$searchModel->category_id? "active":'';?>" href="<?= Url::to(['/news']); ?>">Все</a>
                     </div>
                     <?php /** @var ContentCategories $category */
                     foreach ($categories as $category) { ?>
                         <div class="item">
-                            <a href="<?= Url::to(['/news', 'category_id' => $category->id]); ?>"><?= $category->name; ?></a>
+                            <a href="<?= Url::to(['/news', 'category_id' => $category->id]); ?>"
+                               class="<?= $searchModel->category_id==$category->id? "active":'';?>"><?= $category->name; ?></a>
                         </div>
                     <? } ?>
                 </div>
             </div>
         <? } ?>
+        <?php if ($themes = ContentThemes::find()->limit(9)->orderBy('order')->all()) { ?>
         <div class="thems">
             <p>По темам:</p>
-            <span>Битрикс 24</span>
-            <span class="active">Интеграция CRM</span>
-            <span>Мегаплан</span>
-            <span>Zadarma</span>
+            <?php foreach ($themes as $theme) { ?>
+            <span class="<?= in_array($theme->id,$searchModel->themes)?"active":''?>" data-theme_id="<?= $theme->id;?>"><?= $theme->name;?></span>
+            <? } ?>
         </div>
-
+        <? } ?>
         <?
         if ($dataProvider->getModels()) { ?>
             <div class="row tabs">
@@ -94,6 +97,54 @@ console.log($(this).attr('value'));
 $(document).find(".load_after_me").last().load($(this).attr('value'));
 $(this).remove();
 });
+
+	$(function(){ 
+			// Активная ссылка категории, стр. новости
+			$('.news_category .item a').click( function(){
+				$('.news_category .item a').removeClass('active');
+				$(this).addClass('active');
+			});
+			/****************************************************/
+			
+			// Карусель "Категории новостей", стр. новости
+			$('.news_category').owlCarousel({
+				loop:false,
+				merge:true,
+				autoWidth: true,
+				margin:0,
+				nav:true,
+				navText: false,
+				dots: false,
+				items:2,
+				responsive:{
+					0:{
+						items:2
+					},
+					480:{
+						items:2,
+					},
+					767:{
+						items:4,
+					},
+					992:{
+						items:6,
+						mouseDrag: false,
+						touchDrag: false,
+						pullDrag: false,
+						freeDrag: false
+					},
+					1300:{
+						items:6,
+						mouseDrag: false,
+						touchDrag: false,
+						pullDrag: false,
+						freeDrag: false
+					}
+				}
+			});
+			/****************************************************/
+		});
+		
 JS;
 
 $this->registerJs($js,\yii\web\View::POS_READY);

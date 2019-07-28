@@ -10,7 +10,7 @@ use yii\helpers\Url; ?>
         <div class="col-md-3 col-xl-4 img d-md-flex flex-column">
             <a href="#" class=""><img alt="" src="<?= $model->getLogo(); ?>"></a>
             <div class="add ">
-                <a href="#"><i>+</i> <b>сравнить</b> <span></span></a>
+                <a href="#" class="add-to-compare" data-id="<?= $model->id;?>"><i>+</i> <b>сравнить</b> <span></span></a>
             </div>
 
         </div>
@@ -47,25 +47,25 @@ use yii\helpers\Url; ?>
                 if ($review = Reviews::mainOne($model->id)) { ?>
                 <div class="rating">
                     <div class="stars">
-                        <span data-star="5"></span>
-                        <span data-star="4"></span>
-                        <span data-star="3"></span>
-                        <span data-star="2"></span>
-                        <span data-star="1"></span>
+                       <?= Reviews::renderStar(1, $review->getRating());?>
+                       <?= Reviews::renderStar(2, $review->getRating());?>
+                       <?= Reviews::renderStar(3, $review->getRating());?>
+                       <?= Reviews::renderStar(4, $review->getRating());?>
+                       <?= Reviews::renderStar(5, $review->getRating());?>
                     </div>
                 </div>
 
-                <p class="titl"><?= $review->user->username; ?></p>
+                <p class="titl"><?= $review->user->fullName(); ?></p>
                 <p><?= mb_strimwidth($review->pluses,0,300, '...'); ?> <a href="<?= Url::to(['review','id' => $review->id]); ?>">Читать весь отзыв</a></p>
                 <? } ?>
             </div>
         </div>
         <div class="col-md-3 col-xl-4 order-md-1 d-md-flex flex-column ">
             <div class="bt align-items-center">
-                <a href="#" class="btn btn-green btn-more">демо-доступ</a>
+                <a href="<?= $model->trial_link;?>" class="btn btn-green btn-more">демо-доступ</a>
             </div>
             <div class="bt align-items-center">
-                <a href="#" class="btn bnt-price">открыть сайт</a>
+                <a href="<?= $model->link;?>" class="btn bnt-price">открыть сайт</a>
             </div>
         </div>
     </div>

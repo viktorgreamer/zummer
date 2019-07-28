@@ -1,18 +1,19 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
-use common\models\Programs;
-use frontend\models\ProgramsSearch;
+use common\models\ContentImages;
+use common\models\ContentImagesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
- * ProgramsController implements the CRUD actions for Programs model.
+ * ContentImagesController implements the CRUD actions for ContentImages model.
  */
-class ProgramsController extends Controller
+class ContentImagesController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,13 +31,12 @@ class ProgramsController extends Controller
     }
 
     /**
-     * Lists all Programs models.
+     * Lists all ContentImages models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProgramsSearch();
-
+        $searchModel = new ContentImagesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class ProgramsController extends Controller
     }
 
     /**
-     * Displays a single Programs model.
+     * Displays a single ContentImages model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,43 +58,25 @@ class ProgramsController extends Controller
         ]);
     }
 
-
     /**
-     * Ajax load new programs depends offset and destination_id
-     * @return mixed
-     */
-    public function actionPopularAjax($destination_id, $offset = null)
-    {
-        $programs = Programs::main(4, $destination_id, $offset);
-        Yii::error(count($programs));
-        return $this->renderAjax('/site/_destination_program_row_tab', [
-            'programs' => $programs
-        ]);
-    }
-
-
-    /**
-     * Displays a Programs models to Compare.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionCompare()
-    {
-        return $this->render('compare');
-    }
-
-    /**
-     * Creates a new Programs model.
+     * Creates a new ContentImages model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Programs();
-        $model->developer_id = Yii::$app->user->identity->developer->id;
+        $model = new ContentImages();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
+            if ($model->upload()) {
+                if ($model->save(false)) {
+                    return $this->redirect(['index']);
+                }
+                return $this->redirect(['index']);
+            }
+
         }
 
         return $this->render('create', [
@@ -103,7 +85,7 @@ class ProgramsController extends Controller
     }
 
     /**
-     * Updates an existing Programs model.
+     * Updates an existing ContentImages model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -112,9 +94,18 @@ class ProgramsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->developer_id = Yii::$app->user->identity->developer->id;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+
+            $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
+            if ($model->upload()) {
+                if ($model->save(false)) {
+                    return $this->redirect(['index']);
+                }
+                return $this->redirect(['index']);
+            }
+
         }
 
         return $this->render('update', [
@@ -123,7 +114,7 @@ class ProgramsController extends Controller
     }
 
     /**
-     * Deletes an existing Programs model.
+     * Deletes an existing ContentImages model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -137,15 +128,15 @@ class ProgramsController extends Controller
     }
 
     /**
-     * Finds the Programs model based on its primary key value.
+     * Finds the ContentImages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Programs the loaded model
+     * @return ContentImages the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Programs::findOne($id)) !== null) {
+        if (($model = ContentImages::findOne($id)) !== null) {
             return $model;
         }
 

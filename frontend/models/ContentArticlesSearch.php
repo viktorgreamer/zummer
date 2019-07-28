@@ -5,31 +5,44 @@ namespace frontend\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\ContentArticles;
+use yii\helpers\Url;
 
 /**
  * ContentArticlesSearch represents the model behind the search form of `common\models\ContentArticles`.
  */
-class ContentArticlesSearch extends ContentArticles
+class ContentArticlesSearch extends ContentNewsSearch
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['id', 'category_id', 'created_at', 'updated_at', 'status', 'user_id'], 'integer'],
-            [['name', 'body'], 'safe'],
-        ];
-    }
+
 
     /**
-     * {@inheritdoc}
+     *
      */
-    public function scenarios()
+    public function getShowMore()
     {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        $page = $this->dataProvider->pagination->offset;
+        \Yii::error("PAGE COUNT=".$this->dataProvider->pagination->pageCount);
+        \Yii::error("PAGE OFFSET=".$this->dataProvider->pagination->offset);
+        \Yii::error("TOTAL COUNT=".$this->dataProvider->totalCount);
+
+        \Yii::error("PAGE =".$page);
+        if ($this->dataProvider->pagination && $this->dataProvider->pagination->getPageCount() != 1 && $result = ($this->dataProvider->pagination->getPageCount() > $page)) {
+
+            $url = Url::to(['/articles/index-ajax', 'page' => ($page + 1)]);
+            \Yii::error("RESULT =".$result);
+            $html = <<<HTML
+    <div class="see_more" value="$url">
+    <a href="#" class="active"  class="see_more_link"> Смотреть еще <img alt = "" src = "/img/load.png"></a>
+</div>
+<div class='load_after_me'></div>
+HTML;
+            return $html;
+        }
+        return '';
+
+
     }
+
+
 
     /**
      * Creates data provider instance with search query applied
@@ -42,19 +55,31 @@ class ContentArticlesSearch extends ContentArticles
     {
         $query = ContentArticles::find();
 
-        // add conditions that should always apply here
+        $query->from(['articles' => ContentArticles::tableName()]);
 
+        // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 8]
         ]);
 
         $this->load($params);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
+
+        if ($this->category_id) {
+            $query->andWhere(['articles.category_id' => $this->category_id]);
         }
+        if ($this->themes) {
+            $query->joinWith('themes as themes');
+            $query->andWhere(['in','themes.id', $this->themes]);
+            $query->orderBy('articles.id');
+        }
+
+        if (!$this->validate()) {
+            return $this->dataProvider = $dataProvider;
+        }
+
+
 
 
         return $dataProvider;

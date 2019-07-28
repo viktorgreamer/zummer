@@ -10,6 +10,10 @@ return [
             'class' => 'yii\caching\FileCache',
             'cachePath' => '@frontend/runtime/cache',
         ],
+
+        'compareList' => [
+            'class' => 'common\components\CompareList',
+        ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [

@@ -48,8 +48,10 @@ AppAsset::register($this);
             'label' => 'Контент',
             'items' => [
                 ['label' => 'Категории', 'url' => ['/content-categories/index']],
+                ['label' => 'Темы', 'url' => ['/content-themes/index']],
                 ['label' => 'Статьи', 'url' => ['/articles/index']],
                 ['label' => 'News', 'url' => ['/news/index']],
+                ['label' => 'Изображения', 'url' => ['/content-images/index']],
                 ['label' => 'Подписчики', 'url' => ['/subscriptions/index']],
             ],
         ],
@@ -71,7 +73,7 @@ AppAsset::register($this);
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                'Logout (' . Yii::$app->user->identity->email . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()

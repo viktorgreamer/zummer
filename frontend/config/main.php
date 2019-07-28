@@ -48,6 +48,10 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'developers' => 'site/developers',
+                'login' => 'developer/default/login',
+                'developer/logout' => 'developer/default/logout',
+                'developer/login' => 'developer/default/login',
+                'developer/registration' => 'developer/default/registration',
             ],
         ],
 

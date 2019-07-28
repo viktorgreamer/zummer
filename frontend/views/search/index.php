@@ -30,14 +30,14 @@ use yii\helpers\Url;
         <ul>
             <? /** @var \common\models\Programs $program */
             foreach ($searchModel->programs as $program) { ?>
-            <li><a href="<?= Url::to(['/programs','title' => $searchModel->q]); ?>"><img width="110px" src="<?= $program->getLogo(); ?>"></a></li>
+            <li><a href="<?= Url::to(['/catalog','title' => $searchModel->q]); ?>"><img width="110px" src="<?= $program->getLogo(); ?>"></a></li>
             <? } ?>
 
         </ul>
 
         <? if (count($searchModel->programs) < $searchModel->programs_count) { ?>
         <div class="more_row">
-            <a href="<?= Url::to(['/programs','title' => $searchModel->q]); ?>">Больше</a>
+            <a href="<?= Url::to(['/catalog','title' => $searchModel->q]); ?>">Больше</a>
         </div>
         <? } ?>
     </div>

@@ -34,6 +34,21 @@ class Reviews extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getRating()
+    {
+        return round(($this->rating_support + $this->rating_functions = $this->rating_convenience) / 3);
+    }
+
+    public static function isIn($star, $rating)
+    {
+        return $star <= $rating;
+    }
+
+    public static function renderStar($id, $rating) {
+        $class = self::isIn($id, $rating)?"full":"empty";
+        return "<span data-star='$id' class='$class'></span>";
+    }
+
     /**
      * {@inheritdoc}
      */

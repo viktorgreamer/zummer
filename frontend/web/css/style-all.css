@@ -448,7 +448,7 @@ header .login a{
     position: relative;
     margin-right: 2px;
 }
-.rating .stars > span:before, .rating .stars > span:after {
+.rating .stars > span.empty:before, .rating .stars > span:after {
     content: "";
     width: 14px;
     height: 14px;
@@ -463,14 +463,14 @@ header .login a{
     transition: all 0.3s ease;
     background: url(/img/star_grey.png);
 }
-.rating .stars > span:after {
+.rating .stars > span.full:after {
     z-index: 2;
     background: url(/img/star_active.png);
     opacity: 1;
 	left: 0;
 }
 /* Для примера */
-.rating .stars > span:last-child:after{
+.rating .stars > span.middle:last-child:after{
 	width: 7px;
 }
 

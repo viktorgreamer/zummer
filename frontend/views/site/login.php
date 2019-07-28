@@ -4,38 +4,73 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Авторизация';
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+<div class="content">
+    <div class="container">
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="#">Личный кабинет</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Авторизация</li>
+                </ol>
+            </nav>
+        </div>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+        <div class="main d-flex flex-column align-items-center">
+            <div class="login_bl ">
+                <div class="titl"><p><img alt="" src="img/icons/ico-cabinet.png"> Личный кабинет разработчика</p></div>
+                <div class="row_forms">
+                    <form class="">
+                        <label>
+                            <span>Логин:</span>
+                            <input type="text" name="login" placeholder="Ваш логин">
+                        </label>
+                        <label>
+                            <span>Пароль:</span>
+                            <input type="password" name="password" placeholder="Ваш пароль">
+                        </label>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                        <div class="check">
+                            <label>
+                                <input type="checkbox" name="remember" class="checkbox d-none">
+                                <span class="checkbox__text">Запомнить меня</span>
+                            </label>
+                        </div>
 
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
+                        <div class="bt">
+                            <button type="button" class="btn btn-green bnt-more">Войти</button>
+                        </div>
+                        <div class="forget">
+                            <a href="#">Забыли пароль или логин</a>
+                        </div>
+                    </form>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <div class="login_warn ">
+                <p>Нет аккаунта?<br>
+                    Расскажите клиентам о своем сервисе на Zummer!</p>
+                <div class="bt">
+                    <a href="#" class="btn btn-green bnt-more">Зарегистрировать бесплатно</a>
                 </div>
+            </div>
 
-            <?php ActiveForm::end(); ?>
+
+
+
+
+
+
+
+
+
+
+
         </div>
     </div>
 </div>

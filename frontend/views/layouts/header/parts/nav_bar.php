@@ -12,7 +12,7 @@ use yii\helpers\Url; ?>
                 <a class="nav-link" href="<?= Url::to('/categories'); ?>">Категории программ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= Url::to('developers'); ?>">Разработчикам</a>
+                <a class="nav-link" href="<?= Url::to('/developers'); ?>">Разработчикам</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?= Url::to('/articles'); ?>">Центр знаний</a>

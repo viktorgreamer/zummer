@@ -3,12 +3,14 @@
 namespace app\modules\developer;
 
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * developer module definition class
  */
 class Module extends \yii\base\Module
 {
+
     /**
      * {@inheritdoc}
      */
@@ -22,16 +24,22 @@ class Module extends \yii\base\Module
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['logout', 'registration','login'],
                 'rules' => [
                     [
+                        'actions' => ['registration'],
                         'allow' => true,
-                        'roles' => ['developer'],
-                    ]
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
     }
-
     /**
      * {@inheritdoc}
      */

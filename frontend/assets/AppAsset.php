@@ -11,13 +11,18 @@ class AppAsset extends AssetBundle
 {
     public static $bodyClasses = [
         'site/index' => 'home',
-        'programs/index' => 'katalog',
-        'programs/view' => 'product free_product',
-        'programs/compare' => 'compare',
+        'catalog/index' => 'katalog',
+        'catalog/view' => 'product free_product',
+        'catalog/compare' => 'compare',
         'categories/index' => 'categories',
         'news/index' => 'news',
+        'articles/index' => 'news',
         'site/developers' => 'developers',
         'developer/default/index' => 'admin',
+        'developer/default/login' => 'login',
+        'developer/default/registration' => 'registration',
+        'developer/login' => 'login',
+        'developer/registration' => 'registration',
     ];
 
     public static function bodyClass()
@@ -29,6 +34,9 @@ class AppAsset extends AssetBundle
         'categories/index' => 'header/categories',
         'programs/index' => 'header/categories',
         'developers' => '../modules/dev/layouts/header',
+        'reviews/create' => 'header/social',
+        'developer/default/login' => 'header/login',
+        'developer/default/signup' => 'header/login',
     ];
 
     const DEFAULT_HEADER_VIEW = 'header/main';

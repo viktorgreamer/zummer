@@ -2,6 +2,7 @@
 
 namespace app\modules\developer\controllers;
 
+use common\models\ProgramsAwardsImages;
 use common\models\ProgramsImages;
 use Yii;
 use common\models\Programs;
@@ -76,7 +77,7 @@ class ProgramsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('update', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -91,31 +92,40 @@ class ProgramsController extends Controller
         $model = new Programs();
 
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post(), '')) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
             if ($model->upload()) {
                 if ($model->save()) {
-                    return $this->redirect(['index']);
+                    return $this->redirect(['programs/view', 'id' => $model->id]);
                 }
             }
 
 
         }
 
+        Yii::error($model->errors);
+        Yii::error($model->toArray());
 
         return $this->render('create', [
             'model' => $model,
         ]);
     }
 
-    public function actionDeleteImages($program_id, $id)
+    public function actionDeleteImages($id)
     {
 
-        if ($program = Programs::findOne($program_id)) {
-            ProgramsImages::deleteAll(['program_id' => $program_id, 'id' => $id]);
-        }
+        /** @var ProgramsImages $image */
+        if (($image = ProgramsImages::findOne($id)) && $image->delete()) return 1;
 
-        if ($program_id) return $this->redirect(['view', 'id' => $program_id]);
+     return 0;
+
+
+    }
+
+    public function actionDeleteImagesAwards($id)
+    {
+        if (($image = ProgramsAwardsImages::findOne($id)) && $image->delete()) return 1;
+        return 0;
 
     }
 
@@ -160,11 +170,13 @@ class ProgramsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post(), '')) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            $model->imageAwardsFiles = UploadedFile::getInstances($model, 'imageAwardsFiles');
+            Yii::error($model->imageFiles);
             if ($model->upload()) {
                 if ($model->save(false)) {
-                    return $this->redirect(['index']);
+                    return $this->redirect(['programs/view', 'id' => $model->id]);
                 }
 
             }

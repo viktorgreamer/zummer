@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\ContentNews */
+/* @var $model common\models\ContentThemes */
 
-$this->title = 'Create Content News';
-$this->params['breadcrumbs'][] = ['label' => 'Content News', 'url' => ['index']];
+$this->title = 'Create Content Themes';
+$this->params['breadcrumbs'][] = ['label' => 'Content Themes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="content-news-create">
+<div class="content-themes-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

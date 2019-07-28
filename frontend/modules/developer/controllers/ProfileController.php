@@ -2,7 +2,7 @@
 
 namespace app\modules\developer\controllers;
 
-use common\models\DevelopersAwardsImages;
+use common\models\ProgramsAwardsImages;
 use common\models\User;
 use frontend\models\UpdateUserForm;
 use frontend\models\UploadAwardsForm;
@@ -76,7 +76,7 @@ class ProfileController extends Controller
     {
 
         if ($developer = Yii::$app->user->identity->developer) {
-            $model = new DevelopersAwardsImages();
+            $model = new ProgramsAwardsImages();
             $model->developer_id = $developer->id;
 
             if ($model->load(Yii::$app->request->post())) {
@@ -120,7 +120,7 @@ class ProfileController extends Controller
 
     public function actionDeleteAwards($developer_id, $priority)
     {
-        DevelopersAwardsImages::deleteAll(['developer_id' => $developer_id, 'priority' => $priority]);
+        ProgramsAwardsImages::deleteAll(['developer_id' => $developer_id, 'priority' => $priority]);
         if ($developer_id) return $this->redirect(['index']);
 
     }

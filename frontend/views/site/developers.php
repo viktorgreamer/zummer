@@ -1,7 +1,8 @@
 <?php
 
 /** @var \yii\web\View $this */
-?>
+
+use yii\helpers\Url; ?>
 
 
     <div class="content">
@@ -10,7 +11,7 @@
             <div class="breadcrumbs">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Главная</a></li>
+                        <li class="breadcrumb-item"><a href="/">Главная</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Разработчикам</li>
                     </ol>
                 </nav>
@@ -105,7 +106,7 @@
                         </div>
                         <span>или</span>
                         <div class="bt bt2">
-                            <a href="#" class="btn btn-single">Самостоятельно опубликуй<br>информацию о продукте</a>
+                            <a href="<?= Url::to(['/developer/registration']);?>" class="btn btn-single">Самостоятельно опубликуй<br>информацию о продукте</a>
                         </div>
                     </div>
                 </form>

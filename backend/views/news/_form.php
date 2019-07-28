@@ -20,25 +20,11 @@ use vova07\imperavi\Widget;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'body')->widget(Widget::className(), [
-        'settings' => [
-            // 'lang' => 'ru',
-            'minHeight' => 200,
-            'imageUpload' => Url::to(['/admin/news/image-upload']),
+    <?= $form->field($model, 'themes')->checkboxList(\common\models\ContentThemes::map()) ?>
 
-            'plugins' => [
-                'clips',
-                'fullscreen',
-                'imagemanager',
-            ],
-            'clips' => [
-                ['Lorem ipsum...', 'Lorem...'],
-                ['red', '<span class="label-red">red</span>'],
-                ['green', '<span class="label-green">green</span>'],
-                ['blue', '<span class="label-blue">blue</span>'],
-            ],
-        ],
-    ]) ?>
+
+    <textarea name="body"><?php echo $model->body;?></textarea>
+
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
@@ -47,3 +33,12 @@ use vova07\imperavi\Widget;
     <?php ActiveForm::end(); ?>
 
 </div>
+<?php
+$js = <<<JS
+
+        CKEDITOR.replace( 'body' );
+    
+JS;
+
+Yii::$app->view->registerJsFile('https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js');
+Yii::$app->view->registerJs($js, 4);

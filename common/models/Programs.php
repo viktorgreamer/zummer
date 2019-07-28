@@ -38,16 +38,27 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property double $price_to
  * @property string $prices
  * @property int $has_month_plan
+ * @property int $price_per_users
  * @property int $has_year_plan
  * @property int $has_free
  * @property int $has_trial
+ * @property int $price_plan
+ * @property int $support_free
+ * @property int $support_paid
+ * @property int $learning_free
+ * @property int $learning_paid
  * @property int $views
  * @property int $popularity
+ * @property string $demonstration
+ * @property string $users_count
+ * @property string $description_short
  * @property string $trial_link
  * @property string $prices_link
  * @property int $tariff
  * @property int $destination_id
+ * @property int $hide_price
  * @property string $dueDate
+ * @property string $phone
  * @property Developers $developer
  * @property Categories $category
  * @property Functions[] $functions
@@ -55,12 +66,22 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property Reviews[] $reviews
  * @property ProgramsImages[] $images
  * @property ProgramTags[] $tags
+ *
  */
+
 class Programs extends ActiveRecord
 {
+
+    public function formName()
+    {
+        return '';
+    }
+
     public $imageFiles;
+    public $imageAwardsFiles;
 
     public $imageUpload;
+
 
     public function createDirectoryIfNotExists($path)
     {
@@ -82,6 +103,10 @@ class Programs extends ActiveRecord
         return $this->tariff;
     }
 
+    public function getAwards()
+    {
+        return $this->hasMany(ProgramsAwardsImages::className(), ['program_id' => 'id']);
+    }
 
     public function uploadLogo()
     {
@@ -117,7 +142,8 @@ class Programs extends ActiveRecord
         ];
     }
 
-    public static function mapDestinations() {
+    public static function mapDestinations()
+    {
         return [
             1 => 'для Юристов',
             2 => 'для Транспорта',
@@ -128,7 +154,7 @@ class Programs extends ActiveRecord
         ];
     }
 
-    public static function main($limit = 5, $destination_id = null,$offset = null)
+    public static function main($limit = 5, $destination_id = null, $offset = null)
     {
         return self::find()->andWhere(['destination_id' => $destination_id])->cache(60)->offset($offset)->limit($limit)->all();
     }
@@ -145,7 +171,7 @@ class Programs extends ActiveRecord
 
     public static function toCompare()
     {
-        return self::find()->limit(3)->all();
+        return self::find()->where(['id' => Yii::$app->compareList->get()])->limit(10)->all();
     }
 
 
@@ -232,6 +258,8 @@ class Programs extends ActiveRecord
 
     public $learning_map = [];
     public $support_map = [];
+    public $demonstration_map = [];
+    public $users_count_map = [];
 
     /**
      * {@inheritdoc}
@@ -262,7 +290,6 @@ class Programs extends ActiveRecord
         return Yii::getAlias('@frontend') . "/web" . $this->getWebPath();
     }
 
-
     public function upload()
     {
         if ($this->validate()) {
@@ -276,10 +303,24 @@ class Programs extends ActiveRecord
                     $image = new ProgramsImages(['program_id' => $this->id]);
                     $image->priority = $key + 1 + $max_priority;
                     $image->src = $this->getWebPath() . $file->baseName . '.' . $file->extension;
-                    $image->save();
+                    if (!$image->save()) Yii::error($image->errors);
                     $file->saveAs($path . $file->baseName . '.' . $file->extension);
                 }
-            }
+            } ;
+
+            if ($this->imageAwardsFiles) {
+                $path = $this->getFilePath();
+                $this->createDirectoryIfNotExists($path);
+                $max_priority = ProgramsAwardsImages::find()->where(['program_id' => $this->id])->max('priority');
+                foreach ($this->imageAwardsFiles as $key => $file) {
+                    $image = new ProgramsAwardsImages(['program_id' => $this->id]);
+                    $image->priority = $key + 1 + $max_priority;
+                    $image->src = $this->getWebPath() . $file->baseName . '.' . $file->extension;
+                    if (!$image->save()) Yii::error($image->errors);
+                    $file->saveAs($path . $file->baseName . '.' . $file->extension);
+                }
+            } ;
+
 
             return true;
         } else {
@@ -300,7 +341,6 @@ class Programs extends ActiveRecord
 
     }
 
-
     public static function mapLearning()
     {
         return [
@@ -311,13 +351,36 @@ class Programs extends ActiveRecord
         ];
     }
 
+    public static function mapDemonstrations()
+    {
+        return [
+            1 => "Персонально с менеджером",
+            2 => "Самостоятельная",
+            3 => "Видеопрезентация"
+        ];
+    }
+
+
     public static function mapSupport()
     {
         return [
-            1 => "Email",
-            2 => "Chat",
-            3 => "Call",
-            4 => "Контактная форма"
+            1 => "24/7 (круглосуточная работа)",
+            2 => "Рабочее время",
+            3 => "Онлайн",
+            4 => "Отсутствует"
+        ];
+    }
+
+    public static function mapUsersCount()
+    {
+        return [
+            1 => '1',
+            2 => '2-9',
+            3 => '10-49',
+            4 => '50-99',
+            5 => '100-499',
+            6 => '500-999',
+            7 => '1000+'
         ];
     }
 
@@ -333,6 +396,8 @@ class Programs extends ActiveRecord
 
         $this->learning = Json::encode($this->learning_map);
         $this->support = Json::encode($this->support_map);
+        $this->demonstration = Json::encode($this->demonstration_map);
+        $this->users_count = Json::encode($this->users_count_map);
 
         return parent::beforeValidate();
     }
@@ -343,6 +408,10 @@ class Programs extends ActiveRecord
         if (is_integer($this->learning_map)) $this->learning_map = [$this->learning_map];
         $this->support_map = $this->support ? Json::decode($this->support, true) : [];
         if (is_integer($this->support_map)) $this->support_map = [$this->support_map];
+        $this->demonstration_map = $this->demonstration ? Json::decode($this->demonstration, true) : [];
+        if (is_integer($this->demonstration_map)) $this->demonstration = [$this->demonstration];
+        $this->users_count_map = $this->users_count ? Json::decode($this->users_count, true) : [];
+        if (is_integer($this->users_count_map)) $this->users_count_map = [$this->users_count_map];
         parent::afterFind();
     }
 
@@ -356,10 +425,14 @@ class Programs extends ActiveRecord
             [['destination', 'description', 'support', 'learning', 'prices', 'trial_link', 'logo', 'prices_link'], 'string'],
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
             [['status', 'created_at', 'updated_at', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial', 'category_id'], 'integer'],
-            [['views', 'popularity','destination_id'], 'integer'],
-            [['name', 'link', 'video_link'], 'string', 'max' => 256],
-            [['platforms', 'learning_map', 'functions', 'support_map'], 'safe'],
-            [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4]
+            [['views', 'popularity', 'destination_id', 'price_plan', 'support_free', 'support_paid', 'learning_free', 'learning_paid'], 'integer'],
+            [['hide_price','price_per_users'], 'integer'],
+            [['name', 'link', 'video_link','demonstration','users_count'], 'string', 'max' => 256],
+            [['description_short'], 'string', 'max' => 500],
+            [['platforms', 'learning_map', 'functions', 'support_map', 'demonstration_map', 'users_count_map'], 'safe'],
+            [['imageFiles'], 'image', 'skipOnEmpty' => true, 'maxSize' => 4,'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
+            [['imageAwardsFiles'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
+            ['phone','string']
         ];
     }
 
@@ -380,6 +453,8 @@ class Programs extends ActiveRecord
                     'platforms' => ['cascadeDelete' => true],
                     'images' => ['cascadeDelete' => true],
                     'functions' => ['cascadeDelete' => true],
+                    'tags' => ['cascadeDelete' => true],
+                    'awards' => ['cascadeDelete' => true],
                 ],
             ],
         ];

@@ -11,10 +11,16 @@ use yii\helpers\Url;
 class ContentNewsSearch extends ContentArticles
 {
 
+    public function formName()
+    {
+        return '';
+    }
+
     /**
      * @var $dataProvider ActiveDataProvider
      */
     public $dataProvider;
+    public $themes = [];
 
     /**
      * {@inheritdoc}
@@ -23,7 +29,7 @@ class ContentNewsSearch extends ContentArticles
     {
         return [
             [['id', 'category_id', 'created_at', 'updated_at', 'status', 'user_id'], 'integer'],
-            [['name', 'body'], 'safe'],
+            [['name', 'body','themes','page'], 'safe'],
         ];
     }
 
@@ -41,12 +47,16 @@ class ContentNewsSearch extends ContentArticles
      */
     public function getShowMore()
     {
-        if ($this->dataProvider->pagination->pageCount > ($page = $this->dataProvider->pagination->offset)) {
+        $page = $this->dataProvider->pagination->offset;
+        \Yii::error("PAGE COUNT=".$this->dataProvider->pagination->pageCount);
+        \Yii::error("PAGE OFFSET=".$this->dataProvider->pagination->offset);
+        \Yii::error("TOTAL COUNT=".$this->dataProvider->totalCount);
+
+        \Yii::error("PAGE =".$page);
+        if ($this->dataProvider->pagination->getPageCount() != 1 && $result = ($this->dataProvider->pagination->getPageCount() > $page)) {
 
             $url = Url::to(['/news/index-ajax', 'page' => ($page + 1)]);
-            \Yii::error($this->dataProvider->pagination->pageCount);
-            \Yii::error($this->dataProvider->pagination->offset);
-            \Yii::error($this->dataProvider->totalCount);
+            \Yii::error("RESULT =".$result);
             $html = <<<HTML
     <div class="see_more" value="$url">
     <a href="#" class="active"  class="see_more_link"> Смотреть еще <img alt = "" src = "/img/load.png"></a>
@@ -70,9 +80,9 @@ HTML;
     public function search($params)
     {
         $query = ContentNews::find();
+        $query->from(['news' => ContentNews::tableName()]);
 
-// add conditions that should always apply here
-
+        // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => ['pageSize' => 8]
@@ -80,12 +90,19 @@ HTML;
 
         $this->load($params);
 
-        if (!$this->validate()) {
-// uncomment the following line if you do not want to return any records when validation fails
-// $query->where('0=1');
-            return $this->dataProvider = $dataProvider;
+
+        if ($this->category_id) {
+            $query->andWhere(['news.category_id' => $this->category_id]);
+        }
+        if ($this->themes) {
+            $query->joinWith('themes as themes');
+            $query->andWhere(['in','themes.id', $this->themes]);
+            $query->orderBy('news.id');
         }
 
+        if (!$this->validate()) {
+            return $this->dataProvider = $dataProvider;
+        }
 
         return $this->dataProvider = $dataProvider;
     }
