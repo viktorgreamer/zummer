@@ -10,7 +10,7 @@ use common\models\Programs;
 /**
  * ProgramsSearch represents the model behind the search form of `common\models\Programs`.
  */
-class ProgramsSearch extends Programs
+class ProgramsSearch extends Model
 {
 
 
@@ -20,8 +20,15 @@ class ProgramsSearch extends Programs
     }
 
     public $query;
+    public $status;
+    public $category_id;
     public $platforms = [];
     public $functions = [];
+    public $has_month_plan;
+    public $has_year_plan;
+    public $has_free;
+    public $price_to;
+    public $price_from;
 
     /**
      * {@inheritdoc}
@@ -30,9 +37,8 @@ class ProgramsSearch extends Programs
     {
         return [
             [['query', 'platforms', 'functions', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial'], 'safe'],
-            [['id', 'status', 'developer_id', 'category_id',], 'integer'],
+            [['status','category_id','price_from','price_from'], 'integer'],
             [['name', 'link', 'video_link', 'destination', 'description', 'support', 'learning', 'prices', 'trial_link'], 'safe'],
-            [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
         ];
     }
 
@@ -64,10 +70,10 @@ class ProgramsSearch extends Programs
     {
         $query = Programs::find();
         $query->from(['p' => Programs::tableName()]);
-        $query->joinWith('platforms as platforms');
-        $query->joinWith('developer as developer');
+      //  $query->joinWith('platforms as platforms');
+      //  $query->joinWith('developer as developer');
         $query->joinWith('functions as functions');
-        $query->joinWith('category as cat');
+      //  $query->joinWith('category as cat');
         $query->joinWith('reviews as rev');
 
         $dataProvider = new ActiveDataProvider([
@@ -84,7 +90,10 @@ class ProgramsSearch extends Programs
 
         if ($this->status) $query->andWhere(['p.status' => $this->status]);
         // if ($this->developer_id) $query->andWhere(['p.developer_id' => $this->developer_id]);
-        if ($this->category_id) $query->andWhere(['p.category_id' => $this->category_id]);
+        if ($this->category_id) {
+            \Yii::error($this->category_id);
+            $query->andWhere(['p.category_id' => $this->category_id]);
+        }
 
         if ($this->has_free) $query->andWhere(['has_free' => 1]);
         if ($this->has_month_plan) $query->andWhere(['has_month_plan' => 1]);
@@ -98,12 +107,12 @@ class ProgramsSearch extends Programs
 
         ]);
 
-        if ($this->price_from) $query->orWhere(['OR',
+        if ($this->price_from) $query->andWhere(['OR',
             ['>=', 'p.price_from', $this->price_from],
             ['>=', 'p.price_to', $this->price_from]
         ]);
         else $this->price_from = Programs::find()->andFilterWhere(['category_id' => $this->category_id])->min('price_from');
-        if ($this->price_to) $query->orWhere(['OR',
+        if ($this->price_to) $query->andWhere(['OR',
             ['<=', 'p.price_to', $this->price_from],
             ['<=', 'p.price_to', $this->price_to]
         ]);

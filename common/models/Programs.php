@@ -49,6 +49,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property int $learning_paid
  * @property int $views
  * @property int $popularity
+ * @property int $relevance
  * @property string $demonstration
  * @property string $users_count
  * @property string $description_short
@@ -163,7 +164,7 @@ class Programs extends ActiveRecord
     {
         return self::find()
             ->andFilterWhere(['category_id' => $category_id])
-            ->orderBy(['popularity' => SORT_DESC])
+            ->orderBy(['relevance' => SORT_DESC])
             ->cache(60)
             ->limit($limit)
             ->all();
@@ -277,7 +278,7 @@ class Programs extends ActiveRecord
 
     public function getDemo($expand = '')
     {
-        return $this->has_trial ? $expand . $this->has_trial . " дней" : "нет";
+        return $this->has_trial ? "30 дней" : "нет";
     }
 
     public function getWebPath()
@@ -421,16 +422,17 @@ class Programs extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'link', 'destination', 'description', 'developer_id', 'category_id'], 'required'],
+            [['name', 'link', 'description', 'developer_id', 'category_id'], 'required'],
             [['destination', 'description', 'support', 'learning', 'prices', 'trial_link', 'logo', 'prices_link'], 'string'],
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
             [['status', 'created_at', 'updated_at', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial', 'category_id'], 'integer'],
-            [['views', 'popularity', 'destination_id', 'price_plan', 'support_free', 'support_paid', 'learning_free', 'learning_paid'], 'integer'],
+            [['views', 'popularity','relevance', 'destination_id', 'price_plan', 'support_free', 'support_paid', 'learning_free', 'learning_paid'], 'integer'],
             [['hide_price','price_per_users'], 'integer'],
             [['name', 'link', 'video_link','demonstration','users_count'], 'string', 'max' => 256],
             [['description_short'], 'string', 'max' => 500],
             [['platforms', 'learning_map', 'functions', 'support_map', 'demonstration_map', 'users_count_map'], 'safe'],
-            [['imageFiles'], 'image', 'skipOnEmpty' => true, 'maxSize' => 4,'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
+            [['imageFiles'], 'image', 'skipOnEmpty' => true,'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
+            [['imageUpload'], 'image', 'skipOnEmpty' => true,'extensions' => 'png, jpg, jpeg', 'maxFiles' => 1],
             [['imageAwardsFiles'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
             ['phone','string']
         ];

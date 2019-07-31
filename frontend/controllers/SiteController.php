@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use frontend\components\AuthHandler;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
+use frontend\modules\developer\models\ConsultationRequestForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
@@ -94,7 +95,11 @@ class SiteController extends Controller
      */
     public function actionDevelopers()
     {
-        return $this->render('developers');
+        $model = new ConsultationRequestForm();
+        if ($model->load(Yii::$app->request->post(),'') && $model->save()) {
+
+        }
+        return $this->render('developers',['model' => $model]);
     }
 
     /**

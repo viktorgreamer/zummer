@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\Programs;
+use frontend\models\CreateReviewForm;
 use Yii;
 use common\models\Reviews;
 use frontend\models\ReviewsSearch;
@@ -62,16 +64,17 @@ class ReviewsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
-        $model = new Reviews();
+        $program = Programs::findOne($id);
+        $model = new CreateReviewForm(['program_id' => $id]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post(),'') && $model->save()) {
+            $model = new CreateReviewForm(['program_id' => $id]);
         }
-
         return $this->render('create', [
             'model' => $model,
+            'program' => $program
         ]);
     }
 

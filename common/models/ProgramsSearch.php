@@ -9,12 +9,23 @@ use common\models\Programs;
 /**
  * ProgramsSearch represents the model behind the search form of `common\models\Programs`.
  */
-class ProgramsSearch extends Programs
+class ProgramsSearch extends Model
 {
 
     public $query;
+    public $id;
     public $platforms;
     public $functions;
+    public $developer_id;
+    public $category_id;
+    public $status;
+    public $price_from;
+    public $price_to;
+    public $has_month_plan;
+    public $has_free;
+    public $has_year_plan;
+    public $has_trial;
+
 
     /**
      * {@inheritdoc}
@@ -23,9 +34,9 @@ class ProgramsSearch extends Programs
     {
         return [
             [['query', 'platforms', 'functions'], 'safe'],
-            [['id', 'status', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial'], 'integer'],
-            [['name', 'link', 'video_link', 'destination', 'description', 'support', 'learning', 'prices', 'trial_link'], 'safe'],
-            [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
+            [['id', 'status', 'developer_id','category_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial'], 'integer'],
+            [['name', 'link', 'support', 'learning', 'prices', 'trial_link'], 'safe'],
+            [['price_from', 'price_to'], 'number'],
         ];
     }
 
@@ -37,6 +48,8 @@ class ProgramsSearch extends Programs
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+
+
 
     /**
      * Creates data provider instance with search query applied
@@ -68,7 +81,9 @@ class ProgramsSearch extends Programs
         }
 
         if ($this->status) $query->andWhere(['p.status' => $this->status]);
+        if ($this->id) $query->andWhere(['p.id' => $this->id]);
         if ($this->developer_id) $query->andWhere(['p.developer_id' => $this->developer_id]);
+        if ($this->category_id) $query->andWhere(['p.category_id' => $this->category_id]);
 
         if ($this->query) $query->andWhere(['OR',
             ['like', 'p.name', $this->query],

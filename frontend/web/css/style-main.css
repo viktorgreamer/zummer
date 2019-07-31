@@ -24,6 +24,11 @@ body{
 	font-family: "Arial";
 	
 }
+
+body.home header{
+	margin-bottom: 0px;
+}
+
 button, a{
 	outline: none !important;
 	-webkit-transition: all 1s ease;

@@ -1,10 +1,10 @@
 <?php
-
-/* @var $this yii\web\View */
-/* @var $model common\models\Reviews */
-
-$this->title = 'Написать отзыв';
+/** @var \yii\web\View $this */
+/** @var \common\models\Programs $program */
+/** @var  \frontend\models\CreateReviewForm $model */
+$this->title = 'Написать отзыв o '.$program->name;
 
 echo $this->render('_form', [
-    'model' => $model
+    'model' => $model,
+    'program' => $program
 ]);

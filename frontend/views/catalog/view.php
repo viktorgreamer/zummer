@@ -85,7 +85,7 @@ use yii\helpers\Url; ?>
                                                     <span data-star="1"></span>
                                                 </div>
                                                 <div class="num"><?= $program->rating; ?> (<a
-                                                            href="<?= Url::to(['programs/view', 'id' => $program->id]); ?>"><?= $program->getReviews()->count(); ?>
+                                                            href="<?= Url::to(['catalog/view', 'id' => $program->id]); ?>"><?= $program->getReviews()->count(); ?>
                                                         отзывов</a>)
                                                 </div>
                                             </div>
@@ -156,7 +156,7 @@ use yii\helpers\Url; ?>
                     <? if (($model->awards)) { ?>
                         <div class="awards">
                             <?php /** @var \common\models\ProgramsAwardsImages $award */
-                            foreach ($model->developer->awards as $award) { ?>
+                            foreach ($model->awards as $award) { ?>
                                 <img alt="<?= $award->description; ?>" src="<?= $award->src; ?> "
                                      title="<?= $award->description; ?>">
                             <? } ?>

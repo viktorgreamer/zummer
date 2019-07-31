@@ -13,7 +13,7 @@ class m190727_073739_remane_program_awards extends Migration
     public function safeUp()
     {
 
-        // add foreign key for table `{{%functions}}`
+      /*  // add foreign key for table `{{%functions}}`
         $this->dropForeignKey(
             'fk-developer_id',
             '{{%developers_awards_images}}'
@@ -21,10 +21,10 @@ class m190727_073739_remane_program_awards extends Migration
 
 
         $this->renameTable('{{%developers_awards_images}}', '{{%programs_awards_images}}');
-        $this->renameColumn('{{%programs_awards_images}}', 'developer_id', 'program_id');
+        $this->renameColumn('{{%programs_awards_images}}', 'developer_id', 'program_id');*/
 
 
-        // add foreign key for table `{{%functions}}`
+       /* // add foreign key for table `{{%functions}}`
         $this->addForeignKey(
             'fk-programs_awards_images-program_id',
             '{{%programs_awards_images}}',
@@ -32,7 +32,7 @@ class m190727_073739_remane_program_awards extends Migration
             '{{%programs}}',
             'id',
             'CASCADE'
-        );
+        );*/
 
 
     }

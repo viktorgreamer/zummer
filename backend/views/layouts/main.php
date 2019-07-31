@@ -42,7 +42,6 @@ AppAsset::register($this);
 
         ['label' => 'Functions', 'url' => ['/functions/index']],
         ['label' => 'Platforms', 'url' => ['/platforms/index']],
-        ['label' => 'Reviews', 'url' => ['/reviews/index']],
 
         [
             'label' => 'Контент',
@@ -58,10 +57,19 @@ AppAsset::register($this);
         [
             'label' => ' Программы',
             'items' => [
+                ['label' => 'Разработчики', 'url' => ['/developers/index']],
                 ['label' => 'Programs', 'url' => ['/programs/index']],
                 ['label' => 'Категории', 'url' => ['/categories/index']],
                 ['label' => 'Индустрии', 'url' => ['/category-industries/index']],
 
+            ],
+        ],
+        [
+            'label' => ' Администрирование',
+            'items' => [
+                ['label' => 'Reviews', 'url' => ['/reviews/index']],
+                ['label' => 'Запросы', 'url' => ['/requests/index']],
+                ['label' => 'Тарифы', 'url' => ['/tariffs/index']],
             ],
         ],
 

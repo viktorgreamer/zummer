@@ -5,11 +5,13 @@
 /* @var $content string */
 
 use common\widgets\Alert;
+use frontend\assets\PageAsset;
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
-use yii\helpers\Url;
 
 AppAsset::register($this);
+Yii::error(Yii::$app->controller->route);
+if (Yii::$app->controller->route != 'site/index') PageAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

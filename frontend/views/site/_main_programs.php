@@ -13,7 +13,7 @@ use yii\helpers\Url;
                 <div id="destination_id_<?= $destination_id; ?>" class="programs_for container" style="<?= $style; ?>">
                     <?php echo $this->render('_destination_program_row_tab',['programs' => $programs]);?>
                    <?php if (Programs::find()->where(['destination_id' => $destination_id])->cache(60)->count() > 4) { ?>
-                    <div class="see_more" data-destination_id="<?= $destination_id; ?>" value="<?= Url::to(['programs/popular-ajax','destination_id' => $destination_id, 'offset' => 4]);?>">
+                    <div class="see_more" data-destination_id="<?= $destination_id; ?>" value="<?= Url::to(['catalog/popular-ajax','destination_id' => $destination_id, 'offset' => 4]);?>">
                         <a href="" class="active">Смотреть еще <img alt="" src="/img/load.png"></a>
                     </div>
                    <? } ?>

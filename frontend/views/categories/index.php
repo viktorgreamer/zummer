@@ -59,7 +59,7 @@ use yii\helpers\Url;
                 </div>
                 <div class="tabs">
                     <?
-                    if ($dataProvider->getModels() && $categoryTypes = ArrayHelper::getColumn($dataProvider->getModels(), 'industry_id')) {
+                    if ($dataProvider->getModels() && $categoryTypes = array_unique(ArrayHelper::getColumn($dataProvider->getModels(), 'industry_id'))) {
                         foreach ($categoryTypes as $categoryType) { ?>
                             <div class="tab">
 

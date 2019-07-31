@@ -52,6 +52,7 @@ return [
                 'developer/logout' => 'developer/default/logout',
                 'developer/login' => 'developer/default/login',
                 'developer/registration' => 'developer/default/registration',
+                'developer/reviews' => 'developer/default/reviews',
             ],
         ],
 

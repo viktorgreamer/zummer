@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Categories;
 use common\models\Developers;
 use common\models\Functions;
 use common\models\Platforms;
@@ -31,6 +32,7 @@ use yii\widgets\ActiveForm;
 
         <div class="col-lg-2">
             <?php echo $form->field($model, 'developer_id')->dropDownList([null => ''] + Developers::map()) ?>
+            <?php echo $form->field($model, 'category_id')->dropDownList([null => ''] + Categories::map()) ?>
         </div>
         <div class="col-lg-3">
             <?php echo $form->field($model, 'price_from')->textInput() ?>

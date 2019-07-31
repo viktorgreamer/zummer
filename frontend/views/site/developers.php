@@ -1,7 +1,9 @@
 <?php
 
 /** @var \yii\web\View $this */
+/** @var \frontend\modules\developer\models\ConsultationRequestForm $model */
 
+use yii\helpers\Html;
 use yii\helpers\Url; ?>
 
 
@@ -82,23 +84,27 @@ use yii\helpers\Url; ?>
                 <p class="titl">Узнайте больше о рекламных возможностях «ZUMMER»</p>
                 <p class="podp">Получите консультацию, как начать эффективную маркейтинговую кампанию с оптимальным
                     бюджетом.</p>
+                <?php if ($model->isOk) { ?>
+                <span class="alert alert-success">Ваш запрос успешно отправлен.</span>
+                <? } ?>
+                <form method="post">
+                    <?php echo Html::hiddenInput(\Yii::$app->getRequest()->csrfParam, \Yii::$app->getRequest()->getCsrfToken(), []); ?>
 
-                <form>
                     <div class="form-group d-none d-md-block">
                         <div class="tab">
-                            <input type="text" name="firstname" placeholder="Имя">
-                            <input type="text" name="lastname" placeholder="Фамилия">
-                            <input type="text" name="phone" placeholder="Номер телефона">
+                            <input type="text" name="first_name" placeholder="Имя" value="<?= $model->first_name;?>">
+                            <input type="text" name="last_name" placeholder="Фамилия" value="<?= $model->last_name;?>">
+                            <input type="text" name="phone" placeholder="Номер телефона" value="<?= $model->phone;?>">
                         </div>
                         <div class="tab">
-                            <input type="text" name="email" placeholder="E-mail">
-                            <input type="text" name="programa" placeholder="Отрасль программы">
-                            <input type="text" name="site" placeholder="Веб-сайт">
+                            <input type="text" name="email" placeholder="E-mail" value="<?= $model->first_name;?>">
+                            <input type="text" name="program_industry" placeholder="Отрасль программы" value="<?= $model->program_industry;?>">
+                            <input type="text" name="site" placeholder="Веб-сайт" value="<?= $model->site;?>">
                         </div>
                     </div>
                     <div class="btns">
                         <div class="bt bt1">
-                            <button type="button" class="btn btn-green bnt-more d-none d-md-block">получить
+                            <button type="submit" class="btn btn-green bnt-more d-none d-md-block">получить
                                 консультацию
                             </button>
                             <a href="#" class="btn btn-green bnt-more d-md-none" data-toggle="modal"
@@ -194,6 +200,27 @@ use yii\helpers\Url; ?>
                     <a href="#" class="btn btn-green btn-more" data-toggle="modal" data-target="#advice">Получить
                         консультацию</a>
                 </div>
+
+                <br>
+                <br>
+                <? if (Yii::$app->user->isGuest) { ?>
+                <div class="bt">
+                    <a href="<?= Url::to(['/developer/login']);?>" class="btn btn-green btn-more"</a>
+                </div>
+                <? } ?>
+
+                <? if (Yii::$app->user->identity && (Yii::$app->user->identity->developer)) { ?>
+                    <div class="bt">
+                        <a href="<?= Url::to(['/developer']);?>" class="btn btn-green btn-more">Личный кабинет</a>
+                    </div>
+                <? } ?>
+
+
+
+
+
+
+
             </div>
         </div>
 
@@ -317,37 +344,37 @@ use yii\helpers\Url; ?>
                 <p class="modal-title">Консультация специалиста</p>
                 <p class="podp">Расскажите несколько слов о себе, чтобы мы быстрее смогли Вам помочь.</p>
 
-                <form id="advice_form">
+                <form id="advice_form" method="post" >
+                    <?php echo Html::hiddenInput(\Yii::$app->getRequest()->csrfParam, \Yii::$app->getRequest()->getCsrfToken(), []); ?>
                     <div class="form-group">
                         <label>
                             Ваше имя
-                            <input type="text" name="name" class="form-control"
+                            <input type="text" name="first_name" class="form-control" value="<?= $model->first_name;?>"
                                    placeholder="Пожалуйста представьтесь *">
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
                             Электронная почта
-                            <input type="text" name="email" class="form-control email"
+                            <input type="text" name="email" class="form-control email"  value="<?= $model->email;?>"
                                    placeholder="Введите email для связи *">
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
                             Телефон
-                            <input type="text" name="phone" class="form-control" placeholder="Введите номер телефона *">
+                            <input type="text" name="phone" class="form-control" placeholder="Введите номер телефона *"  value="<?= $model->phone;?>">
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
                             Комментарий
-                            <textarea name="message" class="form-control"
+                            <textarea name="body" class="form-control"
                                       placeholder="Ваше сообщение или вопросы"></textarea>
                         </label>
                     </div>
                     <div class="bt">
-                        <button type="button" class="btn btn-green btn-more"
-                                onclick="send('advice_form', 'mail.php'); checkEmail();">Получить консультацию
+                        <button type="submit" class="btn btn-green btn-more">Получить консультацию
                         </button>
                     </div>
                     <div class="politic">

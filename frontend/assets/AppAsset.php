@@ -57,9 +57,9 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/bootstrap.min.css',
+        'css/style-page.css',
         'css/style-all.css',
         'css/style-main.css',
-        'css/style-page.css',
      //   'css/style-admin.css',
         'css/owl.carousel.min.css',
         'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css',

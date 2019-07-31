@@ -43,9 +43,13 @@ use yii\helpers\Url;
                             <a href="<?= Url::to('/developer/programs/create'); ?>" class="btn bnt-price"><span>+</span>
                                 Добавить продукт</a>
                         </div>
-                        <div class="bt">
-                            <a href="#" class="btn bnt-price">Обновить до максимум</a>
-                        </div>
+
+                        <? if ($model->id && !$model->tariff) { ?>
+                            <div class="bt">
+                                <a href="<?= Url::to(['/developer/programs/paid', 'id' => $model->id]); ?>"
+                                   class="btn bnt-price">Обновить до максимум</a>
+                            </div>
+                        <? } ?>
                     </div>
                 </div>
                 <div class="inform_bl row" role="tabpanel">

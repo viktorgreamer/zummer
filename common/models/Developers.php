@@ -29,6 +29,7 @@ use yii\web\UploadedFile;
  * @property double $foundation_year
  * @property Profile $profile
  * @property UploadedFile $imageUpload
+ * @property Reviews $reviews
  */
 class Developers extends ActiveRecord
 {
@@ -61,7 +62,6 @@ class Developers extends ActiveRecord
     }
 
 
-
     public function upload()
     {
 
@@ -70,14 +70,14 @@ class Developers extends ActiveRecord
         if ($this->validate()) {
             $path = $this->getFilePath();
             if ($this->createDirectoryIfNotExists($path)) {
-                Yii::error( $this->logo);
+                Yii::error($this->logo);
                 $this->imageUpload->saveAs($path . "logo" . '.' . $this->imageUpload->extension);
                 return true;
             }
 
 
         } else {
-         Yii::error(" NOT VALIDATED");
+            Yii::error(" NOT VALIDATED");
             return false;
         }
     }
@@ -172,6 +172,19 @@ class Developers extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return Reviews[]
+     */
+    public function getReviews()
+    {
+        return Reviews::find()->where(
+            [
+                'program_id' => $this->getPrograms()
+                    ->select('id')
+                    ->column()
+            ])->all();
     }
 
 

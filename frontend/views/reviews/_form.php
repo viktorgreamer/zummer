@@ -1,5 +1,10 @@
 <?php
-?>
+
+/** @var \yii\web\View $this */
+/** @var \common\models\Programs $program */
+/** @var  \frontend\models\CreateReviewForm $model */
+
+use yii\helpers\Html; ?>
 
 
     <div class="content container">
@@ -15,32 +20,33 @@
 
         <div class="main">
             <div class="title_bl">
-                <h1 class="title">Написать отзыв о «Nextal»</h1>
+                <h1 class="title">Написать отзыв о «<?= $program->name;?>»</h1>
                 <p>Покупатели программ нуждаются в вашей помощи! Отзывы о продукте помогают другим принимать правильные
-                    решения. Не уверены как написать отзыв? Следуйте <a href="#" target="_blank">рекоммендациям</a></p>
+                    решения. Не уверены как написать отзыв? <!--Следуйте <a href="#" target="_blank">рекоммендациям</a></p>-->
             </div>
 
             <div class="login_mob d-md-none">
                 <p>Авторизоваться</p>
-                <a class="twitter" href="#"><img alt="" src="/img/icons/ico-tv.png"></a>
-                <a href="#"><img alt="" src="/img/icons/ico-vk.png"></a>
-                <a href="#"><img alt="" src="/img/icons/ico-fb.png"></a>
-                <a href="#"><img alt="" src="/img/icons/ico-inst.png"></a>
-                <a href="#"><img alt="" src="/img/icons/ico-ok.png"></a>
+                <a href="/site/auth?authclient=vkontakte"><img alt="" src="/img/icons/ico-vk_w.png"></a>
+                <a href="/site/auth?authclient=google"><img alt="" src="/img/icons/ico-fb_w.png"></a>
+                <a href="/site/auth?authclient=facebook"><img alt="" src="/img/icons/ico-fb_w.png"></a>
             </div>
 
 
             <div class="review_form">
-                <form id="review_form">
+                <form id="review_form" method="post">
                     <div class="tab tab1">
                         <p class="title">Представьтесь, пожалуйста</p>
+                        <?php echo Html::hiddenInput(\Yii::$app->getRequest()->csrfParam,\Yii::$app->getRequest()->getCsrfToken(),[]); ?>
+
                         <div class="form-group d-md-flex flex-wrap justify-content-center">
-                            <input type="text" name="firstName" placeholder="Ваше имя *">
-                            <input type="text" name="lastName" placeholder="Фамилия *">
-                            <input type="text" name="industryPr" placeholder="Отрасль вашего бизнеса">
-                            <input type="text" name="position" placeholder="Должность *">
-                            <input type="text" name="email" placeholder="E-mail *">
-                            <input type="text" name="time" placeholder="Как долго пользуетесь? *">
+                            <input type="hidden" name="program_id" value="<?= $model->program_id;?>">
+                            <input type="text" name="first_name" placeholder="Ваше имя *" value="<?= $model->first_name;?>">
+                            <input type="text" name="last_name" placeholder="Фамилия *" value="<?= $model->last_name;?>">
+                            <input type="text" name="industry" placeholder="Отрасль вашего бизнеса" value="<?= $model->industry;?>">
+                            <input type="text" name="position" placeholder="Должность *" value="<?= $model->position;?>">
+                            <input type="text" name="email" placeholder="E-mail *" value="<?= $model->email;?>">
+                            <input type="text" name="using_time" placeholder="Как долго пользуетесь? *" value="<?= $model->using_time;?>">
                         </div>
                         <div class="nav_panel">
                             <p class="num_page"><span id="review_page">1</span>/2</p>
@@ -59,7 +65,7 @@
                                                                   data-placement="top"
                                                                   title="Отзывы о продукте помогают другим принимать правильные решения">
                                 </p>
-                                <div class="rating2" id="allRating">
+                                <div class="rating2" id="rating_common">
                                     <span data-star="5"></span>
                                     <span data-star="4"></span>
                                     <span data-star="3"></span>
@@ -72,7 +78,7 @@
                                                               data-placement="top"
                                                               title="Отзывы о продукте помогают другим принимать правильные решения">
                                 </p>
-                                <div class="rating2" id="convenienceRating">
+                                <div class="rating2" id="rating_convenience">
                                     <span data-star="5"></span>
                                     <span data-star="4"></span>
                                     <span data-star="3"></span>
@@ -85,7 +91,7 @@
                                                                 data-placement="top"
                                                                 title="Отзывы о продукте помогают другим принимать правильные решения">
                                 </p>
-                                <div class="rating2" id="functionRating">
+                                <div class="rating2" id="rating_functions">
                                     <span data-star="5"></span>
                                     <span data-star="4"></span>
                                     <span data-star="3"></span>
@@ -98,7 +104,7 @@
                                                                       data-toggle="tooltip" data-placement="top"
                                                                       title="Отзывы о продукте помогают другим принимать правильные решения">
                                 </p>
-                                <div class="rating2" id="supportRating">
+                                <div class="rating2" id="rating_support">
                                     <span data-star="5"></span>
                                     <span data-star="4"></span>
                                     <span data-star="3"></span>
@@ -108,10 +114,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea name="virtues" placeholder="Достоинства, что вам понравилось?"></textarea>
-                            <textarea name="disadvantages"
-                                      placeholder="Недостатки, что не оправдло ваши ожидания?"></textarea>
-                            <textarea name="impressions" placeholder="Общие впечатления"></textarea>
+                            <textarea name="pluses" placeholder="Достоинства, что вам понравилось?"><?= $model->pluses;?></textarea>
+                            <textarea name="minuses"
+                                      placeholder="Недостатки, что не оправдало ваши ожидания?"><?= $model->minuses;?></textarea>
+                            <textarea name="common" placeholder="Общие впечатления"><?= $model->common;?></textarea>
                         </div>
                         <div class="nav_panel">
                             <p class="num_page">2/2</p>
@@ -123,10 +129,10 @@
                     </div>
 
 
-                    <input type="hidden" name="allRating" value="0">
-                    <input type="hidden" name="convenienceRating" value="0">
-                    <input type="hidden" name="functionRating" value="0">
-                    <input type="hidden" name="supportRating" value="0">
+                    <input type="hidden" name="rating_common" value="<?= $model->rating_common;?>">
+                    <input type="hidden" name="rating_convenience" value="<?= $model->rating_convenience;?>">
+                    <input type="hidden" name="rating_functions" value="<?= $model->rating_functions;?>">
+                    <input type="hidden" name="rating_support"  value="<?= $model->rating_support;?>">
 
                 </form>
             </div>

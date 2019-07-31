@@ -17,7 +17,7 @@ use yii\helpers\Url;
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Главная</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Личный кабинет</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="<?= Url::to(['/developer']);?>">Личный кабинет</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Профиль</li>
                     </ol>
                 </nav>
@@ -155,30 +155,6 @@ use yii\helpers\Url;
                     </form>
                 </div>
 
-                <div class="row_forms">
-                    <form method="post" action="<?= Url::to(['/developer/profile/update-awards', 'id' => $model->id]); ?>">
-                        <? echo Html::hiddenInput(\Yii::$app->getRequest()->csrfParam, \Yii::$app->getRequest()->getCsrfToken(), []); ?>
-                        <p class="title">Награды</p>
-                        <div class="tab">
-                            <div class="row">
-
-                            </div>
-                            <label>
-                                <span>Описание:</span>
-                                <input type="text" name="DevelopersAwardsImages[description]" placeholder="Описание"
-                                       value="<?= $user->first_name; ?>">
-                            </label>
-                            <label>
-                                <span>Фамилия:</span>
-                                <input type="text" name="DevelopersAwardsImages[last_name]" placeholder="Фамилия"
-                                       value="<?= $user->last_name; ?>">
-                            </label>
-                        </div>
-                        <div class="bt">
-                            <button type="submit" class="btn btn-green bnt-more"></button>
-                        </div>
-                    </form>
-                </div>
 
             </div>
         </div>

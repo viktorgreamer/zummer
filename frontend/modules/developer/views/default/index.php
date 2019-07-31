@@ -61,7 +61,7 @@ use yii\helpers\Url;
                                     <th>Категория</th>
                                     <th>Просмотры</th>
                                 </tr>
-                                <?php if ($programs = $model->getPrograms()->andWhere(['status' => Programs::STATUS_ACTIVE])->all()) { ?>
+                                <?php if ($programs = $model->getPrograms()->all()) { ?>
                                 <? /** @var Programs $program */
                                 foreach ($programs as $program) { ?>
                                 <tr>
@@ -71,15 +71,15 @@ use yii\helpers\Url;
                                     </td>
                                     <td>
                                         <p class="titl">Программа</p>
-                                       <?= $program->name;?>
+                                        <a href="<?= Url::to(['/developer/programs/view','id' => $program->id]);?>">  <?= $program->name;?></a>
                                     </td>
                                     <td>
                                         <p class="titl">Категория</p>
-                                        <a href="#"><?php echo $program->category->name;?></a>
+                                        <a href="<?= Url::to(['/developer/programs/view','id' => $program->id]);?>"><?php echo $program->category->name;?></a>
                                     </td>
                                     <td>
                                         <p class="titl">Просмотры</p>
-                                        <img alt="" class="view" src="img/view.png"> <?= $program->views; ?>
+                                        <img alt="" class="view" src="img/view.png"> <?= $program->popularity; ?>
                                     </td>
                                 </tr>
                                 <? } ?>

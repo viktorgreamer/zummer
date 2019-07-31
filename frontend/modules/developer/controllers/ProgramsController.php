@@ -4,6 +4,7 @@ namespace app\modules\developer\controllers;
 
 use common\models\ProgramsAwardsImages;
 use common\models\ProgramsImages;
+
 use Yii;
 use common\models\Programs;
 use frontend\modules\developer\models\ProgramsSearch;
@@ -42,14 +43,14 @@ class ProgramsController extends Controller
             $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
             if ($model->uploadLogo()) {
                 if ($model->save(false)) {
-                    return $this->redirect(['index']);
+                    return $this->goBack();
                 }
-                return $this->redirect(['index']);
+                return $this->goBack();
             }
 
 
         } else throw new HttpException('Что-то пошло не так.');
-        return $this->redirect(['index']);
+        return $this->goBack();
 
     }
 
@@ -79,6 +80,16 @@ class ProgramsController extends Controller
     {
         return $this->render('update', [
             'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionPaid($id)
+    {
+        $model = $this->findModel($id);
+        $model->tariff = 1;
+        $model->update();
+        return $this->render('update', [
+            'model' => $model,
         ]);
     }
 

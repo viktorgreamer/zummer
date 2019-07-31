@@ -53,19 +53,19 @@ use yii\helpers\Url;
                             <div class="input collapse show" id="pricing">
                                 <label>
                                     <input type="checkbox" <? if ($searchModel->has_free) echo "checked"; ?>
-                                           name="has_free" class="checkbox d-none">
+                                           name="has_free" class="checkbox d-none" value="1">
                                     <span class="checkbox__text">Бесплатная версия</span>
                                 </label>
                                 <label>
                                     <input type="checkbox"
                                            name="has_month_plan" <? if ($searchModel->has_month_plan) echo "checked"; ?>
-                                           class="checkbox d-none">
+                                           class="checkbox d-none" value="1">
                                     <span class="checkbox__text">Месячная подписка</span>
                                 </label>
                                 <label>
                                     <input type="checkbox"
                                            name="has_year_plan" <? if ($searchModel->has_year_plan) echo "checked"; ?>
-                                           class="checkbox d-none">
+                                           class="checkbox d-none" value="1">
                                     <span class="checkbox__text">Годовая подписка</span>
                                 </label>
                             </div>

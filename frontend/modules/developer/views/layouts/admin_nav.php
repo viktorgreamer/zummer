@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Url;
 
+$route = \Yii::$app->controller->route;
+Yii::error($route);
 ?>
 
 
@@ -9,7 +11,7 @@ use yii\helpers\Url;
     <div class="col-lg-6 col-xl-6 btns">
         <div class="row">
             <div class="col-6">
-                <a class="tab active" href="<?= Url::to(['/developer/profile']);?>">
+                <a class="tab <?= $route=='developer/default/index'?"active":'';?>" href="<?= Url::to(['/developer']);?>">
                     <div class="ico">
                         <img alt="" src="/img/icons/ico-cabinet.png">
                         <img alt="" class="active" src="/img/icons/ico-cabinet_hov.png">
@@ -18,25 +20,25 @@ use yii\helpers\Url;
                 </a>
             </div>
             <div class="col-6">
-                <a class="tab" href="#">
+                <a class="tab <?= ($route=='developer/programs/create')||($route=='developer/programs/update')||($route=='developer/programs/view')?"active":'';?> " href="<?= Url::to(['/developer/programs/create']);?>">
                     <div class="ico">
                         <img alt="" src="/img/icons/ico-ads.png">
                         <img alt="" class="active" src="/img/icons/ico-ads_hov.png">
                     </div>
-                    <span>Ваши <br>объявления <i></i></span>
+                    <span>Создать <br>объявление <i></i></span>
                 </a>
             </div>
             <div class="col-6">
-                <a class="tab" href="#">
+                <a class="tab <?= $route=='developer/profile/index'?"active":'';?>"   href="<?= Url::to(['/developer/profile/index']);?>">
                     <div class="ico">
                         <img alt="" src="/img/icons/ico-vallet.png">
                         <img alt="" class="active" src="/img/icons/ico-vallet_hov.png">
                     </div>
-                    <span>Денежный <br>счет <i></i></span>
+                    <span>Статистика <i></i></span>
                 </a>
             </div>
             <div class="col-6">
-                <a class="tab" href="#">
+                <a class="tab <?= $route=='developer/default/reviews'?"active":'';?>" href="<?= Url::to(['/developer/reviews']);?>">
                     <div class="ico">
                         <img alt="" src="/img/icons/ico-review.png">
                         <img alt="" class="active" src="/img/icons/ico-review_hov.png">

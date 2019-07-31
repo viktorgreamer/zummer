@@ -9,9 +9,7 @@ use yii\widgets\ListView;
 /* @var $searchModel common\models\ProgramsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Programs';
-$this->params['breadcrumbs'][] = $this->title;
-
+$this->title = 'Каталог';
 ?>
 
     <div class="content container">
@@ -38,7 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="sort">
                         Сортировать по:
                         <select id="programs-sort-by">
-                            <option selected value="popularity">по популярности</option>
+                            <option selected value="relevance">по релевантности</option>
+                            <option value="popularity">по популярности</option>
                             <option value="price_from">по цене</option>
                             <option value="rating">по рейтингу</option>
                         </select>

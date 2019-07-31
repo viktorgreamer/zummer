@@ -14,7 +14,7 @@ use yii\helpers\Url;
         <div class="<?= Programs::colClasses()[$key]; ?>">
             <div class="tab">
                 <div class="img">
-                    <a href="#"><img alt="" src="<?= $program->getLogo(); ?>"></a>
+                    <a href="<?= Url::to(['catalog/view','id' => $program->id]);?>"><img alt="" src="<?= $program->getLogo(); ?>"></a>
                 </div>
                 <div class="rating">
                     <div class="stars">
@@ -40,7 +40,7 @@ use yii\helpers\Url;
                     </div>
                 <? } ?>
                 <div class="bt">
-                    <a href="<?= Url::to(['programs/view', 'id' => $program->id]); ?>"
+                    <a href="<?= Url::to(['catalog/view', 'id' => $program->id]); ?>"
                        class="btn btn-green bnt-more">Подробнее <img alt=""
                                                                      src="/img/arrow-btn.png"></a>
                 </div>

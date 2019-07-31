@@ -1,9 +1,10 @@
 <?php
 
 use common\models\Categories;
+use common\models\Programs;
 use yii\helpers\Html;
 use yii\helpers\Url;
-/** @var \common\models\Programs $model */
+/** @var Programs $model */
 
 ?>
 
@@ -46,6 +47,10 @@ use yii\helpers\Url;
                         <label class="url input">
                             <h5>Основная категория</h5>
                             <?= Html::dropDownList( 'category_id',$model->category_id, Categories::map()); ?>
+                        </label>
+                        <label class="url input">
+                            <h5>Назначение</h5>
+                            <?= Html::dropDownList( 'destination_id',$model->destination_id, Programs::mapDestinations()); ?>
                         </label>
 
                         <h4>Информация о продукте по умолчанию</h4>

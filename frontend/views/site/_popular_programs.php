@@ -3,7 +3,7 @@ use common\models\Programs;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-if ($programs = Programs::getPopular(4)) { ?>
+if ($programs = Programs::getPopular(3)) { ?>
     <div class="programs_popul container">
         <div class="title_bl">
             <p class="title">Популярные программы</p>
@@ -16,7 +16,7 @@ if ($programs = Programs::getPopular(4)) { ?>
                         <div class="col-md-4 col-lg-3 img">
                             <div class="tab d-flex">
                                 <div class="popular">Популярная <span></span></div>
-                                <a href="#" class="align-self-center"><img alt="" class="" src="<?= $program->getLogo(); ?>"></a>
+                                <a href="<?= Url::to(['catalog/view','id' => $program->id]);?>" class="align-self-center"><img alt="" class="" src="<?= $program->getLogo(); ?>"></a>
                                 <div class="compare add">
                                     <a href="#"><i>+</i> сравнить <span></span></a>
                                 </div>
@@ -49,7 +49,7 @@ if ($programs = Programs::getPopular(4)) { ?>
                                 </div>
                                 <div class="col-lg-4 col-xl-3 buttons d-lg-flex align-content-center flex-wrap">
                                     <div class="bt">
-                                        <a href="<?= Url::to(['programs/view', 'id' => $program->id]); ?>" class="btn btn-green bnt-more">Подробнее <img alt="" src="/img/arrow-btn.png"></a>
+                                        <a href="<?= Url::to(['catalog/view', 'id' => $program->id]); ?>" class="btn btn-green bnt-more">Подробнее <img alt="" src="/img/arrow-btn.png"></a>
                                     </div>
                                     <div class="bt">
                                         <a href="#" class="btn bnt-price">Цены</a>
