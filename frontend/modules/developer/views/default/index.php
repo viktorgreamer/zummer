@@ -4,6 +4,7 @@ use common\models\Programs;
 use yii\helpers\Url;
 /** @var \yii\web\View $this */
 /** @var \common\models\Developers $model */
+$this->title = 'Личный кабинет';
 ?>
 
 <div class="content">
@@ -18,7 +19,6 @@ use yii\helpers\Url;
         </div>
         <div class="main">
             <?= $this->render('../layouts/admin_nav');?>
-
 
             <div class="row2 row row_admin">
                 <div class="col-lg-4 order-md-2 info_profile">

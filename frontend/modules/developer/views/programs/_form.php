@@ -1,10 +1,22 @@
 <?php
 
+use common\models\Developers;
+use common\models\Tariffs;
 use yii\helpers\Url;
+
+$name = '';
+/** @var \common\models\User $user */
+if ($user = Yii::$app->user->identity) {
+
+    $billing = ($developer = Developers::findOne(['user_id' => $user->id]))?$developer->billing:'0';
+}
+/* @var \
+ *
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Programs */
 /* @var $form yii\widgets\ActiveForm */
+$this->title = 'Редактирование объявления';
 ?>
     <div class="content">
         <div class="container">
@@ -12,7 +24,7 @@ use yii\helpers\Url;
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Главная</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Личный кабинет</li>
+                        <li class="breadcrumb-item active" aria-current="page">Редактирование объявления</li>
                     </ol>
                 </nav>
             </div>
@@ -24,31 +36,33 @@ use yii\helpers\Url;
                         <div class="row">
                             <div class="col-9 col-lg-7 pr_name">
                                 <p><?= $model->name; ?></p>
-                                <img src="<?= $model->getLogo(); ?>">
+                                <img class="logo-big" src="<?= $model->getLogo(); ?>">
                             </div>
                             <div class="rating col-3 col-lg-5 d-flex align-items-end justify-content-end">
                                 <div class="stars">
-                                    <span data-star="5"></span>
-                                    <span data-star="4"></span>
-                                    <span data-star="3"></span>
-                                    <span data-star="2"></span>
-                                    <span data-star="1"></span>
+                                   <?= $model->renderStars();?>
                                 </div>
-                                <div class="num">4.5</div>
+                                <div class="num"><?= $model->rating;?></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-7 col-xl-8 tab_r d-md-flex align-items-end justify-content-end">
-                        <div class="bt">
-                            <a href="<?= Url::to('/developer/programs/create'); ?>" class="btn bnt-price"><span>+</span>
-                                Добавить продукт</a>
-                        </div>
+                        <? if ($model->id && !$model->tariff) {
+                            if (($tariffs = Tariffs::find()
+                                    ->where(['category_id' => $model->category_id])
+                                    ->all()) || ($tariffs = Tariffs::find()
+                                    ->where(['OR', ['IS', 'category_id', null], ['category_id' => 0]])
+                                    ->all())) {
+                        /** @var Tariffs $tariff */
+                        foreach ($tariffs as $tariff) { ?>
+                                    <div class="bt"  title="<?= $billing<$tariff->rate?"Недостаточно средств на счету":"";?>">
+                                        <a href="<?= Url::to(['/developer/programs/paid', 'id' => $model->id]); ?>"
+                                           class="btn bnt-price <?= $billing<$tariff->rate?"disabled":"";?>">
+                                            Применить тариф <?= $tariff->name."-".$tariff->rate;?></a>
+                                    </div>
+                                <?php }
+                            } ?>
 
-                        <? if ($model->id && !$model->tariff) { ?>
-                            <div class="bt">
-                                <a href="<?= Url::to(['/developer/programs/paid', 'id' => $model->id]); ?>"
-                                   class="btn bnt-price">Обновить до максимум</a>
-                            </div>
                         <? } ?>
                     </div>
                 </div>

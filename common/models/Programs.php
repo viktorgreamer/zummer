@@ -45,6 +45,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property int $price_plan
  * @property int $support_free
  * @property int $support_paid
+ * @property int $main_page_order
  * @property int $learning_free
  * @property int $learning_paid
  * @property int $views
@@ -72,6 +73,8 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 
 class Programs extends ActiveRecord
 {
+
+
 
     public function formName()
     {
@@ -169,6 +172,17 @@ class Programs extends ActiveRecord
             ->limit($limit)
             ->all();
     }
+
+    public static function getMainPagePrograms($limit)
+    {
+        return self::find()
+            ->where(['>=','main_page_order',1])
+            ->orderBy(['main_page_order' => SORT_ASC])
+            ->cache(60)
+            ->limit($limit)
+            ->all();
+    }
+
 
     public static function toCompare()
     {
@@ -427,7 +441,7 @@ class Programs extends ActiveRecord
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
             [['status', 'created_at', 'updated_at', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial', 'category_id'], 'integer'],
             [['views', 'popularity','relevance', 'destination_id', 'price_plan', 'support_free', 'support_paid', 'learning_free', 'learning_paid'], 'integer'],
-            [['hide_price','price_per_users'], 'integer'],
+            [['hide_price','price_per_users','main_page_order'], 'integer'],
             [['name', 'link', 'video_link','demonstration','users_count'], 'string', 'max' => 256],
             [['description_short'], 'string', 'max' => 500],
             [['platforms', 'learning_map', 'functions', 'support_map', 'demonstration_map', 'users_count_map'], 'safe'],
@@ -462,6 +476,19 @@ class Programs extends ActiveRecord
         ];
     }
 
+    public function renderStars($rating = null)
+    {
+        if ($rating) $rating = $this->rating;
+          return Reviews::renderStar(1, $rating)
+            . Reviews::renderStar(2,  $rating)
+            . Reviews::renderStar(3,  $rating)
+            . Reviews::renderStar(4,  $rating)
+            . Reviews::renderStar(5,  $rating);
+
+
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -474,6 +501,7 @@ class Programs extends ActiveRecord
             'video_link' => 'Video Link',
             'destination' => 'Назначение',
             'description' => 'Описание',
+            'main_page_order' => 'Первая страница',
             'rating' => 'Rating',
             'rating_convenience' => 'Rating Convenience',
             'rating_functions' => 'Rating Functions',

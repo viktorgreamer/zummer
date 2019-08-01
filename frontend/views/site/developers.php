@@ -1,6 +1,7 @@
 <?php
 
 /** @var \yii\web\View $this */
+
 /** @var \frontend\modules\developer\models\ConsultationRequestForm $model */
 
 use yii\helpers\Html;
@@ -78,6 +79,25 @@ use yii\helpers\Url; ?>
             </div>
         </div>
 
+        <? if (Yii::$app->user->isGuest) { ?>
+            <div class="row text-center">
+                <div class="center" style="margin: 0 auto;width: 80%;">
+                    <p style="alignment: center"> Уже зарегистрированы? <a href="<?= Url::to(['/developer/login']); ?>">Войдите в личный
+                            кабинет. </a></p>
+
+                </div>
+            </div>
+        <? } ?>
+
+        <? if (Yii::$app->user->identity && (Yii::$app->user->identity->developer)) { ?>
+            <div class="row text-center">
+                <div class="center" style="margin: 0 auto;width: 80%;">
+                    <p style="alignment: center"> Уже зарегистрированы? <a href="<?= Url::to(['/developer']); ?>">Войдите в личный
+                            кабинет. </a></p>
+                </div>
+            </div>
+        <? } ?>
+
 
         <div class="learn_more">
             <div class="container">
@@ -85,21 +105,22 @@ use yii\helpers\Url; ?>
                 <p class="podp">Получите консультацию, как начать эффективную маркейтинговую кампанию с оптимальным
                     бюджетом.</p>
                 <?php if ($model->isOk) { ?>
-                <span class="alert alert-success">Ваш запрос успешно отправлен.</span>
+                    <span class="alert alert-success">Ваш запрос успешно отправлен.</span>
                 <? } ?>
                 <form method="post">
                     <?php echo Html::hiddenInput(\Yii::$app->getRequest()->csrfParam, \Yii::$app->getRequest()->getCsrfToken(), []); ?>
 
                     <div class="form-group d-none d-md-block">
                         <div class="tab">
-                            <input type="text" name="first_name" placeholder="Имя" value="<?= $model->first_name;?>">
-                            <input type="text" name="last_name" placeholder="Фамилия" value="<?= $model->last_name;?>">
-                            <input type="text" name="phone" placeholder="Номер телефона" value="<?= $model->phone;?>">
+                            <input type="text" name="first_name" placeholder="Имя" value="<?= $model->first_name; ?>">
+                            <input type="text" name="last_name" placeholder="Фамилия" value="<?= $model->last_name; ?>">
+                            <input type="text" name="phone" placeholder="Номер телефона" value="<?= $model->phone; ?>">
                         </div>
                         <div class="tab">
-                            <input type="text" name="email" placeholder="E-mail" value="<?= $model->first_name;?>">
-                            <input type="text" name="program_industry" placeholder="Отрасль программы" value="<?= $model->program_industry;?>">
-                            <input type="text" name="site" placeholder="Веб-сайт" value="<?= $model->site;?>">
+                            <input type="text" name="email" placeholder="E-mail" value="<?= $model->first_name; ?>">
+                            <input type="text" name="program_industry" placeholder="Отрасль программы"
+                                   value="<?= $model->program_industry; ?>">
+                            <input type="text" name="site" placeholder="Веб-сайт" value="<?= $model->site; ?>">
                         </div>
                     </div>
                     <div class="btns">
@@ -112,14 +133,14 @@ use yii\helpers\Url; ?>
                         </div>
                         <span>или</span>
                         <div class="bt bt2">
-                            <a href="<?= Url::to(['/developer/registration']);?>" class="btn btn-single">Самостоятельно опубликуй<br>информацию о продукте</a>
+                            <a href="<?= Url::to(['/developer/registration']); ?>" class="btn btn-single">Самостоятельно
+                                опубликуй<br>информацию о продукте</a>
                         </div>
                     </div>
                 </form>
 
             </div>
         </div>
-
 
         <div class="schedule container">
             <div class="row">
@@ -200,25 +221,6 @@ use yii\helpers\Url; ?>
                     <a href="#" class="btn btn-green btn-more" data-toggle="modal" data-target="#advice">Получить
                         консультацию</a>
                 </div>
-
-                <br>
-                <br>
-                <? if (Yii::$app->user->isGuest) { ?>
-                <div class="bt">
-                    <a href="<?= Url::to(['/developer/login']);?>" class="btn btn-green btn-more"</a>
-                </div>
-                <? } ?>
-
-                <? if (Yii::$app->user->identity && (Yii::$app->user->identity->developer)) { ?>
-                    <div class="bt">
-                        <a href="<?= Url::to(['/developer']);?>" class="btn btn-green btn-more">Личный кабинет</a>
-                    </div>
-                <? } ?>
-
-
-
-
-
 
 
             </div>
@@ -344,26 +346,27 @@ use yii\helpers\Url; ?>
                 <p class="modal-title">Консультация специалиста</p>
                 <p class="podp">Расскажите несколько слов о себе, чтобы мы быстрее смогли Вам помочь.</p>
 
-                <form id="advice_form" method="post" >
+                <form id="advice_form" method="post">
                     <?php echo Html::hiddenInput(\Yii::$app->getRequest()->csrfParam, \Yii::$app->getRequest()->getCsrfToken(), []); ?>
                     <div class="form-group">
                         <label>
                             Ваше имя
-                            <input type="text" name="first_name" class="form-control" value="<?= $model->first_name;?>"
+                            <input type="text" name="first_name" class="form-control" value="<?= $model->first_name; ?>"
                                    placeholder="Пожалуйста представьтесь *">
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
                             Электронная почта
-                            <input type="text" name="email" class="form-control email"  value="<?= $model->email;?>"
+                            <input type="text" name="email" class="form-control email" value="<?= $model->email; ?>"
                                    placeholder="Введите email для связи *">
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
                             Телефон
-                            <input type="text" name="phone" class="form-control" placeholder="Введите номер телефона *"  value="<?= $model->phone;?>">
+                            <input type="text" name="phone" class="form-control" placeholder="Введите номер телефона *"
+                                   value="<?= $model->phone; ?>">
                         </label>
                     </div>
                     <div class="form-group">

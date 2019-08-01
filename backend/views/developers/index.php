@@ -1,7 +1,9 @@
 <?php
 
+use common\models\Developers;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\DevelopersSearch */
@@ -23,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'options' => [ 'style' => 'table-layout:fixed;' ],
+        'options' => ['style' => 'table-layout:fixed;'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -31,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'site',
             'logo:image',
-           // 'description',
+            // 'description',
             'country',
             'foundation_year',
             //'user_id',
@@ -42,8 +44,10 @@ $this->params['breadcrumbs'][] = $this->title;
             //'office_country',
             //'email:email',
             //'city',
-           // 'logo',
-            'billing',
+            // 'logo',
+            ['attribute' => 'billing','format'  =>'html', 'value' => function (Developers $model) {
+                return Html::a($model->billing?: 'Пополнить', Url::to(['developers/put-money', 'id' => $model->id]));
+            }],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -1,9 +1,10 @@
 
 <?php
 
+use common\models\ContentNews;
 use yii\helpers\Url;
 
-if ($news = \common\models\ContentNews::findLast()) { ?>
+if ($news = ContentNews::findLast()) { ?>
     <div class="news container">
         <div class="title_bl">
             <p class="title">Новости</p>
@@ -13,9 +14,9 @@ if ($news = \common\models\ContentNews::findLast()) { ?>
         </div>
 
         <div class="row tabs">
-            <? /** @var \common\models\ContentNews $new */
-            foreach ($news as $new) { ?>
-            <div class="col-md-6 col-lg-4">
+            <? /** @var ContentNews $new */
+            foreach ($news as $key => $new) { ?>
+            <div class="<?= ContentNews::tabClasses()[$key];?>">
                 <div class="tab">
 
                     <?php if ($new->image) { ?>

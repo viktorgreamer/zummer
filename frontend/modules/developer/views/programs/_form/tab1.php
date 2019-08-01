@@ -118,6 +118,22 @@ use yii\helpers\Url;
         <?php } ?>
     </div>
 
+    <? if ($model->id && $model->tariff) {
+        if (($tariff = Tariff::find()
+                ->where(['category_id' => $model->category_id])
+                ->all()) ) {
+            /** @var Tariffs $tariff */
+            foreach ($tariffs as $tariff) { ?>
+                <div class="bt"  title="<?= $billing<$tariff->rate?"Недостаточно средств на счету":"";?>">
+                    <a href="<?= Url::to(['/developer/programs/paid', 'id' => $model->id]); ?>"
+                       class="btn bnt-price <?= $billing<$tariff->rate?"disabled":"";?>">
+                        Применить тариф <?= $tariff->name."-".$tariff->rate;?></a>
+                </div>
+            <?php }
+        } ?>
+
+    <? } ?>
+
     <div class="tariff d-none d-lg-block">
         <table class="table">
             <tr>

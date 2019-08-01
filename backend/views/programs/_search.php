@@ -27,7 +27,8 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'query') ?>
         </div>
         <div class="col-lg-4">
-            <?php echo $form->field($model, 'status')->checkboxList(Programs::mapStatuses()) ?>
+            <?php echo $form->field($model, 'status')->dropDownList(Programs::mapStatuses()) ?>
+            <?php echo $form->field($model, 'main_page_order')->dropDownList([0,1,2,3,4,5,6]) ?>
         </div>
 
         <div class="col-lg-2">

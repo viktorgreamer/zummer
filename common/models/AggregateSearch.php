@@ -38,10 +38,14 @@ class AggregateSearch extends Model
             $this->programs_count = $query_program->count();
             $this->programs = $query_program->limit(self::LIMIT_TO_RENDER)->all();
 
-            $query_categories = Categories::find()->where(['OR',
-                ['like', 'name', $this->q],
-                ['like', 'description', $this->q]
-            ]);
+            $query_categories = Categories::find()->from(['c' => Categories::tableName()])
+                ->joinWith('programs as p')
+                ->where(['OR',
+                    ['like', 'p.name', $this->q],
+                    ['like', 'c.name', $this->q],
+                    ['like', 'c.description', $this->q]
+                ]);
+            $query_categories->orderBy('c.id');
             $this->categories_count = $query_categories->count();
             $this->categories = $query_categories->limit(self::LIMIT_TO_RENDER)->all();
 
@@ -60,6 +64,7 @@ class AggregateSearch extends Model
     public static function mapResultsCount()
     {
         return [
+            0 => 'результатов',
             1 => 'результат',
             2 => 'результата',
             3 => 'результата',
@@ -75,7 +80,7 @@ class AggregateSearch extends Model
 
     public function renderResultCount($count)
     {
-        return isset(self::mapResultsCount()[$count]) ? $count." ".self::mapResultsCount()[$count]    : "Более " . round($count,-1) . " результатов";
+        return isset(self::mapResultsCount()[$count]) ? $count . " " . self::mapResultsCount()[$count] : "Более " . round($count, -1) . " результатов";
     }
 
     public function rules()

@@ -80,7 +80,7 @@ class DefaultController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->redirect(['/']);
+        return $this->redirect(['/developer/login']);
     }
 
 

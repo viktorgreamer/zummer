@@ -2,7 +2,7 @@
 
 /** @var \common\models\ContentNews $model */
 /** @var \yii\web\View $this */
-
+$this->title = $model->name;
 ?>
 
 

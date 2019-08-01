@@ -34,7 +34,7 @@ Yii::error($route);
                         <img alt="" src="/img/icons/ico-vallet.png">
                         <img alt="" class="active" src="/img/icons/ico-vallet_hov.png">
                     </div>
-                    <span>Статистика <i></i></span>
+                    <span>Настройки <br>профиля <i></i></span>
                 </a>
             </div>
             <div class="col-6">

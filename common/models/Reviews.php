@@ -152,10 +152,8 @@ class Reviews extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function renderStars()
+    public function renderStars($rating)
     {
-        $rating = $this->getRating();
-
         return Reviews::renderStar(1, $rating)
             . Reviews::renderStar(2, $rating)
             . Reviews::renderStar(3, $rating)

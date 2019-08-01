@@ -104,22 +104,7 @@ class ContentNews extends \yii\db\ActiveRecord
         return parent::beforeValidate();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'category_id' => 'Category ID',
-            'name' => 'Name',
-            'body' => 'Body',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'status' => 'Status',
-            'user_id' => 'User ID',
-        ];
-    }
+
 
     /**
      * @return \yii\db\ActiveQuery

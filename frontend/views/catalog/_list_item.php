@@ -46,7 +46,7 @@ use yii\helpers\Url; ?>
                 if ($review = Reviews::mainOne($model->id)) { ?>
                 <div class="rating">
                     <div class="stars">
-                        <?= $review->renderStars();?>
+                        <?= $review->renderStars($review->rating_common);?>
                     </div>
                 </div>
 
@@ -56,7 +56,6 @@ use yii\helpers\Url; ?>
             </div>
         </div>
         <div class="col-md-3 col-xl-4 order-md-1 d-md-flex flex-column ">
-
             <? if ($model->isPayed()) { ?>
             <div class="bt align-items-center">
                 <a href="<?= $model->trial_link;?>" class="btn btn-green btn-more">демо-доступ</a>

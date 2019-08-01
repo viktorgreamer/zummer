@@ -36,11 +36,7 @@ use yii\helpers\Url; ?>
                                 <p class="titl">рейтинг</p>
                                 <div class="rating">
                                     <div class="stars">
-                                        <span data-star="5"></span>
-                                        <span data-star="4"></span>
-                                        <span data-star="3"></span>
-                                        <span data-star="2"></span>
-                                        <span data-star="1"></span>
+                                    <?= $model->renderStars();?>
                                     </div>
                                     <div class="num"><?= $model->rating; ?> ( <a href="#"><?= count($model->reviews); ?>
                                             отзывов</a> )
@@ -82,7 +78,7 @@ use yii\helpers\Url; ?>
                                             <a class="titl" href="<?= $program->link; ?>"><?= $program->name; ?></a>
                                             <div class="rating">
                                                 <div class="stars">
-                                                    <span data-star="1"></span>
+                                                   <?= $program->renderStars($program->rating);?>
                                                 </div>
                                                 <div class="num"><?= $program->rating; ?> (<a
                                                             href="<?= Url::to(['catalog/view', 'id' => $program->id]); ?>"><?= $program->getReviews()->count(); ?>
@@ -175,11 +171,7 @@ use yii\helpers\Url; ?>
                                     <div class="col-6 d-flex">
                                         <div class="rating align-self-end">
                                             <div class="stars">
-                                                <span data-star="5"></span>
-                                                <span data-star="4"></span>
-                                                <span data-star="3"></span>
-                                                <span data-star="2"></span>
-                                                <span data-star="1"></span>
+                                               <?= $model->renderStars($model->rating);?>
                                             </div>
                                             <div class="num"><?= $model->rating; ?> </div>
                                         </div>
@@ -190,11 +182,7 @@ use yii\helpers\Url; ?>
                                     <div class="col-6 d-flex">
                                         <div class="rating align-self-end">
                                             <div class="stars">
-                                                <span data-star="5"></span>
-                                                <span data-star="4"></span>
-                                                <span data-star="3"></span>
-                                                <span data-star="2"></span>
-                                                <span data-star="1"></span>
+                                                <?= $model->renderStars($model->rating_convenience);?>
                                             </div>
                                             <div class="num"><?= $model->rating_convenience; ?></div>
                                         </div>
@@ -205,11 +193,7 @@ use yii\helpers\Url; ?>
                                     <div class="col-6 d-flex">
                                         <div class="rating align-self-end">
                                             <div class="stars">
-                                                <span data-star="5"></span>
-                                                <span data-star="4"></span>
-                                                <span data-star="3"></span>
-                                                <span data-star="2"></span>
-                                                <span data-star="1"></span>
+                                                <?= $model->renderStars($model->rating_support);?>
                                             </div>
                                             <div class="num"><?= $model->rating_support; ?></div>
                                         </div>
@@ -220,11 +204,7 @@ use yii\helpers\Url; ?>
                                     <div class="col-6 d-flex">
                                         <div class="rating align-self-end">
                                             <div class="stars">
-                                                <span data-star="5"></span>
-                                                <span data-star="4"></span>
-                                                <span data-star="3"></span>
-                                                <span data-star="2"></span>
-                                                <span data-star="1"></span>
+                                                <?= $model->renderStars($model->rating_functions);?>
                                             </div>
                                             <div class="num"><?= $model->rating_functions; ?></div>
                                         </div>

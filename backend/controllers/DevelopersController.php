@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\PutMoneyFrom;
 use Yii;
 use common\models\Developers;
 use backend\models\DevelopersSearch;
@@ -54,6 +55,26 @@ class DevelopersController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Displays a single Developers model.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionPutMoney($id)
+    {
+        $model = new PutMoneyFrom();
+        $model->developer_id = $id;
+
+        if ($model->load(Yii::$app->request->post()) && $model->put()) {
+            return $this->redirect(['view', 'id' => $model->developer_id]);
+        }
+
+        return $this->render('put_money_form', [
+            'model' => $model,
         ]);
     }
 

@@ -10,7 +10,7 @@ use yii\helpers\Url;
 <?php
 
 /** @var \yii\web\View $this */
-
+$this->title = 'Главная';
 ?>
 
 <?= $this->render('_search_programs'); ?>

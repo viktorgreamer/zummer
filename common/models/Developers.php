@@ -27,6 +27,7 @@ use yii\web\UploadedFile;
  * @property string $office_country
  * @property string $email
  * @property double $foundation_year
+ * @property integer $billing
  * @property Profile $profile
  * @property UploadedFile $imageUpload
  * @property Reviews $reviews
@@ -114,7 +115,7 @@ class Developers extends ActiveRecord
     {
         return [
             [['description', 'address1', 'address2', 'phone', 'city', 'office_country', 'email', 'logo'], 'string'],
-            [['foundation_year'], 'integer', 'max' => 2050],
+            [['foundation_year','billing'], 'integer', 'max' => 2050],
             [['name', 'site'], 'string', 'max' => 256],
             [['country'], 'string', 'max' => 150],
             [['logo'], 'string', 'max' => 256],
@@ -151,6 +152,7 @@ class Developers extends ActiveRecord
             'address' => 'Foundation Year',
             'phone' => 'Телефон',
             'logo' => 'Логотип',
+            'billing' => 'Счет',
         ];
     }
 

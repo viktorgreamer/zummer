@@ -3,7 +3,7 @@ use common\models\Programs;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-if ($programs = Programs::getPopular(3)) { ?>
+if ($programs = Programs::getMainPagePrograms(3)) { ?>
     <div class="programs_popul container">
         <div class="title_bl">
             <p class="title">Популярные программы</p>
@@ -16,7 +16,7 @@ if ($programs = Programs::getPopular(3)) { ?>
                         <div class="col-md-4 col-lg-3 img">
                             <div class="tab d-flex">
                                 <div class="popular">Популярная <span></span></div>
-                                <a href="<?= Url::to(['catalog/view','id' => $program->id]);?>" class="align-self-center"><img alt="" class="" src="<?= $program->getLogo(); ?>"></a>
+                                <a href="<?= Url::to(['catalog/view','id' => $program->id]);?>" class="align-self-center"><img alt="" class="logo-big" src="<?= $program->getLogo(); ?>"></a>
                                 <div class="compare add">
                                     <a href="#"><i>+</i> сравнить <span></span></a>
                                 </div>

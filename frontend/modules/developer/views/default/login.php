@@ -18,12 +18,10 @@ $this->title = 'Авторизация';
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Главная</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="#">Личный кабинет</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Авторизация</li>
                 </ol>
             </nav>
         </div>
-
 
         <div class="main d-flex flex-column align-items-center">
             <div class="login_bl ">

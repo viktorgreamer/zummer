@@ -34,10 +34,19 @@ body{
 .wrapper > footer {
   flex: 0 0 auto;
 }
+
+img.logo-small {
+	width: 184px;
+	height: 70px;
+}
+img.logo-big {
+	width: 205px;
+	height: 78px;
+}
+
 body a, body a:hover{
 	color: #8a2779;
 }
-
 
 button, a{
 	outline: none !important;
