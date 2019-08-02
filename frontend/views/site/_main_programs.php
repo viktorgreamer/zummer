@@ -9,7 +9,7 @@ use yii\helpers\Url;
         <?
         foreach (Programs::mapDestinations() as $destination_id => $destination_title) {
             if ($destination_id != 1) $style = 'display:none'; else $style = '';
-            if ($programs = Programs::main(4, $destination_id)) { ?>
+            if ($programs = Programs::positionOne(4, $destination_id)) { ?>
                 <div id="destination_id_<?= $destination_id; ?>" class="programs_for container" style="<?= $style; ?>">
                     <?php echo $this->render('_destination_program_row_tab',['programs' => $programs]);?>
                    <?php if (Programs::find()->where(['destination_id' => $destination_id])->cache(60)->count() > 4) { ?>

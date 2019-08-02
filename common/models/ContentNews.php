@@ -25,6 +25,11 @@ use yii\db\ActiveRecord;
 class ContentNews extends \yii\db\ActiveRecord
 {
 
+    public function formName()
+    {
+        return '';
+    }
+
     public function behaviors()
     {
         return [
@@ -99,7 +104,6 @@ class ContentNews extends \yii\db\ActiveRecord
 
     public function beforeValidate()
     {
-
         if (!$this->user_id) $this->user_id = Yii::$app->user->id;
         return parent::beforeValidate();
     }

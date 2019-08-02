@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\components;
 
 use common\models\Auth;
@@ -37,10 +38,12 @@ class AuthHandler
 
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
+                Yii::$app->session->setFlash('success','user auth found 41');
                 /* @var User $user */
                 $user = $auth->user;
                 $this->updateUserInfo($user);
-                Yii::$app->user->login($user, Yii::$app->params['user.rememberMeDuration']);
+                $response =  Yii::$app->user->login($user, Yii::$app->params['user.rememberMeDuration']);
+                if ($response)  Yii::$app->session->setFlash('success','user auth found 46 ');
             } else { // signup
                 if ($email !== null && User::find()->where(['email' => $email])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
@@ -49,8 +52,6 @@ class AuthHandler
                 } else {
                     $password = Yii::$app->security->generateRandomString(6);
                     $user = new User([
-                        'username' => $nickname,
-                        'github' => $nickname,
                         'email' => $email,
                         'password' => $password,
                     ]);
@@ -67,7 +68,8 @@ class AuthHandler
                         ]);
                         if ($auth->save()) {
                             $transaction->commit();
-                            Yii::$app->user->login($user, Yii::$app->params['user.rememberMeDuration']);
+                            $response =  Yii::$app->user->login($user, Yii::$app->params['user.rememberMeDuration']);
+                            if ($response)   Yii::$app->session->setFlash('success','user auth found 73');
                         } else {
                             Yii::$app->getSession()->setFlash('error', [
                                 Yii::t('app', 'Unable to save {client} account: {errors}', [
@@ -96,7 +98,7 @@ class AuthHandler
                 if ($auth->save()) {
                     /** @var User $user */
                     $user = $auth->user;
-                    $this->updateUserInfo($user);
+                    // $this->updateUserInfo($user);
                     Yii::$app->getSession()->setFlash('success', [
                         Yii::t('app', 'Linked {client} account.', [
                             'client' => $this->client->getTitle()
@@ -126,10 +128,6 @@ class AuthHandler
     private function updateUserInfo(User $user)
     {
         $attributes = $this->client->getUserAttributes();
-        $github = ArrayHelper::getValue($attributes, 'login');
-        if ($user->github === null && $github) {
-            $user->github = $github;
-            $user->save();
-        }
+
     }
 }

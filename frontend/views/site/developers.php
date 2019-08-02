@@ -3,6 +3,7 @@
 /** @var \yii\web\View $this */
 
 /** @var \frontend\modules\developer\models\ConsultationRequestForm $model */
+$this->title = 'Разработчикам';
 
 use yii\helpers\Html;
 use yii\helpers\Url; ?>

@@ -3,6 +3,7 @@
 use common\models\Programs;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProgramsSearch */
@@ -14,11 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="programs-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a(' Создать программу', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
     <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -70,6 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function(Programs $model){
                     $options = [];
+                  $options[] =  "<a href='http://".\Yii::$app->request->hostName.'/catalog/view?id='.$model->id."' target=\"_blank\"> В каталоге</a>";
                    if ($model->link) $options[] = Html::a('Caйт', $model->link);
                    if ($model->video_link) $options[] = Html::a('Видео', $model->video_link);
                    if ($model->trial_link) $options[] = Html::a('Пробный период', $model->trial_link);
@@ -78,14 +78,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
 
-            'destination:ntext',
-            'description:ntext',
+           /* 'destination:ntext',
+            'description:ntext',*/
             'category.name',
 
             [
                 'label' => 'Отзывы',
                 'value' => function(Programs $model){
                     return count($model->reviews);
+                }
+            ],
+            [
+                'label' => 'Назначение',
+                'value' => function(Programs $model){
+                    return Programs::mapDestinations()[$model->destination_id];
                 }
             ],
 

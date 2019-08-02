@@ -28,6 +28,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property double $rating_support
  * @property int $status
  * @property int $created_at
+ * @property int $main_page_position
  * @property int $updated_at
  * @property int $developer_id
  * @property string $support
@@ -120,7 +121,7 @@ class Programs extends ActiveRecord
         if ($this->validate()) {
             $path = $this->getFilePath();
             if ($this->createDirectoryIfNotExists($path)) {
-                $this->imageUpload->saveAs($path . "logo" . '.' . $this->imageUpload->extension);
+                $this->imageUpload->saveAs($path . "logo" . '.' . $this->imageUpload->extension,false);
                 return true;
             }
 
@@ -161,6 +162,11 @@ class Programs extends ActiveRecord
     public static function main($limit = 5, $destination_id = null, $offset = null)
     {
         return self::find()->andWhere(['destination_id' => $destination_id])->cache(60)->offset($offset)->limit($limit)->all();
+    }
+
+    public static function positionOne($limit = 5, $destination_id = null, $offset = null)
+    {
+        return self::find()->andWhere(['destination_id' => $destination_id])->andWhere(['between','main_page_position',1,12])->cache(60)->offset($offset)->limit($limit)->all();
     }
 
     public static function getPopular($limit = 5, $category_id = null)
@@ -319,7 +325,7 @@ class Programs extends ActiveRecord
                     $image->priority = $key + 1 + $max_priority;
                     $image->src = $this->getWebPath() . $file->baseName . '.' . $file->extension;
                     if (!$image->save()) Yii::error($image->errors);
-                    $file->saveAs($path . $file->baseName . '.' . $file->extension);
+                    $file->saveAs($path . $file->baseName . '.' . $file->extension, false);
                 }
             } ;
 
@@ -332,7 +338,7 @@ class Programs extends ActiveRecord
                     $image->priority = $key + 1 + $max_priority;
                     $image->src = $this->getWebPath() . $file->baseName . '.' . $file->extension;
                     if (!$image->save()) Yii::error($image->errors);
-                    $file->saveAs($path . $file->baseName . '.' . $file->extension);
+                    $file->saveAs($path . $file->baseName . '.' . $file->extension,false);
                 }
             } ;
 
@@ -441,15 +447,25 @@ class Programs extends ActiveRecord
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
             [['status', 'created_at', 'updated_at', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial', 'category_id'], 'integer'],
             [['views', 'popularity','relevance', 'destination_id', 'price_plan', 'support_free', 'support_paid', 'learning_free', 'learning_paid'], 'integer'],
-            [['hide_price','price_per_users','main_page_order'], 'integer'],
+            [['hide_price','price_per_users','main_page_order','main_page_position','tariff'], 'integer'],
             [['name', 'link', 'video_link','demonstration','users_count'], 'string', 'max' => 256],
             [['description_short'], 'string', 'max' => 500],
+            [['dueDate'], 'string', 'max' => 10],
             [['platforms', 'learning_map', 'functions', 'support_map', 'demonstration_map', 'users_count_map'], 'safe'],
             [['imageFiles'], 'image', 'skipOnEmpty' => true,'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
             [['imageUpload'], 'image', 'skipOnEmpty' => true,'extensions' => 'png, jpg, jpeg', 'maxFiles' => 1],
             [['imageAwardsFiles'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
-            ['phone','string']
+            ['phone','string'],
+            ['tags','safe']
         ];
+    }
+
+    public function getImagesInAdmin() {
+        return array_merge($this->images,range(1,4 - min(4, count($this->images))));
+    }
+
+    public function getImagesAwardsInAdmin() {
+        return array_merge($this->awards,range(1,2 - min(2, count($this->awards))));
     }
 
     public function behaviors()
@@ -478,7 +494,7 @@ class Programs extends ActiveRecord
 
     public function renderStars($rating = null)
     {
-        if ($rating) $rating = $this->rating;
+        if (!$rating) $rating = $this->rating;
           return Reviews::renderStar(1, $rating)
             . Reviews::renderStar(2,  $rating)
             . Reviews::renderStar(3,  $rating)
@@ -501,6 +517,7 @@ class Programs extends ActiveRecord
             'video_link' => 'Video Link',
             'destination' => 'Назначение',
             'description' => 'Описание',
+            'main_page_position' => 'Позиция в блоке номер 1',
             'main_page_order' => 'Первая страница',
             'rating' => 'Rating',
             'rating_convenience' => 'Rating Convenience',

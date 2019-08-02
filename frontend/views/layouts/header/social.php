@@ -1,5 +1,7 @@
 <?php
-?>
+
+use yii\helpers\Html;
+use yii\helpers\Url; ?>
 
 
 <header>
@@ -16,7 +18,7 @@
                                 <a class="nav-link" href="#">Категории программ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">Разработчикам</a>
+                                <a class="nav-link active" href="<?= Url::to(['/developers/']);?>">Разработчикам</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Центр знаний</a>
@@ -25,15 +27,25 @@
                     </div>
                 </nav>
             </div>
-            <div class="d-none col-md-8 order-md-2 login d-md-flex justify-content-end align-items-center">
-                <span>Авторизоваться</span>
-                <a href="/site/auth?authclient=vkontakte"><img alt="" src="/img/icons/ico-vk_w.png"></a>
-                <a href="/site/auth?authclient=google"><img alt="" src="/img/icons/ico-fb_w.png"></a>
-                <a href="/site/auth?authclient=facebook"><img alt="" src="/img/icons/ico-fb_w.png"></a>
-               </div>
             <div class="col-md-4 order-md-1 logo">
                 <a href="/"><img alt="" src="/img/logo.png"></a>
             </div>
+            <? if (Yii::$app->user->isGuest) { ?>
+                <div class="d-none col-md-8 order-md-2 login d-md-flex justify-content-end align-items-center">
+                <span>Авторизоваться</span>
+                <a href="/site/auth?authclient=vkontakte&scope=email"><img alt="" src="/img/icons/ico-vk_w.png"></a>
+               <!-- <a href="/site/auth?authclient=google"><img alt="" src="/img/icons/ico-fb_w.png"></a>-->
+                <a href="/site/auth?authclient=facebook"><img alt="" src="/img/icons/ico-fb_w.png"></a>
+               </div>
+            <? }  else {
+                echo Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->email . ')',
+                ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm();
+             } ?>
+
         </div>
     </div>
 </header>

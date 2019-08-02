@@ -28,82 +28,85 @@ use yii\helpers\Url; ?>
             </div>
         </div>
 
-        <? /** @var \common\models\Reviews $review */
-        foreach ($model->reviews as $review) { ?>
-            <div class="rev_bl" data-rating="<?= $review->common(); ?>" data-date="<?= $review->created_at; ?>">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="general_rating">
-                            <p class="titl">Общий рейтинг</p>
-                            <div class="rating_num"><?= $review->common(); ?></div>
-                            <div class="rating">
-                                <div class="stars">
-                                    <?= $review->renderStars($review->rating_common); ?>
+        <?
+        if ($model->reviews) {
+            /** @var \common\models\Reviews $review */
+            foreach ($model->reviews as $review) { ?>
+                <div class="rev_bl" data-rating="<?= $review->common(); ?>" data-date="<?= $review->created_at; ?>">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="general_rating">
+                                <p class="titl">Общий рейтинг</p>
+                                <div class="rating_num"><?= $review->common(); ?></div>
+                                <div class="rating">
+                                    <div class="stars">
+                                        <?= $review->renderStars($review->rating_common); ?>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <ul>
-                                <li>
-                                    <p>Удобство</p>
-                                    <div class="rating">
-                                        <div class="stars">
-                                            <?= $review->renderStars($review->rating_convenience); ?>
+                                <ul>
+                                    <li>
+                                        <p>Удобство</p>
+                                        <div class="rating">
+                                            <div class="stars">
+                                                <?= $review->renderStars($review->rating_convenience); ?>
+                                            </div>
+                                            <div class="num"><?= $review->rating_convenience; ?></div>
                                         </div>
-                                        <div class="num"><?= $review->rating_convenience; ?></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <p>Служба поддержки</p>
-                                    <div class="rating">
-                                        <div class="stars">
-                                            <?= $review->renderStars($review->rating_support); ?>
+                                    </li>
+                                    <li>
+                                        <p>Служба поддержки</p>
+                                        <div class="rating">
+                                            <div class="stars">
+                                                <?= $review->renderStars($review->rating_support); ?>
+                                            </div>
+                                            <div class="num"><?= $review->rating_support; ?></div>
                                         </div>
-                                        <div class="num"><?= $review->rating_support; ?></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <p>Функционал</p>
-                                    <div class="rating">
-                                        <div class="stars">
-                                            <?= $review->renderStars($review->rating_functions); ?>
+                                    </li>
+                                    <li>
+                                        <p>Функционал</p>
+                                        <div class="rating">
+                                            <div class="stars">
+                                                <?= $review->renderStars($review->rating_functions); ?>
+                                            </div>
+                                            <div class="num"><?= $review->rating_functions; ?></div>
                                         </div>
-                                        <div class="num"><?= $review->rating_functions; ?></div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-8 rev_info">
-                        <div class="img">
+                        <div class="col-md-8 rev_info">
+                            <div class="img">
                             <span class="vk"><img alt="" src="http://test2.raketa.top/img/ico-rev_vk.png"
                                                   style="opacity: 1;"></span>
-                            <img alt="" src="<?= $review->user->getImage(); ?>" style="opacity: 1;">
-                        </div>
-                        <div class="text">
-                            <p class="comment"><?= $review->title; ?></p>
-                            <p class="date"><?= Yii::$app->formatter->asDate($review->created_at); ?></p>
-                            <div class="line name">
-                                <p><b><?= $review->user->fullName(); ?></b></p>
-                                <p><?= $review->user->getPosition(); ?><br>
-                                    Использует продукт: более <?php echo $review->using_time; ?> года</p>
+                                <img alt="" src="<?= $review->user->getImage(); ?>" style="opacity: 1;">
                             </div>
-                            <div class="line">
-                                <p><b>Плюсы:</b></p>
-                                <p><?= $review->pluses; ?></p>
-                            </div>
-                            <div class="line">
-                                <p><b>Минусы:</b></p>
-                                <p><?= $review->minuses; ?></p>
-                            </div>
-                            <div class="line">
-                                <p><b>В целом:</b></p>
-                                <p><?= $review->common; ?></p>
+                            <div class="text">
+                                <p class="comment"><?= $review->title; ?></p>
+                                <p class="date"><?= Yii::$app->formatter->asDate($review->created_at); ?></p>
+                                <div class="line name">
+                                    <p><b><?= $review->user->fullName(); ?></b></p>
+                                    <p><?= $review->user->getPosition(); ?><br>
+                                        Использует продукт: <?php echo $review->using_time; ?></p>
+                                </div>
+                                <div class="line">
+                                    <p><b>Плюсы:</b></p>
+                                    <p><?= $review->pluses; ?></p>
+                                </div>
+                                <div class="line">
+                                    <p><b>Минусы:</b></p>
+                                    <p><?= $review->minuses; ?></p>
+                                </div>
+                                <div class="line">
+                                    <p><b>В целом:</b></p>
+                                    <p><?= $review->common; ?></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        <? } ?>
+            <? }
+        } ?>
     </div>
 
 <?php

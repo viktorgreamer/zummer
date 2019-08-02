@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use common\models\FunctionsAssignment;
 use Yii;
 
 /**

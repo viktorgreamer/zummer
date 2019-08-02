@@ -2,30 +2,21 @@
 
 namespace backend\controllers;
 
+use common\models\ProgramsAwardsImages;
+use common\models\ProgramsImages;
 use Yii;
-use common\models\ContentNews;
-use backend\models\ContentNewsSearch;
+use common\models\Programs;
+use backend\models\ProgramsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
- * ContentNewsController implements the CRUD actions for ContentNews model.
+ * ProgramsUploadController implements the CRUD actions for Programs model.
  */
-class NewsController extends Controller
+class ProgramsUploadController extends Controller
 {
-
-
-    public function actions()
-    {
-        return [
-            'image-upload' => [
-                'class' => 'vova07\imperavi\actions\UploadFileAction',
-                'url' => '/images/articles/', // Directory URL address, where files are stored.
-                'path' => Yii::getAlias('@app')."/web/images/news/".date('Y-m'),
-            ],
-        ];
-    }
     /**
      * {@inheritdoc}
      */
@@ -42,12 +33,12 @@ class NewsController extends Controller
     }
 
     /**
-     * Lists all ContentNews models.
+     * Lists all Programs models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ContentNewsSearch();
+        $searchModel = new ProgramsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -57,7 +48,7 @@ class NewsController extends Controller
     }
 
     /**
-     * Displays a single ContentNews model.
+     * Displays a single Programs model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -70,15 +61,26 @@ class NewsController extends Controller
     }
 
     /**
-     * Creates a new ContentNews model.
+     * Creates a new Programs model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ContentNews();
+        $model = new Programs();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
+            if ($model->imageUpload) $model->uploadLogo();
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            $model->imageAwardsFiles = UploadedFile::getInstances($model, 'imageAwardsFiles');
+            $model->upload();
+
+            if ($model->save()) {
+
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -88,7 +90,7 @@ class NewsController extends Controller
     }
 
     /**
-     * Updates an existing ContentNews model.
+     * Updates an existing Programs model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -99,6 +101,18 @@ class NewsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+
+            $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
+            if ($model->imageUpload) $model->uploadLogo();
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            $model->imageAwardsFiles = UploadedFile::getInstances($model, 'imageAwardsFiles');
+            $model->upload();
+
+            if ($model->save()) {
+
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -107,8 +121,29 @@ class NewsController extends Controller
         ]);
     }
 
+
+    public function actionDeleteImages($id)
+    {
+
+        /** @var ProgramsImages $image */
+        if (($image = ProgramsImages::findOne($id)) && $image->delete()) return 1;
+
+        return 0;
+
+
+    }
+
+    public function actionDeleteImagesAwards($id)
+    {
+        if (($image = ProgramsAwardsImages::findOne($id)) && $image->delete()) return 1;
+        return 0;
+
+    }
+
+
+
     /**
-     * Deletes an existing ContentNews model.
+     * Deletes an existing Programs model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -122,15 +157,15 @@ class NewsController extends Controller
     }
 
     /**
-     * Finds the ContentNews model based on its primary key value.
+     * Finds the Programs model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ContentNews the loaded model
+     * @return Programs the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ContentNews::findOne($id)) !== null) {
+        if (($model = Programs::findOne($id)) !== null) {
             return $model;
         }
 

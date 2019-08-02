@@ -59,6 +59,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Разработчики', 'url' => ['/developers/index']],
                 ['label' => 'Programs', 'url' => ['/programs/index']],
+                ['label' => 'Загрузка программ', 'url' => ['/programs-upload/index']],
                 ['label' => 'Категории', 'url' => ['/categories/index']],
                 ['label' => 'Индустрии', 'url' => ['/category-industries/index']],
 

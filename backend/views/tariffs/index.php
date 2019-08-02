@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Tariffs;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -26,6 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'category_id',
+            ['attribute' => 'group_id','value' => function(Tariffs $model) {
+        return Tariffs::mapGroups()[$model->group_id];
+            }],
             'rate',
 
             ['class' => 'yii\grid\ActionColumn'],

@@ -69,7 +69,7 @@ class CatalogController extends Controller
      */
     public function actionPopularAjax($destination_id, $offset = null)
     {
-        $programs = Programs::main(4, $destination_id, $offset);
+        $programs = Programs::positionOne(4, $destination_id, $offset);
         Yii::error(count($programs));
         return $this->renderAjax('/site/_destination_program_row_tab', [
             'programs' => $programs

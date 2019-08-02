@@ -10,7 +10,9 @@ use Yii;
  * @property int $id
  * @property string $name Название
  * @property int $category_id Категория
+ * @property int $group_id Группа тарифов
  * @property int $rate Ставка
+ * @property Categories $category Категория
  */
 class Tariffs extends \yii\db\ActiveRecord
 {
@@ -22,13 +24,26 @@ class Tariffs extends \yii\db\ActiveRecord
         return 'tariffs';
     }
 
+    public static function mapGroups()
+    {
+        return [
+            1 => 'Базовый',
+            2 => 'Максимум'
+        ];
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Categories::className(), ['id' => 'category_id']);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['category_id', 'rate'], 'integer'],
+            [['category_id', 'group_id', 'rate'], 'integer'],
             [['name'], 'string', 'max' => 256],
         ];
     }
@@ -42,6 +57,7 @@ class Tariffs extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Название',
             'category_id' => 'Категория',
+            'group_id' => 'Группа тарифов',
             'rate' => 'Ставка',
         ];
     }

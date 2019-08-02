@@ -7,7 +7,6 @@ use yii\helpers\Url;
 
 ?>
 
-
     <div class="tab-pane" id="tab4" role="tabpanel">
         <div class="tab photo">
             <h3>Добавить фото, видео</h3>
@@ -25,15 +24,24 @@ use yii\helpers\Url;
                             </div>
                         <? } ?>
 
-                        <?php if ($model->images) {
-                            foreach ($model->images as $image) { ?>
-                                <div class="tab_ph flex-lg-fill">
-                                    <img class="m-0 p-0" src="<?= $image->src; ?>" style="height: 90px; width: 90px;">
-                                    <a class="close remove-image" href="#" data-program_id="<?= $model->id; ?>"
-                                       data-image_id="<?= $image->id; ?>"><img
-                                                src="/img/admin/close.png"></a>
-                                </div>
+                        <?php if ($images = $model->getImagesInAdmin()) {
+                            foreach ($images as $image) { ?>
+                                <? if (is_object($image)) { ?>
+                                    <div class="tab_ph flex-lg-fill">
+                                        <img class="m-0 p-0 image_preview" src="<?= $image->src; ?>"
+                                             style="height: 90px; width: 90px;">
+                                        <a class="close remove-image" href="#" data-program_id="<?= $model->id; ?>"
+                                           data-image_id="<?= $image->id; ?>"><img
+                                                    src="/img/admin/close.png"></a>
+                                    </div>
+                                <? } else { ?>
+                                    <div class="tab_ph flex-lg-fill"><a class="close" href="#"><img
+                                                    src="/img/admin/close.png"></a>
+
+                                    </div>
+                                <? } ?>
                             <? } ?><? } ?>
+
                     </div>
                 </div>
                 <div class="col-lg-4 awards">
@@ -41,15 +49,22 @@ use yii\helpers\Url;
                         <p>Награды</p>
                     </div>
                     <div class="tabs">
-                        <?php if ($model->awards) {
-                            foreach ($model->awards as $image) { ?>
-                                <div class="tab_ph"><img class="m-0 p-0" src="<?= $image->src; ?>"
-                                                         style="height: 90px; width: 90px;">
-                                    <a class="close  remove-image-awards" href="#" data-program_id="<?= $model->id; ?>"
-                                       data-image_id="<?= $image->id; ?>">x</a>
+                        <?php if ($awards = $model->getImagesAwardsInAdmin()) {
+                            foreach ($awards as $image) { ?>
 
-                                </div>
+                                <? if (is_object($image)) { ?>
+                                    <div class="tab_ph"><img class="m-0 p-0" src="<?= $image->src; ?>"
+                                                             style="height: 95px; width: 95px;">
+                                        <a class="close remove-image-awards" href="#"
+                                           data-program_id="<?= $model->id; ?>"
+                                           data-image_id="<?= $image->id; ?>">x</a>
 
+                                    </div>
+                                <? } else { ?>
+                                    <div class="tab_ph"><a class="close" href="#">x</a>
+
+                                    </div>
+                                <? } ?>
                             <? } ?><? } ?>
                     </div>
 
@@ -94,10 +109,10 @@ use yii\helpers\Url;
                         </div>
                     </form>
                 </div>
-                <div class="col-lg-5 col-xl-5 d-none d-lg-block">
-                    <div class="view embed-responsive embed-responsive-16by9">
-                    </div>
-                </div>
+                <!--  <div class="col-lg-5 col-xl-5 d-none d-lg-block">
+                      <div id="div_preview" class="embed-responsive embed-responsive-16by9 " style="max-height: 300px; max-width: 400px" >
+                      </div>
+                  </div>-->
 
             </div>
             <hr>
@@ -177,6 +192,7 @@ $(document).on('click', '.tab_ph a.remove-image' , function(e) {
 e.preventDefault();
 var element = $(this).parents('.tab_ph');
 var id = $(this).data('image_id');
+
 console.log('.tab_ph a.close');
 $.ajax({
     url: "/developer/programs/delete-images",
@@ -215,6 +231,13 @@ $.ajax({
     }
 });
 
+});
+
+
+$(document).on('click', '.image_preview' , function(e) {
+e.preventDefault();
+var src = $(this).attr('src');
+$('#div_preview').html('<img src="' + src + '">');
 });
 
 

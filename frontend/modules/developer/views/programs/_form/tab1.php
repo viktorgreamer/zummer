@@ -2,6 +2,7 @@
 
 use common\models\Categories;
 use common\models\Programs;
+use common\models\Tariffs;
 use yii\helpers\Html;
 use yii\helpers\Url;
 /** @var Programs $model */
@@ -119,34 +120,33 @@ use yii\helpers\Url;
     </div>
 
     <? if ($model->id && $model->tariff) {
-        if (($tariff = Tariff::find()
-                ->where(['category_id' => $model->category_id])
-                ->all()) ) {
+        if (($tariff = Tariffs::find()
+            ->where(['rate' => $model->tariff])
+                ->one()) ) {
             /** @var Tariffs $tariff */
-            foreach ($tariffs as $tariff) { ?>
-                <div class="bt"  title="<?= $billing<$tariff->rate?"Недостаточно средств на счету":"";?>">
-                    <a href="<?= Url::to(['/developer/programs/paid', 'id' => $model->id]); ?>"
-                       class="btn bnt-price <?= $billing<$tariff->rate?"disabled":"";?>">
-                        Применить тариф <?= $tariff->name."-".$tariff->rate;?></a>
-                </div>
-            <?php }
+            ?>
+
+            <div class="tariff d-none d-lg-block">
+                <table class="table">
+                    <tr>
+                        <th>Тариф</th>
+                        <th>Категория</th>
+                        <th>Название</th>
+                    </tr>
+                    <tr>
+                        <td><?= $tariff->rate;?></td>
+                        <td><a href="#"><?= $tariff->category?$tariff->category->name:'';?></a></td>
+                        <td><?= $tariff->name;?></td>
+                    </tr>
+                </table>
+            </div>
+
+            <?php
+
         } ?>
 
     <? } ?>
 
-    <div class="tariff d-none d-lg-block">
-        <table class="table">
-            <tr>
-                <th>Тариф</th>
-                <th>Категория</th>
-                <th>Название</th>
-            </tr>
-            <tr>
-                <td>Базовый</td>
-                <td><a href="#">Управление персоналом через CRM</a></td>
-                <td>Битрикс24</td>
-            </tr>
-        </table>
-    </div>
+
 </div>
 

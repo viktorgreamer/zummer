@@ -79,7 +79,7 @@ $this->title = 'Редактирование объявления';
                     </div>
                     <div class="col-md-8 col-lg-8 col-xl-9 text">
                         <div class="tab-content">
-                            <?= $this->render('_form/tab1.php', compact('model')); ?>
+                            <?= $this->render('_form/tab1.php', compact(['model','billing'])); ?>
                             <?= $this->render('_form/tab2.php', compact('model')); ?>
                             <?= $this->render('_form/tab3.php', compact('model')); ?>
                             <?= $this->render('_form/tab4.php', compact('model')); ?>

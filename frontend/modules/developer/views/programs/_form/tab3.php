@@ -40,8 +40,6 @@ $functionsId = ArrayHelper::getColumn($model->functions, 'id');
                                         <span class="checkbox__text"><?= $function->name; ?></span>
                                     </label>
                                 <? } ?>
-
-
                             </div>
                             <div class="col-lg-6">
                                 <?php /** @var Functions $function */
@@ -68,7 +66,7 @@ $functionsId = ArrayHelper::getColumn($model->functions, 'id');
                 <button class="btn btn-add" type="submit">Сохранить информацию</button>
             </div>
             <div class="bt">
-                <button class="btn btn-remove" href="#">Отмена</button>
+                <button class="btn btn-remove" href="<?= Url::to(['programs/view','id' => $model->id]);?>">Отмена</button>
             </div>
         </div>
         </form>

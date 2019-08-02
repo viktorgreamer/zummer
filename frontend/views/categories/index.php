@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /** @var \yii\data\ActiveDataProvider $dataProvider */
+$this->title = 'Категории программ';
 ?>
 
 

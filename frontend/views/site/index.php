@@ -23,8 +23,6 @@ $this->title = 'Главная';
 <?= $this->render('_news'); ?>
 
 
-
-
 <?php
 $js =<<<JS
 $(function () {
@@ -131,4 +129,4 @@ $(function () {
     });
 JS;
 $this->registerJs($js, \yii\web\View::POS_READY); ?>
-?>
+

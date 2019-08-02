@@ -365,10 +365,9 @@ use yii\helpers\Url; ?>
 
                 <? } ?>
             </div>
-            <? if ($model->reviews) {
-                echo $this->render('reviews', ['model' => $model]);
-            }
-            ?>
+
+             <?   echo $this->render('reviews', ['model' => $model]); ;?>
+
 
 
         </div>

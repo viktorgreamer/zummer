@@ -118,3 +118,14 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
+.delete-button {
+    display: none;
+}
+.wrapper:hover img {
+    /* Change the filter in here */
+}
+.wrapper:hover .delete-button {
+    display: inline-block;
+}

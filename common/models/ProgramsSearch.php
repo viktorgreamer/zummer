@@ -26,7 +26,7 @@ class ProgramsSearch extends Model
     public $has_year_plan;
     public $has_trial;
     public $main_page_order;
-
+    public $main_page_position;
 
     /**
      * {@inheritdoc}
@@ -35,7 +35,7 @@ class ProgramsSearch extends Model
     {
         return [
             [['query', 'platforms', 'functions'], 'safe'],
-            [['id', 'status', 'developer_id','category_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial','main_page_order'], 'integer'],
+            [['id', 'status', 'developer_id','category_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial','main_page_order','main_page_position'], 'integer'],
             [['name', 'link', 'support', 'learning', 'prices', 'trial_link'], 'safe'],
             [['price_from', 'price_to'], 'number'],
         ];
@@ -83,6 +83,7 @@ class ProgramsSearch extends Model
 
         if ($this->status) $query->andWhere(['p.status' => $this->status]);
         if ($this->main_page_order) $query->andWhere(['p.main_page_order' => $this->main_page_order]);
+        if ($this->main_page_position) $query->andWhere(['p.main_page_position' => $this->main_page_position]);
         if ($this->id) $query->andWhere(['p.id' => $this->id]);
         if ($this->developer_id) $query->andWhere(['p.developer_id' => $this->developer_id]);
         if ($this->category_id) $query->andWhere(['p.category_id' => $this->category_id]);

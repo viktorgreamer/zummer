@@ -23,6 +23,9 @@ use vova07\imperavi\Widget;
     <?= $form->field($model, 'themes')->checkboxList(\common\models\ContentThemes::map()) ?>
 
 
+    <?= $form->field($model, 'image')->textInput() ?>
+
+
     <textarea name="body"><?php echo $model->body;?></textarea>
 
 

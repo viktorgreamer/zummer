@@ -27,6 +27,12 @@ return [
                     'clientId' => '2251285511628766',
                     'clientSecret' => 'b1542163de41a407e18560af537a32ae',
                 ],
+                'vkontakte' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                    'clientId' => '7065006',
+                    'clientSecret' => 'Z7Gnb74RfydlOoObaTb3',
+                    'scope' => ['email']
+                    ]
                 // etc.
             ],
         ]
