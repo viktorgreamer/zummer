@@ -3,12 +3,14 @@
 namespace backend\controllers;
 
 use backend\models\PutMoneyFrom;
+use common\models\User;
 use Yii;
 use common\models\Developers;
 use backend\models\DevelopersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * DevelopersController implements the CRUD actions for Developers model.
@@ -88,12 +90,30 @@ class DevelopersController extends Controller
         $model = new Developers();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
+
+            $model->upload();
+            $model->update();
+            if ($model->create_user) {
+
+                if (!User::findByEmail($model->email)) {
+                    $user = new User(['email' => $model->email]);
+                    $user->setPassword($password = Yii::$app->security->generateRandomString(6));
+                    if ($user->save()) {
+                        $model->password = $password;
+                        $model->update();
+                    }
+                } else {
+                    Yii::$app->session->setFlash('error','Пользователь с EMAIL.'.$model->email." существует");
+                }
+
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+
+        return $this->render('create', ['model' => $model,]);
     }
 
     /**
@@ -103,12 +123,32 @@ class DevelopersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public
+    function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->imageUpload = UploadedFile::getInstance($model, 'imageUpload');
+
+            $model->upload();
+            $model->update();
+            if ($model->create_user) {
+                if (!User::findByEmail($model->email)) {
+                    $user = new User(['email' => $model->email]);
+                    $user->setPassword($password = Yii::$app->security->generateRandomString(6));
+                    if ($user->save()) {
+                        $model->password = $password;
+                        $model->update();
+                    }
+                } else {
+                    Yii::$app->session->setFlash('error','Пользователь с EMAIL.'.$model->email." существует");
+                }
+
+            }
             return $this->redirect(['view', 'id' => $model->id]);
+
         }
 
         return $this->render('update', [
@@ -123,7 +163,8 @@ class DevelopersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public
+    function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -137,7 +178,8 @@ class DevelopersController extends Controller
      * @return Developers the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected
+    function findModel($id)
     {
         if (($model = Developers::findOne($id)) !== null) {
             return $model;

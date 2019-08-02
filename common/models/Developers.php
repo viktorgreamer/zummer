@@ -26,6 +26,7 @@ use yii\web\UploadedFile;
  * @property string $city
  * @property string $office_country
  * @property string $email
+ * @property string $password
  * @property double $foundation_year
  * @property integer $billing
  * @property Profile $profile
@@ -34,6 +35,8 @@ use yii\web\UploadedFile;
  */
 class Developers extends ActiveRecord
 {
+
+    public $create_user;
 
     public $imageUpload;
 
@@ -66,21 +69,26 @@ class Developers extends ActiveRecord
     public function upload()
     {
 
-        $this->logo = $this->getWebPath() . "logo" . '.' . $this->imageUpload->extension;
 
-        if ($this->validate()) {
-            $path = $this->getFilePath();
-            if ($this->createDirectoryIfNotExists($path)) {
-                Yii::error($this->logo);
-                $this->imageUpload->saveAs($path . "logo" . '.' . $this->imageUpload->extension);
-                return true;
+        if ($this->imageUpload) {
+            $this->logo = $this->getWebPath() . "logo" . '.' . $this->imageUpload->extension;
+
+            if ($this->validate()) {
+                $path = $this->getFilePath();
+                if ($this->createDirectoryIfNotExists($path)) {
+                    Yii::error($this->logo);
+                    $this->imageUpload->saveAs($path . "logo" . '.' . $this->imageUpload->extension,false);
+                    PhotoResizer::resize($path . "logo" . '.' . $this->imageUpload->extension,200,200);
+                    return true;
+                }
+
+
+            } else {
+                Yii::error(" NOT VALIDATED");
+                return false;
             }
-
-
-        } else {
-            Yii::error(" NOT VALIDATED");
-            return false;
         }
+
     }
 
 
@@ -116,9 +124,10 @@ class Developers extends ActiveRecord
         return [
             [['description', 'address1', 'address2', 'phone', 'city', 'office_country', 'email', 'logo'], 'string'],
             [['foundation_year','billing'], 'integer', 'max' => 2050],
-            [['name', 'site'], 'string', 'max' => 256],
+            [['name', 'site','password'], 'string', 'max' => 256],
             [['country'], 'string', 'max' => 150],
             [['logo'], 'string', 'max' => 256],
+            [['create_user'], 'boolean'],
             ['imageUpload', 'file', 'extensions' => 'jpeg,jpg,bmp,gif,png'],
         ];
     }

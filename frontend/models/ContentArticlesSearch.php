@@ -69,6 +69,8 @@ HTML;
         if ($this->category_id) {
             $query->andWhere(['articles.category_id' => $this->category_id]);
         }
+
+        $query->andWhere(['<>','do_not_show',1]);
         if ($this->themes) {
             $query->joinWith('themes as themes');
             $query->andWhere(['in','themes.id', $this->themes]);

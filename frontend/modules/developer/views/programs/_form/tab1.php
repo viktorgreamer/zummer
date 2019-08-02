@@ -119,9 +119,9 @@ use yii\helpers\Url;
         <?php } ?>
     </div>
 
-    <? if ($model->id && $model->tariff) {
+    <? if ($model->id && $model->tariff_id) {
         if (($tariff = Tariffs::find()
-            ->where(['rate' => $model->tariff])
+            ->where(['id' => $model->tariff_id])
                 ->one()) ) {
             /** @var Tariffs $tariff */
             ?>

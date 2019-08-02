@@ -51,12 +51,12 @@ use yii\helpers\Url; ?>
                 </div>
 
                 <p class="titl"><?= $review->user->fullName(); ?></p>
-                <p><?= mb_strimwidth($review->pluses,0,$model->isPayed()?300:150, '...'); ?> <a href="<?= Url::to(['review','id' => $review->id]); ?>">Читать весь отзыв</a></p>
+                <p><?= mb_strimwidth($review->pluses,0,($model->isPayed(1)||$model->isPayed(2))?300:150, '...'); ?> <a href="<?= Url::to(['review','id' => $review->id]); ?>">Читать весь отзыв</a></p>
                 <? } ?>
             </div>
         </div>
         <div class="col-md-3 col-xl-4 order-md-1 d-md-flex flex-column ">
-            <? if ($model->isPayed()) { ?>
+            <? if ($model->isPayed(1) || $model->isPayed(2)) { ?>
             <div class="bt align-items-center">
                 <a href="<?= $model->trial_link;?>" class="btn btn-green btn-more">демо-доступ</a>
             </div>

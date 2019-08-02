@@ -8,12 +8,13 @@ $name = '';
 /** @var \common\models\User $user */
 if ($user = Yii::$app->user->identity) {
 
-    $billing = ($developer = Developers::findOne(['user_id' => $user->id]))?$developer->billing:'0';
+    $billing = ($developer = Developers::findOne(['user_id' => $user->id])) ? $developer->billing : '0';
 }
 /* @var \
  *
-
-/* @var $this yii\web\View */
+ *
+ * /* @var $this yii\web\View
+ */
 /* @var $model common\models\Programs */
 /* @var $form yii\widgets\ActiveForm */
 $this->title = 'Редактирование объявления';
@@ -40,25 +41,34 @@ $this->title = 'Редактирование объявления';
                             </div>
                             <div class="rating col-3 col-lg-5 d-flex align-items-end justify-content-end">
                                 <div class="stars">
-                                   <?= $model->renderStars();?>
+                                    <?= $model->renderStars(); ?>
                                 </div>
-                                <div class="num"><?= $model->rating;?></div>
+                                <div class="num"><?= $model->rating; ?></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-7 col-xl-8 tab_r d-md-flex align-items-end justify-content-end">
-                        <? if ($model->id && !$model->tariff) {
+
+                        <? if (!$model->status) { ?>
+                            <div class="bt" title="Отправить на модерацию">
+                                <a href="<?= Url::to(['/developer/programs/moderate', 'id' => $model->id]); ?>"
+                                   class="btn bnt-price">
+                                    Отправить на модерацию</a>
+                            </div>
+                        <? } ?>
+                        <? if ($model->id && !$model->tariff_id) {
                             if (($tariffs = Tariffs::find()
                                     ->where(['category_id' => $model->category_id])
                                     ->all()) || ($tariffs = Tariffs::find()
                                     ->where(['OR', ['IS', 'category_id', null], ['category_id' => 0]])
                                     ->all())) {
-                        /** @var Tariffs $tariff */
-                        foreach ($tariffs as $tariff) { ?>
-                                    <div class="bt"  title="<?= $billing<$tariff->rate?"Недостаточно средств на счету":"";?>">
+                                /** @var Tariffs $tariff */
+                                foreach ($tariffs as $tariff) { ?>
+                                    <div class="bt"
+                                         title="<?= $billing < $tariff->rate ? "Недостаточно средств на счету" : ""; ?>">
                                         <a href="<?= Url::to(['/developer/programs/paid', 'id' => $model->id]); ?>"
-                                           class="btn bnt-price <?= $billing<$tariff->rate?"disabled":"";?>">
-                                            Применить тариф <?= $tariff->name."-".$tariff->rate;?></a>
+                                           class="btn bnt-price <?= $billing < $tariff->rate ? "disabled" : ""; ?>">
+                                            Применить тариф <?= $tariff->name . "-" . $tariff->rate; ?></a>
                                     </div>
                                 <?php }
                             } ?>
@@ -79,7 +89,7 @@ $this->title = 'Редактирование объявления';
                     </div>
                     <div class="col-md-8 col-lg-8 col-xl-9 text">
                         <div class="tab-content">
-                            <?= $this->render('_form/tab1.php', compact(['model','billing'])); ?>
+                            <?= $this->render('_form/tab1.php', compact(['model', 'billing'])); ?>
                             <?= $this->render('_form/tab2.php', compact('model')); ?>
                             <?= $this->render('_form/tab3.php', compact('model')); ?>
                             <?= $this->render('_form/tab4.php', compact('model')); ?>

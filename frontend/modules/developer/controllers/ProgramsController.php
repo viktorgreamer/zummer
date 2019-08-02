@@ -83,10 +83,23 @@ class ProgramsController extends Controller
         ]);
     }
 
-    public function actionPaid($id)
+    public function actionModerate($id)
+    {
+
+        $model = $this->findModel($id);
+        $model->status = Programs::STATUS_WAIT_MODERATION;
+        $model->update();
+
+        return $this->render('update', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionPaid($id, $tariff_id)
     {
         $model = $this->findModel($id);
-        $model->tariff = 1;
+        $model->tariff_id = $tariff_id;
+        $model->dueDate = date('Y-m-d', time() + 30 * 24 * 3600);
         $model->update();
         return $this->render('update', [
             'model' => $model,

@@ -48,16 +48,18 @@ use yii\helpers\Url; ?>
                             </div>
 
 
-                            <?php if ($model->isPayed() && $model->tags): ?>
+                            <?php if (($model->isPayed(1) || $model->isPayed(2)) && $model->tags): ?>
                                 <div class="tags">
-                                    <?php foreach ($model->tags as $tag) { ?>
+                                    <?php foreach ($model->tags as $tag) {
+                                        if (trim($tag->name)) { ?>
                                         <a href="<?= $tag->link; ?>"><?= $tag->name; ?></a>
+                                        <? } ?>
                                     <? } ?>
                                 </div>
                             <?php endif ?>
                         </div>
 
-                        <?php if ($model->isPayed() || (!$popularPrograms = Programs::getPopular(2, $model->category_id))) { ?>
+                        <?php if ($model->isPayed(1) || $model->isPayed(2) || (!$popularPrograms = Programs::getPopular(2, $model->category_id))) { ?>
                             <div class="btns">
                                 <div class="bt">
                                     <a class="btn bnt-price" href="<?= $model->link; ?>">открыть сайт</a>

@@ -68,7 +68,8 @@ AppAsset::register($this);
         [
             'label' => ' Администрирование',
             'items' => [
-                ['label' => 'Reviews', 'url' => ['/reviews/index']],
+                ['label' => 'Запросы на оплату', 'url' => ['/payment-requests/index']],
+                ['label' => 'Отзывы', 'url' => ['/reviews/index']],
                 ['label' => 'Запросы', 'url' => ['/requests/index']],
                 ['label' => 'Тарифы', 'url' => ['/tariffs/index']],
             ],

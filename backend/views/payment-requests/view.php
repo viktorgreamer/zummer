@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Developers */
+/* @var $model common\models\PaymentRequests */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Developers', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Payment Requests', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="developers-view">
+<div class="payment-requests-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,22 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name',
-            'site',
-            'description',
-            'country',
-            'foundation_year',
-            'user_id',
-            'address1',
-            'address2',
-            'phone',
-            'postcode',
-            'office_country',
-            'email:email',
-            'city',
-            'logo:image',
-            'billing',
-            'password',
+            'developer_id',
+            'amount',
+            'created_at',
+            'paid_at',
+            'status',
         ],
     ]) ?>
 

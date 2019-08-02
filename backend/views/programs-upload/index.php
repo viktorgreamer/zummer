@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 [
                     'label' => 'Общая информация',
-                    'format' => 'html',
+                    'format' => 'raw',
                     'value' => function (Programs $model) {
                         $options = [];
                         $options[] = "<h3>" . $model->name . "</h3>";
@@ -57,10 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             foreach ($model->awards as $image) {
                                 $images[] = Html::tag('div', Html::img($image->src, ['style' => 'width:70px;height:70px'])
-                                    . Html::a('X', '#', [
-                                        'class' => 'btn btn-danger btn-xs remove-awards-image-button',
-                                        'data-image_id' => $image->id
-                                    ]));
+                                    . "<button data-image_id='".$image->id."' href='#' class='btn btn-danger btn-xs remove-awards-image-button'>X</a>");
                             }
                             $options[] = implode(" ", $images);
                         }
@@ -195,7 +192,6 @@ e.preventDefault();
 var element = $(this).parent();
 var id = $(this).data('image_id');
 
-console.log('.tab_ph a.close');
 $.ajax({
     url: "delete-images",
     data: { 
@@ -215,9 +211,9 @@ $.ajax({
 
 $(document).on('click', '.remove-awards-image-button' , function(e) {
 e.preventDefault();
-var element = $(this).parents('.tab_ph');
+var element = $(this).parent();
 var id = $(this).data('image_id');
-console.log('.tab_ph a.close');
+
 $.ajax({
     url: "delete-images-awards",
     data: { 

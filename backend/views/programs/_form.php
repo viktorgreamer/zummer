@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Programs;
+use common\models\Tariffs;
 use kartik\date\DatePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -18,7 +19,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'main_page_position')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'relevance')->textInput(['maxlength' => true]) ?>
     <div class="col-lg-6">
-        <?= $form->field($model, 'tariff')->textInput() ?>
+        <?= $form->field($model, 'tariff_id')->dropDownList(Tariffs::map()) ?>
+        <?= $form->field($model, 'tariff_type')->dropDownList(Tariffs::mapGroups()) ?>
         <?= $form->field($model, 'dueDate')->widget(DatePicker::className(),[
             'options' => ['placeholder' => 'Select issue date ...'],
             'pluginOptions' => [

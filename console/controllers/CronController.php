@@ -10,19 +10,33 @@
 namespace console\controllers;
 
 use common\models\Programs;
+use common\models\Tariffs;
 use yii\console\Controller;
 
 class CronController extends Controller
 {
-    public function actionResetBilling() {
-        if ($programs = Programs::find()->where(['>','tariff',0])
+    public function actionResetBilling()
+    {
+        if ($programs = Programs::find()->where(['>', 'tariff_id', 0])
             ->andWhere(['dueDate' => date('Y-m-d')])
             ->all()) {
+            /** @var Programs $program */
             foreach ($programs as $program) {
-                print_r($program->toArray());
-                $program->tariff = 0;
-                $program->save();
-                print_r($program->toArray());
+
+                if ($program->auto_prolongation && $tariff = Tariffs::findOne($program->tariff_id)) {
+                    if ($program->developer) {
+                        if ($program->developer->billing >= $tariff->rate) {
+                            $program->prolongate();
+                            $program->save();
+                        }
+                    }
+                } else {
+                    print_r($program->toArray());
+                    $program->tariff_id = 0;
+                    $program->save();
+                    print_r($program->toArray());
+                }
+
             }
         }
     }

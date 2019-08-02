@@ -57,9 +57,11 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property string $description_short
  * @property string $trial_link
  * @property string $prices_link
- * @property int $tariff
+ * @property int $tariff_id
+ * @property int $tariff_type
  * @property int $destination_id
  * @property int $hide_price
+ * @property int $auto_prolongation
  * @property string $dueDate
  * @property string $phone
  * @property Developers $developer
@@ -69,11 +71,13 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property Reviews[] $reviews
  * @property ProgramsImages[] $images
  * @property ProgramTags[] $tags
+ * @property mixed awards
  *
  */
 
 class Programs extends ActiveRecord
 {
+
 
 
 
@@ -103,9 +107,9 @@ class Programs extends ActiveRecord
 
     }
 
-    public function isPayed()
+    public function isPayed($type = 1)
     {
-        return $this->tariff;
+        return $this->tariff_id && ($type == $this->tariff_type) ;
     }
 
     public function getAwards()
@@ -122,6 +126,7 @@ class Programs extends ActiveRecord
             $path = $this->getFilePath();
             if ($this->createDirectoryIfNotExists($path)) {
                 $this->imageUpload->saveAs($path . "logo" . '.' . $this->imageUpload->extension,false);
+                PhotoResizer::resize($path . "logo" . '.' . $this->imageUpload->extension,205,78);
                 return true;
             }
 
@@ -132,6 +137,7 @@ class Programs extends ActiveRecord
     }
 
 
+    const STATUS_EDITED = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_WAIT_MODERATION = 2;
     const STATUS_MODERATION_DENIED = 3;
@@ -140,6 +146,7 @@ class Programs extends ActiveRecord
     public static function mapStatuses()
     {
         return [
+            self::STATUS_EDITED => "Редактировалась",
             self::STATUS_ACTIVE => "Активная",
             self::STATUS_WAIT_MODERATION => "Ожидает модерации",
             self::STATUS_MODERATION_DENIED => 'Не прошла модерацию',
@@ -326,6 +333,8 @@ class Programs extends ActiveRecord
                     $image->src = $this->getWebPath() . $file->baseName . '.' . $file->extension;
                     if (!$image->save()) Yii::error($image->errors);
                     $file->saveAs($path . $file->baseName . '.' . $file->extension, false);
+                    PhotoResizer::resize($path . $file->baseName . '.' . $file->extension,1280,800);
+
                 }
             } ;
 
@@ -339,6 +348,9 @@ class Programs extends ActiveRecord
                     $image->src = $this->getWebPath() . $file->baseName . '.' . $file->extension;
                     if (!$image->save()) Yii::error($image->errors);
                     $file->saveAs($path . $file->baseName . '.' . $file->extension,false);
+
+                    PhotoResizer::resize($path . $file->baseName . '.' . $file->extension,200,200);
+
                 }
             } ;
 
@@ -420,7 +432,15 @@ class Programs extends ActiveRecord
         $this->demonstration = Json::encode($this->demonstration_map);
         $this->users_count = Json::encode($this->users_count_map);
 
+        if ($this->getDirtyAttributes()) {
+            $this->status = self::STATUS_EDITED;
+        }
+
         return parent::beforeValidate();
+    }
+
+    public function prolongate() {
+        $this->dueDate = date('Y-m-d', time() + 30 * 24 * 3600);
     }
 
     public function afterFind()
@@ -447,14 +467,14 @@ class Programs extends ActiveRecord
             [['rating', 'rating_convenience', 'rating_functions', 'rating_support', 'price_from', 'price_to'], 'number'],
             [['status', 'created_at', 'updated_at', 'developer_id', 'has_month_plan', 'has_year_plan', 'has_free', 'has_trial', 'category_id'], 'integer'],
             [['views', 'popularity','relevance', 'destination_id', 'price_plan', 'support_free', 'support_paid', 'learning_free', 'learning_paid'], 'integer'],
-            [['hide_price','price_per_users','main_page_order','main_page_position','tariff'], 'integer'],
+            [['hide_price','price_per_users','main_page_order','main_page_position','tariff_id','tariff_type','auto_prolongation'], 'integer'],
             [['name', 'link', 'video_link','demonstration','users_count'], 'string', 'max' => 256],
             [['description_short'], 'string', 'max' => 500],
             [['dueDate'], 'string', 'max' => 10],
             [['platforms', 'learning_map', 'functions', 'support_map', 'demonstration_map', 'users_count_map'], 'safe'],
             [['imageFiles'], 'image', 'skipOnEmpty' => true,'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
             [['imageUpload'], 'image', 'skipOnEmpty' => true,'extensions' => 'png, jpg, jpeg', 'maxFiles' => 1],
-            [['imageAwardsFiles'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
+            [['imageAwardsFiles'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 2],
             ['phone','string'],
             ['tags','safe']
         ];
@@ -517,6 +537,9 @@ class Programs extends ActiveRecord
             'video_link' => 'Video Link',
             'destination' => 'Назначение',
             'description' => 'Описание',
+            'auto_prolongation' => 'Автопродление при оплате',
+            'tariff_type' => 'Тип тарифа',
+            'tariff_id' => 'Тариф',
             'main_page_position' => 'Позиция в блоке номер 1',
             'main_page_order' => 'Первая страница',
             'rating' => 'Rating',
